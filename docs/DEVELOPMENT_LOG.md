@@ -136,3 +136,27 @@
 - Git Hash：尚未提交；目前 HEAD 僅為先前同步來源 `f7f9d091d34f098e5f0f60f5a02db4fa359ebc82`，不代表本次變更。
 - 證據來源：上述兩支腳本輸出、`generated_data/v2/metadata.json`、三個 OpenSpec Change、原始資料 SHA-256 核對、使用者本次授權及 ADR-002～ADR-004。
 - 待辦：由使用者與團隊審查本機 v0.2 草案及 TCP-003～TCP-006；確認後才進入 canonical builder 與模型實作，並另行決定 Commit／Push。
+
+## DEV-20261102-006
+
+- 時間：2026-11-02 02:29:55 +08:00 (Asia/Taipei)
+- 標題：完成 SKILL 自動驗證並推送 v2 契約與資料至 GitHub main
+- 階段：Verify、Maintenance
+- 分類：C-TEST、C-INTEGRATION（技能驗證、版本控制與交付）
+- Change／task／需求及驗證對應：延續 `define-seven-table-integration`、`define-model-selection-governance`、`regenerate-training-data-v2`；對應 DEV-20261102-005 的驗證限制及使用者本次 Push 授權。
+- 目標：使用專案 `.venv` 中的 PyYAML 完成 `SKILL.md` 自動驗證，排除本機環境與快取，並將已驗證內容推送至指定 GitHub repository。
+- 已完成：確認遠端 `main` 與本機基準無 ahead／behind；新增 `.gitignore` 排除 `.venv/`、`__pycache__/`、工具快取與本機重複備份；新增 `.gitattributes` 固定 CSV／JSON／Python／Markdown 為 LF，避免跨平台換行破壞 metadata SHA-256；建立內容提交並推送至 `origin/main`。
+- 未完成：未建立 `requirements.txt`／`requirements-dev.txt`，未推送 `.venv` 或 `raw data/backups/`；未進行模型與 UI 實作。
+- 待驗證：其他成員首次 clone 後仍應依專案後續依賴檔建立自己的虛擬環境；目前 PyYAML 版本尚未納入正式 dependency lock。
+- 待整合：團隊後續決定依賴管理方式時，將 PyYAML 與測試工具加入開發依賴並鎖版。
+- 檔案操作：新增 `.gitignore`、`.gitattributes`；本事件前一內容提交涵蓋 AGENTS、SKILL、OpenSpec、三份追蹤文件、七份舊 raw CSV、七份 v2 CSV、metadata 與三支腳本。
+- 實作細節：`.venv` 與 Python bytecode 保留本機但由 Git 忽略；`raw data/backups/` 保留本機、不刪除且不推送，頂層七份歷史 raw CSV 已納管。
+- 測試：通過。以 `$env:PYTHONUTF8='1'` 搭配 `.venv\Scripts\python.exe` 執行 skill-creator `quick_validate.py`，結果為 `Skill is valid!`；`git diff --cached --check` 通過；`git fetch` 顯示提交前本機與遠端為 0／0；`git push origin main` 成功。
+- 錯誤修復：PyYAML 缺少問題已由使用者安裝至 `.venv`；初次驗證因 Windows CP950 無法解碼 UTF-8 中文而失敗，改用 Python UTF-8 mode 後通過。這取代 DEV-20261102-005 中「只能人工檢查」的暫時限制。
+- 限制：本次未建立完整 Python 依賴清單；GitHub 接受推送只證明版本交付成功，不等於跨組契約已正式批准。
+- 資料來源：Mock／合成七表 v2；歷史 raw 七表。
+- 模型來源：未接入。
+- 真實製程驗證：未執行。
+- Git Hash：內容提交 `8d3483eb6232e194fa30c87f893637a2fef483d1`，已推送至 `origin/main`。
+- 證據來源：skill-creator 驗證輸出、`git status`、`git fetch`、`git commit`、`git push` 與 GitHub remote `https://github.com/hankda97/fccl-final-version.git`。
+- 待辦：提交並推送本筆追加式日誌；後續由團隊審查 TCP-003～TCP-006 及是否建立正式依賴檔。
