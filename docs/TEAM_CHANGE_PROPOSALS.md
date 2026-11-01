@@ -20,8 +20,10 @@
 |---|---|---|---|
 | TCP-001 | X-bar Mock 的五試片子組與 A 正式資料契約 | 高 | 待團隊討論 |
 | TCP-002 | 在原有 X-bar 之外增加 I-MR | 高 | 待團隊討論 |
-| TCP-003 | 分開管理製程監測與品質抽檢資料 | 中 | 待團隊討論 |
-| TCP-004 | 品質規格、NG 門檻、多目標推薦與模型介接交接 | 高（正式整合前） | 既有團隊討論待補齊／跨組整合待確認 |
+| TCP-003 | 分開管理製程監測與品質抽檢資料 | 中 | 討論中（本機契約已授權；跨組待確認） |
+| TCP-004 | 品質規格、NG 門檻、多目標推薦與模型介接交接 | 高（正式整合前） | 討論中（本機契約已授權；跨組待確認） |
+| TCP-005 | 擴充獨立卷數並分離訓練與代表性評估良率 | 高 | 討論中（本機資料生成已授權；跨組待確認） |
+| TCP-006 | Champion／Challenger 模型治理與改善循環 | 高 | 討論中（本機契約已授權；跨組待確認） |
 
 ## 統一格式（模板，非實際提案）
 
@@ -148,4 +150,60 @@ C1＋C2 僅交付基礎 UI／資料載入；本案可獨立審查歸檔，不代
 ## TCP-004 C4＋C5 規劃關聯補充｜2026-11-01 23:36:21 +08:00
 
 已建立 [fccl-what-if-mock-ai Propose](../openspec/changes/fccl-what-if-mock-ai/proposal.md) 與 [delta specs](../openspec/changes/fccl-what-if-mock-ai/specs/quality-scenarios/spec.md)。該 Change 僅以可配置 C 測試條件驗證展示、Alarm 與候選建議；不填正式允收數值／外觀門檻／多目標政策，不宣稱團隊未曾討論，也不改動 A／B 契約。正式交接待補齊及跨組整合待確認的 TCP-004 狀態與原正文均維持不變；Q-06／正式模型介接留 C9。
+
+## TCP-003 七表與模型衍生表補充｜2026-11-02 01:22:01 +08:00
+
+本節沿用既有 TCP-003，不新增同題提案。使用者提供的七份合成資料已分為卷、製程區段、材料追溯、品質時間序列、檢驗、規格與漂移真值等不同粒度；Codex 建議保留來源表，另建立版本化模型衍生表。此補充仍為待團隊討論，不批准 A／B 契約變更或自動進入實作。
+
+- 模型衍生表以品質檢驗事件作為標籤錨點，透過 `root_roll_id`、`segment_id` 及材料 MD 區間對齊三站；數值特徵依重疊長度聚合，缺站或覆蓋不足不得靜默補齊。
+- 正式目標來源建議限定為檢驗資料：剝離與 MD／TD 尺寸採實驗室樣本、區段耐熱採實驗室樣本、外觀採線上 `appearance_ng_flag`；整卷資格檢驗只供卷級驗證，不複製成區段標籤。
+- 規格以 `product_id + spec_version + characteristic` 保證唯一，pivot 後關聯；規格、pass flag、漂移真值及其他由目標衍生的欄位不得作模型特徵。
+- 重複檢驗保留事件歷史；預定平行試驗與失敗後重測分開處理，衝突標籤標記並排除，禁止以最後一次通過覆蓋初次失敗。
+- `quality_label_available` 建議改為逐目標 availability；空值代表未檢驗或不可用，不轉成 0。`appearance_spec_pass_flag` 與 `appearance_ng_flag` 的允收關係需先明確定義。
+- 若團隊採用上述規則，需先建立 OpenSpec Change，再同步 `SKILL.md` 的來源表、對齊、標籤、規格、重測與缺值契約。關聯本機紀錄：DEV-20261102-002、DEV-20261102-003。
+
+## TCP-005｜擴充獨立卷數並分離訓練與代表性評估良率
+
+- 提案 ID：TCP-005
+- 日期：2026-11-02 (Asia/Taipei)
+- 提案來源：Codex 依使用者提供的七份合成 CSV 統計提出；尚無團隊決議。
+- 原始 Prompt 的對應需求：Random Forest 預測四項連續品質與外觀 NG，並按批次及時間隔離驗證。
+- 建議修改或新增的內容：合成訓練資料刻意涵蓋多種失敗機制與足量 NG；驗證／測試資料保留預期產線良率。增加獨立卷數，使各時間分割均有足夠卷與少數類別，不以複製現有 NG 補數。
+- 提出原因與技術依據：目前 13,074 筆區段只來自 25 卷，外觀 NG 僅 2 筆且集中於同一卷；按卷切分後無法穩定估計分類效能或泛化能力。
+- 對 A、B、C 的影響：A——調整生成卷數、失敗機制與穩定／漂移分布。B——按卷及時間切分，使用 PR-AUC、precision、recall、F1 與代表性機率校準。C——分開標示訓練情境良率、代表性測試良率與 Mock 來源。
+- 對 GitHub 整合及簡報呈現的影響：若採用，需版本化生成設定、schema metadata、資料摘要及分割 manifest；簡報不可將刻意富集的訓練 NG 比例宣稱為實際產線良率。
+- 不修改時可能存在的問題：模型可能只學到 OK、測試分割缺少 NG，或同卷相鄰區段造成過度樂觀結果。
+- 建議優先級：高；直接影響模型是否可訓練及評估。
+- 決策狀態：待團隊討論。
+- 團隊討論結果：尚未提供；不代表已批准重新生成資料。
+- 相關 OpenSpec Change：尚未建立。
+- 關聯紀錄：DEV-20261102-002；TCP-003、TCP-004。
+- 狀態歷程：2026-11-02——由本機提案整合至遠端最新追蹤格式，重新編為未占用的 TCP-005；內容維持待討論。
+
+## TCP-003／004／005 本機授權與 OpenSpec 關聯補充｜2026-11-02 02:10:59 +08:00
+
+使用者已授權依先前建議修改本機 MD 契約並重新生成 v2 合成資料，因此三案狀態更新為「討論中」。這項授權允許本機契約及合成資料實作，但不代表 A／B／C 全體已同意正式跨組介面或模擬數值已成為工廠標準。
+
+- TCP-003／004 的七表整合、標籤、spec pivot、重測、外觀旗標與 availability 契約，對應 [define-seven-table-integration](../openspec/changes/define-seven-table-integration/proposal.md)。
+- TCP-005 的 200 卷、20,000 canonical 區段、120／40／40 完整卷時間分割、78%～82% 區段聯合良率及穩定／漂移設計，對應 [regenerate-training-data-v2](../openspec/changes/regenerate-training-data-v2/proposal.md)。
+- 實際檔案修改與測試結果只記入 `DEVELOPMENT_LOG.md`；使用者接受的本機技術決策記入 `DECISION_LOG.md`。本文件只保存跨組提案狀態及關聯，避免把三種紀錄混為一談。
+- 狀態歷程：2026-11-02 02:10:59 +08:00——使用者授權本機規格及資料生成；TCP-003／004／005 進入討論中，正式跨組採用仍待確認。
+
+## TCP-006｜Champion／Challenger 模型治理與改善循環
+
+- 提案 ID：TCP-006
+- 日期：2026-11-02 (Asia/Taipei)
+- 提案來源：使用者詢問是否應預先納入 XGBoost、LightGBM、LSTM／GRU、Autoencoder 及其他模型；Codex 提出分層治理方案，使用者授權依建議修改本機 MD。
+- 原始 Prompt 的對應需求：以測試線資料改善機台參數與 SPC，並以改善後同產品資料進行下一輪離線訓練。
+- 建議修改或新增的內容：先有常數／線性基準；Random Forest 為初版 Champion、HistGradientBoosting 為必要 Challenger；XGBoost／LightGBM 為可插拔外部 Challenger；LSTM／GRU 需滿足 horizon、獨立序列與樹模型不足的門檻；SPC 搭配 PCA／Isolation Forest 異常基線，Autoencoder 僅為條件式 Challenger；所有模型共用切分、特徵版本、指標、manifest、升版與回退規則。
+- 提出原因與技術依據：先定義 adapter 與比較契約可降低後續加入模型的改造成本，同時避免在資料量、序列定義或評估證據不足時堆疊模型名稱。
+- 對 A、B、C 的影響：A——提供版本化資料快照、完整卷時間分割與改善週期；B——維護模型 registry、共同評估及 Champion 升版；C——依 manifest 載入模型並清楚標示版本與限制，不自行決定 Champion。
+- 對 GitHub 整合及簡報呈現的影響：需版控 adapter、manifest、metrics 與升版決策；簡報需區分基準、Champion、Challenger、異常分數與 NG 機率。
+- 不修改時可能存在的問題：後加模型時重做資料與 API、不同切分造成不公平比較、異常分數被誤稱為 NG 機率，或線上自我更新缺乏回退。
+- 建議優先級：高；模型實作前必須確定共同介面與評估規則。
+- 決策狀態：討論中（本機契約已授權；跨組待確認）。
+- 團隊討論結果：使用者已批准本機工作草案；尚無 A／B／C 全體正式決議。
+- 相關 OpenSpec Change：[define-model-selection-governance](../openspec/changes/define-model-selection-governance/proposal.md)。
+- 關聯紀錄：ADR-003；本次開發事件將記於 `DEVELOPMENT_LOG.md`。
+- 狀態歷程：2026-11-02 02:10:59 +08:00——首次登錄；本機契約已授權，跨組契約待確認。
 

@@ -1,0 +1,8 @@
+﻿product_id,product_name,spec_version,characteristic,category,center,lsl,usl,unit,test_condition,spec_basis,pass_rule,assumption_note,data_status
+X_PRODUCT_DEMO,X 產品（合成示範）,1.0,peel_strength,peel_strength,1.2,0.980665,1.6,N/mm,壓合後剝離強度合成推估；參考下限 1.0 kgf/cm,lower_limit_reference_upper_limit_synthetic,lsl <= value <= usl,所有中心值及未有來源的界限均為模擬假設，不代表通用 IPC 限值或正式產品驗收標準。,SYNTHETIC_DEMO_ONLY
+X_PRODUCT_DEMO,X 產品（合成示範）,1.0,md_dimensional_change,dimensional_stability,0.0,-0.15,0.15,%,MD 縱向尺寸變化率，簽名值,synthetic_demo_assumption,lsl <= value <= usl,所有中心值及未有來源的界限均為模擬假設，不代表通用 IPC 限值或正式產品驗收標準。,SYNTHETIC_DEMO_ONLY
+X_PRODUCT_DEMO,X 產品（合成示範）,1.0,td_dimensional_change,dimensional_stability,0.0,-0.15,0.15,%,TD 橫向尺寸變化率，簽名值,synthetic_demo_assumption,lsl <= value <= usl,所有中心值及未有來源的界限均為模擬假設，不代表通用 IPC 限值或正式產品驗收標準。,SYNTHETIC_DEMO_ONLY
+X_PRODUCT_DEMO,X 產品（合成示範）,1.0,thermal_shrinkage_md,heat_resistance,0.075,0.0,0.15,%,MD；150 °C、30 分鐘後熱收縮；上限為使用者提供參考值,upper_limit_reference_center_and_lower_limit_synthetic,lsl <= value <= usl,所有中心值及未有來源的界限均為模擬假設，不代表通用 IPC 限值或正式產品驗收標準。,SYNTHETIC_DEMO_ONLY
+X_PRODUCT_DEMO,X 產品（合成示範）,1.0,thermal_shrinkage_td,heat_resistance,0.075,0.0,0.15,%,TD；150 °C、30 分鐘後熱收縮；上限為使用者提供參考值,upper_limit_reference_center_and_lower_limit_synthetic,lsl <= value <= usl,所有中心值及未有來源的界限均為模擬假設，不代表通用 IPC 限值或正式產品驗收標準。,SYNTHETIC_DEMO_ONLY
+X_PRODUCT_DEMO,X 產品（合成示範）,1.0,appearance_risk_score,appearance,0.05,0.0,0.2,score_0_to_1,外觀不良風險分數；缺陷種類及位置另行記錄,synthetic_demo_assumption,lsl <= value <= usl,所有中心值及未有來源的界限均為模擬假設，不代表通用 IPC 限值或正式產品驗收標準。,SYNTHETIC_DEMO_ONLY
+X_PRODUCT_DEMO,X 產品（合成示範）,1.0,heat_resistance_c,heat_resistance,305.0,300.0,330.0,°C,合成階梯升溫測試的最高通過溫度；0.5 °C 解析度,synthetic_demo_assumption,lsl <= value <= usl,中心值及上下限均為模擬假設，不代表通用 IPC 限值或正式產品驗收標準。,SYNTHETIC_DEMO_ONLY

@@ -1,0 +1,98 @@
+{
+  "configuration": {
+    "alignment_contract": "root_roll_id plus MD half-open overlap [start,end), minimum coverage 0.98",
+    "canonical_segment_count": 20000,
+    "canonical_segments_per_roll": 100,
+    "quality_sources": [
+      "synthetic_ground_truth",
+      "simulated_inspection"
+    ],
+    "roll_count": 200,
+    "roll_length_m": 500.0,
+    "split_roll_counts": {
+      "test": 40,
+      "train": 120,
+      "validation": 40
+    },
+    "target_segment_joint_yield_range": [
+      0.78,
+      0.82
+    ]
+  },
+  "csv_sha256": {
+    "drift_ground_truth.csv": "65e0ef9fb8b4e0007b3bf3baf3ef2859df48922d5805cd4946c39ae57fad9e52",
+    "process_segments.csv": "76da96bc098c659dea999617a82c23fdae682355501d2f79ae30bb5f7cfc5c7c",
+    "process_traceability.csv": "42de372c848e8dbed70d7405709071da0d09cc4a4e30c7c9629bb0b2a83ffb9e",
+    "quality_inspection.csv": "389c5d82b5b8bf2dee65a72b341c41eeaffd55b6fbaec71d84109c1b680f73e0",
+    "quality_specifications.csv": "94d7f4cf255c2801eabddad202df3944d2b153f8b30bb2c6a76b01220e3c4be7",
+    "quality_timeseries.csv": "a1da4351abccba6989eefb9f0262b451109d57d86952a1f48fd087d17c5e5c60",
+    "roll_master.csv": "db9ebd4737179b618b8f4e84548d911726364c5e8e144539e0a5e48ee09901f2"
+  },
+  "data_classification": "synthetic_test_line_demonstration_only",
+  "generated_at": "2026-01-01T00:00:00+08:00",
+  "generator_version": "2.0.0",
+  "limitations": [
+    "All specifications and process ranges are synthetic demonstration assumptions.",
+    "The approximately 80% yield is final-segment joint yield, not roll release yield or a factory claim.",
+    "Drift ground truth is validation-only and must never be used as a model feature."
+  ],
+  "product_id": "FCCL-DEMO-001",
+  "row_counts": {
+    "drift_ground_truth.csv": 135,
+    "process_segments.csv": 60000,
+    "process_traceability.csv": 60000,
+    "quality_inspection.csv": 25240,
+    "quality_specifications.csv": 7,
+    "quality_timeseries.csv": 20000,
+    "roll_master.csv": 200
+  },
+  "schema_version": "2.0.0",
+  "score_calibration": [
+    {
+      "score_threshold": 4.615180800318754,
+      "target": "peel"
+    },
+    {
+      "score_threshold": 3.929038749956149,
+      "target": "md"
+    },
+    {
+      "score_threshold": 4.063166344314178,
+      "target": "td"
+    },
+    {
+      "score_threshold": 4.354110593100774,
+      "target": "heat"
+    },
+    {
+      "score_threshold": 4.46668058852884,
+      "target": "appearance"
+    }
+  ],
+  "seed": 42,
+  "spec_version": "SIM-2.0",
+  "summary": {
+    "appearance_ng_count": 1300,
+    "appearance_ng_roll_count": 155,
+    "failure_rates": {
+      "appearance": 0.065,
+      "heat": 0.052000000000000046,
+      "md": 0.052000000000000046,
+      "peel": 0.052000000000000046,
+      "td": 0.052000000000000046
+    },
+    "overall_segment_joint_yield": 0.7945,
+    "test_appearance_ng_count": 409,
+    "yield_by_phase": {
+      "mild_drift": 0.884,
+      "stable": 0.9695384615384616,
+      "strong_drift": 0.5230769230769231
+    },
+    "yield_by_split": {
+      "test": 0.70875,
+      "train": 0.8294166666666667,
+      "validation": 0.7755
+    }
+  },
+  "timezone": "Asia/Taipei"
+}

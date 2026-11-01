@@ -1,0 +1,8 @@
+product_id,spec_version,characteristic,lsl,usl,target,unit,test_method,effective_from,effective_to,spec_source
+FCCL-DEMO-001,SIM-2.0,peel_strength_n_mm,0.850000,,1.100000,N/mm,SIM-PEEL-01,2026-01-01T00:00:00+08:00,,synthetic_demonstration_only
+FCCL-DEMO-001,SIM-2.0,dimensional_stability_md_pct,-0.100000,0.100000,0.000000,%,SIM-DIM-01,2026-01-01T00:00:00+08:00,,synthetic_demonstration_only
+FCCL-DEMO-001,SIM-2.0,dimensional_stability_td_pct,-0.100000,0.100000,0.000000,%,SIM-DIM-01,2026-01-01T00:00:00+08:00,,synthetic_demonstration_only
+FCCL-DEMO-001,SIM-2.0,heat_resistance_c,300.000000,,315.000000,degC,SIM-HEAT-01,2026-01-01T00:00:00+08:00,,synthetic_demonstration_only
+FCCL-DEMO-001,SIM-2.0,appearance_ng,0.000000,0.000000,0.000000,flag,SIM-VISION-01,2026-01-01T00:00:00+08:00,,synthetic_demonstration_only
+FCCL-DEMO-001,SIM-2.0,thermal_shrinkage_md_pct,-0.200000,0.200000,0.000000,%,SIM-SHRINK-01,2026-01-01T00:00:00+08:00,,synthetic_demonstration_only
+FCCL-DEMO-001,SIM-2.0,thermal_shrinkage_td_pct,-0.200000,0.200000,0.000000,%,SIM-SHRINK-01,2026-01-01T00:00:00+08:00,,synthetic_demonstration_only
