@@ -1,0 +1,80 @@
+{
+  "version": "c7-delayed-v1",
+  "source": "C7 專用模擬測試；非正式產線時間契約",
+  "identity": {
+    "available_at": "available_at",
+    "occurred_at": "timestamp",
+    "completed_at": "process_completed_at"
+  },
+  "channels": {
+    "ambient_temp_c": {
+      "available_at": "feature_available_at",
+      "occurred_at": "timestamp"
+    },
+    "ambient_rh_pct": {
+      "available_at": "feature_available_at",
+      "occurred_at": "timestamp"
+    },
+    "line_speed_m_min": {
+      "available_at": "feature_available_at",
+      "occurred_at": "timestamp"
+    },
+    "coating_temp_c": {
+      "available_at": "feature_available_at",
+      "occurred_at": "timestamp"
+    },
+    "coating_gap_um": {
+      "available_at": "feature_available_at",
+      "occurred_at": "timestamp"
+    },
+    "coating_viscosity_mpa_s": {
+      "available_at": "feature_available_at",
+      "occurred_at": "timestamp"
+    },
+    "curing_temp_c": {
+      "available_at": "feature_available_at",
+      "occurred_at": "timestamp"
+    },
+    "curing_time_min": {
+      "available_at": "feature_available_at",
+      "occurred_at": "timestamp"
+    },
+    "lamination_temp_c": {
+      "available_at": "feature_available_at",
+      "occurred_at": "timestamp"
+    },
+    "lamination_pressure_mpa": {
+      "available_at": "feature_available_at",
+      "occurred_at": "timestamp"
+    },
+    "lamination_time_s": {
+      "available_at": "feature_available_at",
+      "occurred_at": "timestamp"
+    },
+    "peel_strength_n_mm": {
+      "available_at": "quality_available_at",
+      "occurred_at": "sampled_at",
+      "availability_flag": "target_flag"
+    },
+    "dimensional_stability_md_pct": {
+      "available_at": "quality_available_at",
+      "occurred_at": "sampled_at",
+      "availability_flag": "target_flag"
+    },
+    "dimensional_stability_td_pct": {
+      "available_at": "quality_available_at",
+      "occurred_at": "sampled_at",
+      "availability_flag": "target_flag"
+    },
+    "heat_resistance_c": {
+      "available_at": "heat_available_at",
+      "occurred_at": "sampled_at",
+      "availability_flag": "target_flag"
+    },
+    "appearance_ng": {
+      "available_at": "quality_available_at",
+      "occurred_at": "sampled_at",
+      "availability_flag": "target_flag"
+    }
+  }
+}

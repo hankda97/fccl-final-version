@@ -1,0 +1,33 @@
+{
+  "source": "C 專用示範設定，非正式允收規格",
+  "version": "c-settings-v1",
+  "product_id": "C-DEMO-01",
+  "recipe_id": "C-MOCK-v1",
+  "quality_specs": {
+    "peel_strength_n_mm": {
+      "lsl": 1.0
+    },
+    "dimensional_stability_md_pct": {
+      "lsl": -0.1,
+      "usl": 0.1
+    },
+    "dimensional_stability_td_pct": {
+      "lsl": -0.1,
+      "usl": 0.1
+    },
+    "heat_resistance_c": {
+      "lsl": 260.0
+    },
+    "appearance_ng": {
+      "allowed": [
+        0
+      ]
+    }
+  },
+  "appearance_ng_risk_threshold": 0.5,
+  "spc": {
+    "subgroup_size": 5,
+    "minimum_history_groups": 25
+  },
+  "recommendation_policy": "待 C5 測試；不代表正式多目標策略"
+}

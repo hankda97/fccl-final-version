@@ -1,0 +1,119 @@
+{
+  "profile_id": "c-mock-independent-specimens",
+  "version": "c-spc-profile-v1",
+  "product": "C-DEMO-01",
+  "recipe": "C-MOCK-v1",
+  "n": 5,
+  "minimum_history_groups": 25,
+  "independent_specimens": true,
+  "monitoring_origin": "2026-11-01T08:00:00+08:00",
+  "interval_seconds": 60.0,
+  "conditions": [
+    [
+      "line_speed_m_min",
+      2.0
+    ],
+    [
+      "coating_temp_c",
+      70.0
+    ],
+    [
+      "coating_gap_um",
+      25.0
+    ],
+    [
+      "coating_viscosity_mpa_s",
+      1500.0
+    ],
+    [
+      "curing_temp_c",
+      170.0
+    ],
+    [
+      "curing_time_min",
+      15.0
+    ],
+    [
+      "lamination_temp_c",
+      195.0
+    ],
+    [
+      "lamination_pressure_mpa",
+      2.0
+    ],
+    [
+      "lamination_time_s",
+      60.0
+    ]
+  ],
+  "condition_tolerance": 0.0,
+  "environment_ranges": [
+    [
+      "ambient_temp_c",
+      23.0,
+      25.0
+    ],
+    [
+      "ambient_rh_pct",
+      45.0,
+      51.0
+    ]
+  ],
+  "units": [
+    [
+      "peel_strength_n_mm",
+      "N/mm"
+    ],
+    [
+      "dimensional_stability_md_pct",
+      "%"
+    ],
+    [
+      "dimensional_stability_td_pct",
+      "%"
+    ],
+    [
+      "heat_resistance_c",
+      "°C"
+    ]
+  ],
+  "history_hash": "0ba18c7d0c5222ae06ef0a441045ed7d26fa85b57247620622be1e7f6f5b5366",
+  "monitoring_hashes": [
+    [
+      "invalid_values.csv",
+      "b3a6ff16d4695e00244fd35c66b7918e127a6b8cf1136f5595a2c5cb3645c3d7"
+    ],
+    [
+      "missing_columns.csv",
+      "cb8f1349cbe8daea2c8c2044788aa2dd88ca62fbbd803f9347a30e9f90af1aa2"
+    ],
+    [
+      "no_quality.csv",
+      "dbe21294026efc935af0ad28dc270d40badd09dea7c2b03bed54a69bf5f05710"
+    ],
+    [
+      "normal.csv",
+      "731664b3652b11fb45ac8e94f089bf3cd8cece1dd0a0ef4e593938671a80b7e5"
+    ],
+    [
+      "out_of_control.csv",
+      "2e013c9735109f8cbb96129321ad38c28f15e47c3ca6c6b256af031292614df2"
+    ],
+    [
+      "partial_quality.csv",
+      "73d8dd9afc57e6d86f63cbecfd09555bcba091378ee504fe414ca6a6b1ac0d4a"
+    ],
+    [
+      "same_side.csv",
+      "803462ae934aa0b6099f6ac91cbbf57d50181687ce2913a332e8fb28325c1e56"
+    ],
+    [
+      "trend.csv",
+      "7dc7ee137628d491daa74c4c1f69b0aaf248b92472f57e4ef814db4c6d8484c7"
+    ],
+    [
+      "ungrouped.csv",
+      "5f448c4729f94249dd22507ff307443b9b55e17150bbbd94d96ca42a6197a2f1"
+    ]
+  ]
+}

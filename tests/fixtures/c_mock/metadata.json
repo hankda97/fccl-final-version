@@ -1,0 +1,90 @@
+{
+  "source": "成員 C 專用模擬測試資料，非真實產線",
+  "version": "c-fixtures-v1",
+  "seed": 42,
+  "timezone": "Asia/Taipei",
+  "product_id": "C-DEMO-01",
+  "recipe_id": "C-MOCK-v1",
+  "subgroup_size": 5,
+  "subgroup_meaning": "同次取樣的獨立試片；僅 C fixture 假設",
+  "history_groups": 25,
+  "history_file": "history.csv",
+  "history_end": "2026-10-31T08:24:00+08:00",
+  "monitoring_start": "2026-11-01T08:00:00+08:00",
+  "quality_targets": [
+    "peel_strength_n_mm",
+    "dimensional_stability_md_pct",
+    "dimensional_stability_td_pct",
+    "heat_resistance_c",
+    "appearance_ng"
+  ],
+  "units": {
+    "length_m": "m",
+    "position_m": "m",
+    "ambient_temp_c": "°C",
+    "ambient_rh_pct": "%RH",
+    "line_speed_m_min": "m/min",
+    "coating_temp_c": "°C",
+    "coating_gap_um": "μm",
+    "coating_viscosity_mpa_s": "mPa·s",
+    "curing_temp_c": "°C",
+    "curing_time_min": "min",
+    "lamination_temp_c": "°C",
+    "lamination_pressure_mpa": "MPa",
+    "lamination_time_s": "s",
+    "peel_strength_n_mm": "N/mm",
+    "dimensional_stability_md_pct": "%",
+    "dimensional_stability_td_pct": "%",
+    "heat_resistance_c": "°C",
+    "appearance_ng": "0/1"
+  },
+  "scenarios": {
+    "normal": {
+      "file": "normal.csv",
+      "rows": 150
+    },
+    "history": {
+      "file": "history.csv",
+      "rows": 125
+    },
+    "partial_quality": {
+      "file": "partial_quality.csv",
+      "rows": 150
+    },
+    "no_quality": {
+      "file": "no_quality.csv",
+      "rows": 150
+    },
+    "ungrouped": {
+      "file": "ungrouped.csv",
+      "rows": 150
+    },
+    "missing_columns": {
+      "file": "missing_columns.csv",
+      "rows": 150
+    },
+    "invalid_values": {
+      "file": "invalid_values.csv",
+      "rows": 151
+    },
+    "out_of_control": {
+      "file": "out_of_control.csv",
+      "rows": 150
+    },
+    "trend": {
+      "file": "trend.csv",
+      "rows": 150
+    },
+    "same_side": {
+      "file": "same_side.csv",
+      "rows": 150
+    }
+  },
+  "expected_test_cases": {
+    "out_of_control": "M-G010 抗剝離值下降；C3 才驗證管制規則",
+    "trend": "M-G003～008 的子組均值嚴格上升",
+    "same_side": "M-G003～011 抗剝離均值高於歷史中心",
+    "invalid_values": "壞時間、濕度超界、線速非數值、缺品質及重複試片"
+  },
+  "baseline_validation": "本階段僅建立資料；SPC 適用性與界限計算待 C3"
+}

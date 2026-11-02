@@ -1,0 +1,9 @@
+# C-only dependency source for an isolated dashboard environment.
+# C1 runtime and its focused UI/state tests. Add later-stage tools when needed.
+streamlit>=1.55,<2
+pytest>=8,<10
+# C2 directly uses these already-locked C1 dependencies for normalization.
+pandas==3.1.0
+numpy==2.4.6
+# C6 trusted in-memory Figure presentation, without SHAP/model training.
+matplotlib>=3.9,<4

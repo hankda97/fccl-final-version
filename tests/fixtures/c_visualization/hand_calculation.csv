@@ -1,0 +1,5 @@
+timestamp,product_batch,line_speed_m_min,ambient_rh_pct,peel_strength_n_mm,dimensional_stability_md_pct,dimensional_stability_td_pct,heat_resistance_c,appearance_ng
+2026-11-01T08:00:00+08:00,C6-TEST,1,40,2,0.03,0.01,260,0
+2026-11-01T08:01:00+08:00,C6-TEST,2,40,4,0.01,-0.01,270,1
+2026-11-01T08:02:00+08:00,C6-TEST,3,40,6,-0.01,-0.01,280,0
+2026-11-01T08:03:00+08:00,C6-TEST,4,40,8,-0.03,0.01,290,1

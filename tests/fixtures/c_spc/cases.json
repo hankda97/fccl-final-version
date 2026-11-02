@@ -1,0 +1,40 @@
+{
+  "formula_n5": {
+    "values": [
+      1.23,
+      1.24,
+      1.25,
+      1.26,
+      1.27
+    ],
+    "groups": 25,
+    "cl": 1.25,
+    "r_bar": 0.04,
+    "ucl": 1.27308,
+    "lcl": 1.22692
+  },
+  "formula_n3": {
+    "values": [
+      1.24,
+      1.25,
+      1.26
+    ],
+    "groups": 25,
+    "cl": 1.25,
+    "r_bar": 0.02,
+    "ucl": 1.27046,
+    "lcl": 1.22954
+  },
+  "fault_cases": [
+    "insufficient_groups",
+    "late_history",
+    "overlap",
+    "zero_variation",
+    "invalid_group",
+    "unstable_mean",
+    "unstable_range",
+    "missing_target",
+    "incompatible_product",
+    "incompatible_conditions"
+  ]
+}
