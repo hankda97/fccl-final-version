@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_streamlit_canonical_formal_inference_whatif_and_shap_end_to_end():
-    app = AppTest.from_file(str(ROOT / "app.py"), default_timeout=120).run()
+    app = AppTest.from_file(str(ROOT / "legacy_app.py"), default_timeout=120).run()
     assert not app.exception
     assert [tab.proto.label for tab in app.get("tab")] == list(TAB_LABELS)
     app.radio(key="ui_source_choice").set_value("Canonical Synthetic projection").run()

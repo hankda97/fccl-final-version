@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "product", "recipe"],
+  "properties": {
+    "schema_version": {"const": "testline-v3.0"},
+    "product": {
+      "type": "object",
+      "required": ["product_id", "spec_version", "synthetic_only", "dry_thickness_um"],
+      "properties": {"product_id": {"const": "FCCL-DEMO-001"}, "synthetic_only": {"const": true}}
+    },
+    "recipe": {
+      "type": "object",
+      "required": ["recipe_id", "parameters"],
+      "properties": {
+        "recipe_id": {"const": "SIM-RECIPE-3.0"},
+        "parameters": {"type": "object", "minProperties": 10, "additionalProperties": {"$ref": "#/$defs/parameter"}}
+      }
+    }
+  },
+  "$defs": {
+    "parameter": {
+      "type": "object",
+      "required": ["station", "unit", "default", "recipe_min", "recipe_max", "ui_min", "ui_max"],
+      "properties": {"station": {"enum": ["coating", "curing", "lamination"]}, "unit": {"type": "string"}, "default": {"type": "number"}, "recipe_min": {"type": "number"}, "recipe_max": {"type": "number"}, "ui_min": {"type": "number"}, "ui_max": {"type": "number"}}
+    }
+  }
+}

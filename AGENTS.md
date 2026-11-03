@@ -1,12 +1,12 @@
 # FCCL 品質預測與 SPC：協作規範
 
-狀態：使用者已授權 `implement-quality-model-pipeline` 的本機 Apply；跨組契約與真實產線採用仍待團隊確認。
+狀態：使用者已驗收 `build-testline-simulation-control-room` Gate 0，並授權繼續完成 Gate 1–4；成果限 Synthetic 測試線，跨組契約與真實產線採用仍待團隊確認。
 
 ## 1. 目標與本階段範圍
 
-整合塗佈、熟化、壓合與環境資料，以可比較的 Champion／Challenger 模型預測抗剝離度、尺寸安定性 MD/TD、耐熱度及外觀 NG，使用 Streamlit 呈現 SPC、SHAP 與調參建議。初版以 Random Forest 為 Champion，並保留週期性離線重訓與同產品改善前後驗證流程。
+正式使用者介面為單一 Mode B「測試線模擬控制台」，整合塗佈、熟化、壓合與環境資料，以可比較的 Champion／Challenger 模型預測抗剝離度、尺寸安定性 MD/TD 與耐熱度四個連續目標，使用 Streamlit 呈現製程 SPC、Alarm、What-if、Heatmap、Run 紀錄與調參候選。新控制台不顯示外觀模型、預測良率或 SHAP 一般入口；v2 五目標能力只保留作回退與測試。
 
-本階段已授權依 `implement-quality-model-pipeline` 建立 canonical model dataset、訓練 Synthetic 五目標模型、產生可信 artifacts，並將正式 Synthetic Adapter／SHAP 接入 Streamlit；仍未授權正式產線接入、PLC／MES／機台寫入、Git Commit 或 Push。以下角色是工作責任分工，不代表需要同時啟動多個 AI 代理。
+本階段已授權依 `build-testline-simulation-control-room` 完成 Gate 1–4：版本化契約、Synthetic v3、四目標模型、連續模擬器、Run Store、製程 SPC 與正式控制台整合；仍未授權正式產線接入、PLC／MES／機台寫入或線上自動重訓。以下角色是工作責任分工，不代表需要同時啟動多個 AI 代理。
 
 ## 2. OpenSpec 工作流程
 
@@ -36,9 +36,9 @@ openspec/
 | 角色 | 職責與主要交付 | 交接驗收 |
 |---|---|---|
 | 製程／品質負責人 | 確認產品規格、測試條件、參數範圍、取樣及 SPC 基準 | 明確標示單位、配方適用範圍及實驗假設；模擬預設值不得當成工廠標準 |
-| A：Data Engineer | 生成器；輸出七份來源 CSV、metadata、資料字典、分割與漂移事件紀錄 | 相同 seed 可重現；來源粒度、區間、時間及批號可追溯；合成真值與模擬抽檢分離；漂移前後有可量化差異 |
-| B：ML Engineer | 訓練與 canonical model table 建置；交付前處理、模型 registry、metrics、manifest、Heatmap／SHAP 函式 | 時間與完整卷無洩漏；逐目標標籤可用性正確；Champion／Challenger 使用相同切分與指標；五個目標皆可推論或明示不可用原因 |
-| C：Full-Stack Developer | app.py；上傳、規格顯示、SPC、參數調整、警報及圖表 | 有效／無效 CSV 均可處理；預測與實測清楚區分；解鎖、警報及建議可驗收 |
+| A：Data Engineer | v2 維護與 v3 生成器；輸出三站 setpoint／actual、五點厚度、材料區段、reference、metadata 與漂移真值 | 相同 seed 可重現；120／40／40 完整卷隔離；demo Run、reference、v2 與訓練資料不交叉；漂移真值不進模型或線上 SPC |
+| B：ML Engineer | v3 canonical table 與四目標模型；交付 RF／HGB、registry、metrics、manifest、支援範圍及 Heatmap 服務 | 時間與完整卷無洩漏；四個連續目標可推論；外觀不進 v3 bundle；UI 範圍不得冒充模型支援範圍 |
+| C：Full-Stack Developer | 單一 Mode B 控制台、連續模擬器、Run Store、製程 SPC、Alarm、What-if 與 Heatmap | setpoint／actual 分離；站別延遲正確；Run 與訓練隔離；預測、actual、規格及 SPC 界限清楚區分 |
 | 整合驗證負責人 | 維護需求對照、驗證紀錄及已知限制 | 完成資料 → 訓練 → 儀表板流程，記錄版本與重現步驟 |
 
 交接包應包含檔案路徑、schema_version、設定、執行方式、驗證結果及限制。下游若發現契約不符，回報具體欄位／情境，不自行猜測單位或靜默改名。
@@ -48,7 +48,7 @@ openspec/
 1. 規範：使用者確認本草案與模擬假設。
 2. 資料：輸出可重現的七表時序資料、metadata 與漂移真值；三站以材料 MD 半開區間對齊；合成真值與模擬抽檢分離；漂移真值不進模型。
 3. 模型：以完整卷及時間隔離的測試集報告每個目標的指標、基準模型、Champion／Challenger 比較及漂移區間表現；產生可信模型檔、manifest 與圖表。
-4. 儀表板：完成 CSV 驗證、固定 SPC 基準、線速調整、進階參數解鎖、預測警報與情境比較。
+4. 儀表板：完成單一 Mode B、固定製程 SPC reference、七項主要／三項進階數字調參、四目標延遲預測、Alarm 事件群、What-if、Heatmap 與 Run 紀錄。
 5. 整合：以穩定資料、漂移資料、缺欄、缺值、重複檢驗、衝突旗標及單一分類樣本等情境驗證；測試標準來自需求，不以任意高分作通過條件。
 
 ## 5. 共通約定
@@ -57,7 +57,9 @@ openspec/
 - 使用繁體中文說明與 UI，欄位及 Python 識別字使用英文 snake_case。
 - 變更附上原因、受影響契約與驗證證據；不提交真實機密資料、憑證或未受信任的序列化模型。
 - 系統提供模擬與決策輔助。UI 解鎖只控制本機模擬參數編輯，不代表產線權限；本專案初版不寫入 PLC、MES 或機台。
-- 參數調整畫面只顯示目前／候選參數、五項品質預測、外觀 NG 機率、規格狀態、差值及限制；不新增「當下預測良率」需求。
+- 新控制台的參數調整只顯示目前／候選參數、四項連續品質預測、規格狀態、差值及限制；不顯示外觀 NG 或「當下預測良率」。
+- 初版固定產品／配方為 `FCCL-DEMO-001`／`SIM-RECIPE-3.0`。產品規格、配方範圍、UI 操作範圍、模型支援範圍及 SPC 管制界限是五種不同契約，不得互相代替。
+- 每次模擬 Run 只寫入 `runtime_data/testline_runs/<run_id>/`，不得自動寫入 `raw data/`、`generated_data/` 或 `artifacts/`，也不得自動觸發訓練、baseline 重估或模型升版。
 - 改善資料只透過版本化、人工審核的離線週期加入下一輪訓練；不得讓模型以線上自我更新方式直接改動生產參數。
 
 ## 6. Development Logging and Traceability

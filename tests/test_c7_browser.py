@@ -19,7 +19,7 @@ def test_real_browser_play_pause_step_restart_speed_and_end(tmp_path):
         s.bind(('127.0.0.1',0));port=s.getsockname()[1]
     log=tmp_path/'server.log'
     with log.open('w',encoding='utf-8') as out:
-        server=subprocess.Popen([sys.executable,'-m','streamlit','run','app.py','--server.headless=true',
+        server=subprocess.Popen([sys.executable,'-m','streamlit','run','legacy_app.py','--server.headless=true',
                 '--server.address=127.0.0.1',f'--server.port={port}','--browser.gatherUsageStats=false'],
                 cwd=ROOT,stdout=out,stderr=subprocess.STDOUT,env={**os.environ,'PYTHONUTF8':'1'})
         try:

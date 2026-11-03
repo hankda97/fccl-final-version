@@ -102,3 +102,20 @@
 - 理由：先鎖定資訊架構可降低後端完成後重做版面的成本；單一入口可避免來源、session state 與成熟度混淆；Gate 分離讓資料、模型、模擬與 UI 各自具驗收證據。
 - 影響與限制：此決策接受規劃方向，不代表 Gate 0 或任何後端已完成。Synthetic 配方、X-bar／R、I-MR／EWMA、Run 儲存及模型結果只供本機模擬，不是工廠標準或真實設備控制。AGENTS.md／SKILL.md 僅在 Gate 1 Apply 時依正式 specs 更新。
 - 取代關係／證據：取代 MW-01 三模式使用者導航與 WS-01 模式 A 主畫面作為未來正式產品面的方向，但保留舊程式／artifact 供內部重用與回退；不取代 ADR-005、ADR-007、ADR-008 的來源、SPC 及事件群安全決策。證據為 DEV-20261103-005、`build-testline-simulation-control-room` proposal／design／specs／tasks 及 strict validation。
+## ADR-010：接受 Gate 0 版面並進入單一 Mode B 的 Gate 1–4
+
+- 狀態：Accepted
+- 決策時間：2026-11-03 12:15:34 +08:00 (Asia/Taipei)
+- 背景：使用者在檢視最終 Gate 0 淺色控制台、參數面板、五張 SPC 與 Alarm 配置後，明確表示「好，就照這個版本下去修改」，其後要求繼續完成 8/39 尚餘工作。
+- 決策：Gate 0 人工驗收通過；後續以單一 Mode B、`FCCL-DEMO-001`／`SIM-RECIPE-3.0`、四連續品質目標、Run 隔離及製程 SPC 為正式方向，依 Change Gate 1–4 實作。
+- 影響：取代 ADR-009 的 Proposed 狀態；不批准真實產線、PLC／MES、外觀 v3、預測良率或因果宣稱。
+- 對應：TCP-007、DEV-20261103-012、`build-testline-simulation-control-room`。
+## ADR-011：正式入口單一 Mode B，舊 UI 改為內部回退入口
+
+- 狀態：Accepted
+- 決策時間：2026-11-03 12:50:00 +08:00 (Asia/Taipei)
+- 背景：MW-06 移除一般使用者的 A／B／C 導覽，但既有 46 項 UI 回歸仍需驗證舊服務未被刪除。
+- 決策：`app.py` 僅提供正式 Synthetic v3 測試線控制台；舊三模式組合保留於 `legacy_app.py`，只供內部回退與回歸測試。
+- 理由：同時滿足單一 Mode B 正式產品面及 design 所要求的舊能力保留，不把兩種 session／來源重新混入同一入口。
+- 影響：舊 UI 測試改指向 `legacy_app.py`；正常啟動命令不顯示 A／C、Mock 或解釋圖入口。
+- 對應：DEV-20261103-015、ADR-010、`build-testline-simulation-control-room` 4.1／4.8。

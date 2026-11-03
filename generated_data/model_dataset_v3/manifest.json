@@ -1,0 +1,39 @@
+{
+  "dataset_version": "canonical-v3.0",
+  "features": [
+    "line_speed_actual_m_min",
+    "coating_gap_actual_um",
+    "coating_temp_actual_c",
+    "coating_viscosity_actual_mpa_s",
+    "dry_thickness_mean_um",
+    "curing_temp_actual_c",
+    "exhaust_airflow_actual_m3_h",
+    "curing_time_actual_min",
+    "lamination_temp_actual_c",
+    "lamination_pressure_actual_mpa",
+    "lamination_time_actual_min",
+    "ambient_temp_c",
+    "ambient_rh_pct"
+  ],
+  "files": {
+    "projections\\dimensional_stability_md_pct.csv": "c5c3caa5ce1cb471497a62c471d54fac2adc3c35549567fb261551a133953478",
+    "projections\\dimensional_stability_td_pct.csv": "ef4af98a30e353976de9f3ae121e47bcaa24a349a71744d3d0592c937b8297c8",
+    "projections\\heat_resistance_c.csv": "ae5bd0050dfb1462c07ec55cfcf773a0aa5cd5836c0a3189411d17c8a028b5c2",
+    "projections\\peel_strength_n_mm.csv": "63835a46c866b74d0ee4b1c8c4eff3361467d4bdb7efd481b1e231f1056b4315"
+  },
+  "leakage_check": "passed",
+  "schema_version": "testline-v3.0",
+  "source": "C:\\Users\\User\\Desktop\\fccl-final-version\\generated_data\\v3\\canonical_v3.csv",
+  "target_rows": {
+    "dimensional_stability_md_pct": 20000,
+    "dimensional_stability_td_pct": 20000,
+    "heat_resistance_c": 20000,
+    "peel_strength_n_mm": 20000
+  },
+  "targets": [
+    "peel_strength_n_mm",
+    "dimensional_stability_md_pct",
+    "dimensional_stability_td_pct",
+    "heat_resistance_c"
+  ]
+}

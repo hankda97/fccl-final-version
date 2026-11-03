@@ -538,3 +538,64 @@
 - Git Hash：尚未提交；目前 HEAD `df510531471d680662899ab21b613d3b33de350a` 不包含本修正。
 - 證據來源：使用者確認方向、Playwright、pytest、`docs/evidence/gate0/testline-five-spc-quality-status.png` 與 `testline-spc-alarm-center.png`。
 - 待辦：使用者於 http://localhost:8510 驗收；確認前仍停止於 Gate 0。
+## DEV-20261103-012 — Gate 0 人工驗收與 Gate 1 契約完成
+
+- 時間：2026-11-03 12:15:34 +08:00 (Asia/Taipei)
+- 階段／分類：Apply；C-DATA、C-SPC、C-INTEGRATION、C-TEST
+- Change／task／需求：`build-testline-simulation-control-room`；0.8 人工確認、1.1–1.6；TS-03／TS-05、TRM-01–04、PSM-01–05、QMT-09–10
+- 目標：依使用者對 Gate 0 版面的明確確認，建立單一 Mode B、四目標、版本化產品／配方、Run、事件與安全邊界契約。
+- 已完成：使用者確認 Gate 0；更新 AGENTS.md／SKILL.md；新增 v3 資料字典、產品配方設定、七種 record schema、Run Store 契約、共享型別與驗證器；`runtime_data/` 已排除 Git。
+- 檔案操作：修改 `AGENTS.md`、`SKILL.md`、`.gitignore`、本 Change `tasks.md`；新增 `docs/TESTLINE_V3_DATA_DICTIONARY.md`、`fccl_testline/` Gate 1 模組及五份測試。
+- 實作細節：產品／配方／UI／模型／SPC 邊界分離；Run 只寫本機隔離路徑；setpoint／actual、站別適用、品質延遲、未來特徵與 train-manifest 支援範圍均有結構化驗證。
+- 測試：通過；Gate 1 專屬 `19 passed in 0.31s`；完整既有回歸 `396 passed, 915 warnings in 595.95s`。警告為既有 pandas／SHAP／joblib 相容提示，無測試失敗。
+- 錯誤修復：不適用；本輪未發生功能錯誤。
+- 資料來源：Synthetic 契約；模型來源：未接入 v3；真實製程驗證：未執行。
+- 限制：尚未生成 Synthetic v3、訓練四模型或接入正式控制台；Gate 2–4 待後續 task。
+- 待辦：從 2.1 開始建立 v3 生成器與隔離資料。
+- Git Hash：尚未提交（本事件涵蓋工作樹新變更）。
+- 證據：上述 pytest 輸出、`openspec instructions apply` 進度與本 Change artifacts。
+## DEV-20261103-013 — Gate 2 Synthetic v3 與四目標模型完成
+
+- 時間：2026-11-03 12:30:00 +08:00 (Asia/Taipei)
+- 階段／分類：Apply；C-DATA、C-MODEL、C-INTEGRATION、C-TEST
+- Change／task／需求：`build-testline-simulation-control-room` 2.1–2.7；DG-07–10、QMT-08–11。
+- 目標：產生隔離、可重現的 Synthetic v3，建立四目標 canonical dataset 並訓練／封裝模型。
+- 已完成：200 卷／20,000 區段、120／40／40 split、獨立 reference、六種漂移、四個 projection、RF／HGB／baseline 比較、四個可信 bundle／manifest／registry。
+- 檔案操作：新增 `fccl_testline/generation.py`、`dataset.py`、`modeling.py`、三個 scripts、三份測試；產出 `generated_data/v3/`、`generated_data/model_dataset_v3/`、`artifacts/synthetic_v3/quality-v3.0/`。
+- 實作細節：demo seed、runtime、v2、reference 與訓練隔離；allowlist 排除目標／識別／規格／未來／drift truth；模型支援範圍只由 train manifest 產生；外觀不在 v3。
+- 測試：通過；Gate 2 專屬 `7 passed`；既有 ML 回歸 `62 passed, 914 warnings in 316.09s`。首次 wildcard 命令因 PowerShell 不展開而未執行，改以實際檔案清單重跑通過。
+- 模型結果（RF test RMSE）：抗剝離 0.02537、MD 0.006011、TD 0.005055、耐熱 1.5385；四項皆優於 mean baseline。這是 Synthetic test，不代表真實產線效能。
+- 資料來源：Synthetic v3；模型來源：v3 RF bundle；真實製程驗證：未執行。
+- 限制：尚未實作連續模擬器、Run checkpoint、線上製程 SPC 與正式 UI 串接。
+- 待辦：Gate 3 task 3.1 起。
+- Git Hash：尚未提交。
+- 證據：生成與訓練命令、manifest／metrics／hash、pytest 輸出。
+## DEV-20261103-014 — Gate 3 連續模擬器、Run Store、製程 SPC 與 Alarm 完成
+
+- 時間：2026-11-03 12:45:00 +08:00 (Asia/Taipei)
+- 階段／分類：Apply；C-SPC、C-ALARM、C-MODEL、C-INTEGRATION、C-TEST
+- Change／task／需求：`build-testline-simulation-control-room` 3.1–3.9；TS-01–04、TRM-02–03、PSM-01–05、QMT-10。
+- 已完成：5 秒單一 in-flight 時鐘、穩態預載、三站材料延遲、原子 ParameterEvent、七情境、60 秒兩階段 checkpoint、interrupted 唯讀、X-bar／R、I-MR／EWMA、Alarm 事件群與 30 秒四模型推論。
+- 實作：新增 `simulation.py`、`process_spc.py`、`alarms.py`、`inference.py`、`engine.py` 與相應測試；Run engine 整合模型／SPC／Alarm／checkpoint。
+- 測試：通過；Gate 3 `26 passed in 7.48s`；300+20 tick 長跑 `1 passed in 6.60s`，序號 1–320 無跳點，首頁 Alarm 摘要最多 5 組，完成 manifest 與 hashes 有效。
+- 修復：修正 clock 超時測試邊界、pytest runtime class 收集標記與材料 quality-wait 邊界時間。
+- 資料來源：Synthetic v3/reference；模型來源：v3 RF bundle；真實製程驗證：未執行。
+- 限制：尚未將正式 engine 取代 Gate 0 fixture 並完成 Streamlit Gate 4。
+- 待辦：4.1–4.9。
+- Git Hash：尚未提交。
+- 證據：pytest、Run manifest／CSV、模型 manifest。
+## DEV-20261103-015 — Gate 4 正式控制台整合與自動驗證完成
+
+- 時間：2026-11-03 12:50:00 +08:00 (Asia/Taipei)
+- 階段／分類：Apply／Verify；C-UI、C-SPC、C-ALARM、C-WHATIF、C-MODEL、C-TEST、C-INTEGRATION
+- Change／task／需求：`build-testline-simulation-control-room` 4.1–4.8；MW-06、DW-15–19、VIS-10–12、Q-12–14、TRM-01–04、SPC-10–13。
+- 已完成：正式 `app.py` 切至單一 Mode B；首頁、五張 SPC、四目標預測、Alarm、What-if、Heatmap、Run 紀錄／匯出、快取及效能整合。
+- 相容處理：舊 A／B／C UI 保留於 `legacy_app.py` 供回退與既有測試，不在正常入口顯示；原三模式真實 Chrome 測試改寫為正式單一 Mode B 驗收。
+- 測試：新控制台 `69 passed`；真實 Chrome `1 passed`；曾有 46 個舊 UI 測試因入口刻意 breaking 失敗，改指向 legacy 入口後相關 `47 passed`；最終全套 `439 passed, 914 warnings in 509.65s`。
+- Streamlit smoke：`.venv-ml` 於 port 8520 啟動，`/_stcore/health` 回傳 `ok`，之後正常停止。
+- 修復：completed Run 頁不再嘗試 checkpoint；Heatmap 防止候選目標欄污染與重複品質；What-if 回填不建立 ParameterEvent；legacy 測試入口隔離。
+- 資料來源：Synthetic v3／本機 Run；模型來源：v3 RF bundle；真實製程驗證：未執行。
+- 限制：4.9 仍須使用者人工驗收穩定與六漂移情境；不接 PLC／MES，不宣稱因果、良率或真實產線效能。
+- 待辦：使用者執行／檢視正式控制台並明確確認 4.9。
+- Git Hash：尚未提交。
+- 證據：`docs/evidence/formal-control-room/`、pytest 與 Streamlit health output。

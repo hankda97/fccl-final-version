@@ -95,7 +95,7 @@ def test_unknown_mode_falls_back_without_reset_and_unknown_registry_keeps_state(
     from streamlit.testing.v1 import AppTest
     from test_c2_ui import ROOT
     old_registry=app.session_state[REGISTRY_KEY]
-    app=AppTest.from_file(str(ROOT/'app.py'),default_timeout=20)
+    app=AppTest.from_file(str(ROOT/'legacy_app.py'),default_timeout=20)
     app.session_state[REGISTRY_KEY]=old_registry
     app.session_state[WORKSPACE_KEY]=a
     app.session_state['ui_application_mode']='invalid'

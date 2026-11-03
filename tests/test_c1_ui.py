@@ -7,7 +7,7 @@ from streamlit.testing.v1 import AppTest
 from c_dashboard.state import SegmentSnapshot, WORKSPACE_KEY
 from c_dashboard.ui.tabs import TAB_LABELS
 
-APP_PATH = Path(__file__).resolve().parents[1] / "app.py"
+APP_PATH = Path(__file__).resolve().parents[1] / "legacy_app.py"
 
 
 def test_empty_dashboard_preserves_all_feature_areas_without_fake_results():

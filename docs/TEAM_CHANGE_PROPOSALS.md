@@ -273,3 +273,9 @@ C1＋C2 僅交付基礎 UI／資料載入；本案可獨立審查歸檔，不代
 - 關聯紀錄：DEV-20261103-005、ADR-009、TCP-003～006。
 - 狀態歷程：2026-11-03 06:39:34 +08:00——完成 Propose 與 strict validation；Gate 0～4 均未 Apply。
 
+## TCP-007 Gate 0 驗收與執行狀態更新（2026-11-03 12:15:34 +08:00）
+
+- 狀態：已確認並進入 Apply。
+- 依據：使用者明確接受目前 Gate 0 版面並要求完成剩餘 OpenSpec tasks。
+- 結果：單一 Mode B、Synthetic v3、四目標、連續模擬器、製程 SPC、Run Store 與正式控制台方向獲本專案範圍確認；真實設備與跨組正式採用仍不在本次批准範圍。
+- 對應：ADR-010、DEV-20261103-012、`build-testline-simulation-control-room`。

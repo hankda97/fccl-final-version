@@ -1,0 +1,24 @@
+{
+  "schema_version": "testline-v3.0",
+  "product": {
+    "product_id": "FCCL-DEMO-001",
+    "spec_version": "DEMO-SPEC-1.0",
+    "synthetic_only": true,
+    "dry_thickness_um": {"target": 25.0, "lsl": 23.0, "usl": 27.0, "unit": "um"}
+  },
+  "recipe": {
+    "recipe_id": "SIM-RECIPE-3.0",
+    "parameters": {
+      "line_speed_m_min": {"station": "coating", "unit": "m/min", "default": 4.8, "recipe_min": 4.4, "recipe_max": 5.2, "ui_min": 4.0, "ui_max": 5.6},
+      "coating_gap_um": {"station": "coating", "unit": "um", "default": 28.0, "recipe_min": 26.5, "recipe_max": 29.5, "ui_min": 25.0, "ui_max": 31.0},
+      "curing_temp_c": {"station": "curing", "unit": "degC", "default": 171.0, "recipe_min": 168.0, "recipe_max": 174.0, "ui_min": 165.0, "ui_max": 177.0},
+      "exhaust_airflow_m3_h": {"station": "curing", "unit": "m3/h", "default": 2100.0, "recipe_min": 1900.0, "recipe_max": 2300.0, "ui_min": 1700.0, "ui_max": 2500.0},
+      "curing_time_min": {"station": "curing", "unit": "min", "default": 12.5, "recipe_min": 11.8, "recipe_max": 13.2, "ui_min": 11.0, "ui_max": 14.0},
+      "lamination_temp_c": {"station": "lamination", "unit": "degC", "default": 181.0, "recipe_min": 178.0, "recipe_max": 184.0, "ui_min": 175.0, "ui_max": 187.0},
+      "lamination_pressure_mpa": {"station": "lamination", "unit": "MPa", "default": 2.55, "recipe_min": 2.35, "recipe_max": 2.75, "ui_min": 2.2, "ui_max": 2.9},
+      "coating_temp_c": {"station": "coating", "unit": "degC", "default": 82.0, "recipe_min": 78.0, "recipe_max": 86.0, "ui_min": 78.0, "ui_max": 86.0, "advanced": true},
+      "coating_viscosity_mpa_s": {"station": "coating", "unit": "mPa*s", "default": 1180.0, "recipe_min": 1080.0, "recipe_max": 1280.0, "ui_min": 1080.0, "ui_max": 1280.0, "advanced": true},
+      "lamination_time_min": {"station": "lamination", "unit": "min", "default": 18.0, "recipe_min": 16.0, "recipe_max": 20.0, "ui_min": 16.0, "ui_max": 20.0, "advanced": true}
+    }
+  }
+}

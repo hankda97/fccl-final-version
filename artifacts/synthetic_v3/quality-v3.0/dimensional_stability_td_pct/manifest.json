@@ -1,0 +1,88 @@
+{
+  "appearance_included": false,
+  "bundle_sha256": "44f87fea0f3de9cd94850323ebf499597b53a2efe16de7f9008698ae1ba96170",
+  "bundle_version": "quality-v3.0",
+  "challenger": "hist_gradient_boosting",
+  "feature_support_ranges": {
+    "ambient_rh_pct": {
+      "max": 64.89558913319829,
+      "min": 39.27047762061204
+    },
+    "ambient_temp_c": {
+      "max": 27.144508064038863,
+      "min": 19.57992395736163
+    },
+    "coating_gap_actual_um": {
+      "max": 28.925752271496982,
+      "min": 27.15821678224311
+    },
+    "coating_temp_actual_c": {
+      "max": 83.36173674257329,
+      "min": 80.5427546388152
+    },
+    "coating_viscosity_actual_mpa_s": {
+      "max": 1266.5464038225928,
+      "min": 1092.878938406915
+    },
+    "curing_temp_actual_c": {
+      "max": 172.58608084848584,
+      "min": 163.11276400571666
+    },
+    "curing_time_actual_min": {
+      "max": 12.806848651084342,
+      "min": 12.194335119383146
+    },
+    "dry_thickness_mean_um": {
+      "max": 27.71534643012789,
+      "min": 22.35456903294044
+    },
+    "exhaust_airflow_actual_m3_h": {
+      "max": 2205.9616731162378,
+      "min": 1618.9537842067052
+    },
+    "lamination_pressure_actual_mpa": {
+      "max": 2.6542351097439147,
+      "min": 2.107494967036596
+    },
+    "lamination_temp_actual_c": {
+      "max": 182.5825034588996,
+      "min": 179.61681361043068
+    },
+    "lamination_time_actual_min": {
+      "max": 18.36992640833582,
+      "min": 17.634096069310253
+    },
+    "line_speed_actual_m_min": {
+      "max": 5.07475625257664,
+      "min": 4.528848328076559
+    }
+  },
+  "features": [
+    "line_speed_actual_m_min",
+    "coating_gap_actual_um",
+    "coating_temp_actual_c",
+    "coating_viscosity_actual_mpa_s",
+    "dry_thickness_mean_um",
+    "curing_temp_actual_c",
+    "exhaust_airflow_actual_m3_h",
+    "curing_time_actual_min",
+    "lamination_temp_actual_c",
+    "lamination_pressure_actual_mpa",
+    "lamination_time_actual_min",
+    "ambient_temp_c",
+    "ambient_rh_pct"
+  ],
+  "metrics_sha256": "e8f3a7395cbf3e6d543142783cb18c8efcc6a728d51a6adc193dcba4fcf307f0",
+  "model_kind": "random_forest",
+  "python": "3.12.2",
+  "schema_version": "testline-v3.0",
+  "scikit_learn": "1.5.2",
+  "seed": 314159,
+  "split_contract": {
+    "test": 40,
+    "train": 120,
+    "validation": 40
+  },
+  "support_range_source": "train_manifest",
+  "target": "dimensional_stability_td_pct"
+}

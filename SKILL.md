@@ -5,7 +5,19 @@ description: 建置本專案的 FCCL 七表模擬資料、品質預測、模型�
 
 # FCCL 技術實作規範
 
-狀態：使用者已授權 `implement-quality-model-pipeline` 的本機 Apply；成果限 Synthetic 驗證，跨組正式契約與真實產線採用仍待確認。先閱讀 AGENTS.md 與相關 OpenSpec Change。
+狀態：使用者已驗收 `build-testline-simulation-control-room` Gate 0 並授權完成 Gate 1–4；成果限 Synthetic 測試線，跨組正式契約與真實產線採用仍待確認。先閱讀 AGENTS.md 與相關 OpenSpec Change。
+
+## 0. Synthetic v3 測試線控制台（優先契約）
+
+- 一般使用者只進入單一 Mode B 測試線控制台；舊 A／C、v2 五目標、CSV 分析及 SHAP 保留為內部回退能力，不得在新控制台靜默混用。
+- 初版固定 `FCCL-DEMO-001`／`SIM-RECIPE-3.0`，只輸出抗剝離度、尺寸安定性 MD／TD、耐熱度四個連續目標。外觀 v2 artifact 保留但不進 v3 bundle、What-if、Heatmap 或新 UI。
+- 產品規格、配方標準、UI 操作範圍、模型支援範圍與 SPC 管制界限分開版本化；UI 合法不代表模型可外推，配方範圍也不是管制界限。
+- 訊號每 5 模擬秒產生；厚度以五點橫向子組作 X-bar／R，溫度、排風量、線速與壓力作 I-MR／EWMA。基準來自同配方獨立穩定 reference，整個 Run 固定。
+- 調參採候選值整組驗證後建立不可變 ParameterEvent。setpoint 與 actual 分開；事件只影響尚未通過適用站別的材料。四目標只對完成三站及品質延遲的區段推論。
+- Run 固定寫入 `runtime_data/testline_runs/<run_id>/` 的 manifest 與五份 CSV；每 60 模擬秒一致 checkpoint。completed／interrupted 可唯讀檢視，初版不續跑，且 Run 不自動成為訓練或 baseline 資料。
+- What-if 固定一個已完成區段並與 live Run 隔離；採用結果只回填候選表單。Heatmap 一區段一列，current Run 至少 30 個有效完成區段；兩者皆不得宣稱因果。
+- Alarm 分正常、警告、嚴重、證據不足；製程失控與產品超規分離。調參不會立即清除事件，只能由後續有效證據復歸；首頁使用事件群而非逐點紅卡。
+- 欄位與單位的完整定義見 `docs/TESTLINE_V3_DATA_DICTIONARY.md`；機器可讀 schema 與設定位於 `fccl_testline/schemas/`、`fccl_testline/config/`。
 
 ## 1. 工具鏈與檔案
 

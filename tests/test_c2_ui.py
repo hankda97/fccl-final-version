@@ -10,7 +10,7 @@ FIXTURES = ROOT / "tests" / "fixtures" / "c_mock"
 
 
 def new_app():
-    app = AppTest.from_file(str(ROOT / "app.py"), default_timeout=20).run()
+    app = AppTest.from_file(str(ROOT / "legacy_app.py"), default_timeout=20).run()
     assert not app.exception
     return app
 

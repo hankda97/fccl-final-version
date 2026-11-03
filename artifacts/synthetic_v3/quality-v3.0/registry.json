@@ -1,0 +1,47 @@
+{
+  "appearance_included": false,
+  "bundle_version": "quality-v3.0",
+  "schema_version": "testline-v3.0",
+  "targets": {
+    "dimensional_stability_md_pct": {
+      "manifest_sha256": "c0c36813cb9e6533ad1c082780ef57a5cec300c9b5193f2bd31fe1aa2c285b14",
+      "path": "dimensional_stability_md_pct",
+      "test_metrics": {
+        "baseline_rmse_improvement_pct": 25.88471405384794,
+        "mae": 0.004803999982662484,
+        "r2": 0.4430006382317192,
+        "rmse": 0.0060107639561054966
+      }
+    },
+    "dimensional_stability_td_pct": {
+      "manifest_sha256": "3cff92018fc027b8719a1f9b947937b20ab6c38265eb20f7d35d484da5985bb6",
+      "path": "dimensional_stability_td_pct",
+      "test_metrics": {
+        "baseline_rmse_improvement_pct": 26.767904305036428,
+        "mae": 0.004031207954440138,
+        "r2": 0.45676728944904754,
+        "rmse": 0.005055164153726738
+      }
+    },
+    "heat_resistance_c": {
+      "manifest_sha256": "ed781ed59843caa562b191acfc984606bde9d768bbd8db2386f862072a9f978c",
+      "path": "heat_resistance_c",
+      "test_metrics": {
+        "baseline_rmse_improvement_pct": 15.725628093445366,
+        "mae": 1.2320156289267525,
+        "r2": 0.2873749263773032,
+        "rmse": 1.5385078922460802
+      }
+    },
+    "peel_strength_n_mm": {
+      "manifest_sha256": "6b10c13ff30f251d1be795f85ea526206b7cd260eef1f3d59ea73cb0692447b7",
+      "path": "peel_strength_n_mm",
+      "test_metrics": {
+        "baseline_rmse_improvement_pct": 45.745442934629644,
+        "mae": 0.020303024038670594,
+        "r2": 0.6998331810577657,
+        "rmse": 0.025370327419662327
+      }
+    }
+  }
+}

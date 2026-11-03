@@ -1,0 +1,308 @@
+{
+  "actual_ranges": {
+    "ambient_rh_pct": {
+      "max": 64.89558913319829,
+      "min": 39.27047762061204
+    },
+    "ambient_temp_c": {
+      "max": 27.144508064038863,
+      "min": 19.372859938748658
+    },
+    "coating_gap_actual_um": {
+      "max": 28.925752271496982,
+      "min": 27.15821678224311
+    },
+    "coating_gap_setpoint_um": {
+      "max": 28.0,
+      "min": 28.0
+    },
+    "coating_temp_actual_c": {
+      "max": 83.36173674257329,
+      "min": 80.5427546388152
+    },
+    "coating_temp_setpoint_c": {
+      "max": 82.0,
+      "min": 82.0
+    },
+    "coating_viscosity_actual_mpa_s": {
+      "max": 1266.5464038225928,
+      "min": 1091.6383681125558
+    },
+    "coating_viscosity_setpoint_mpa_s": {
+      "max": 1180.0,
+      "min": 1180.0
+    },
+    "curing_temp_actual_c": {
+      "max": 172.59882141072592,
+      "min": 163.11276400571666
+    },
+    "curing_temp_setpoint_c": {
+      "max": 171.0,
+      "min": 171.0
+    },
+    "curing_time_actual_min": {
+      "max": 12.819771872363042,
+      "min": 12.183508643617952
+    },
+    "curing_time_setpoint_min": {
+      "max": 12.5,
+      "min": 12.5
+    },
+    "dimensional_stability_md_pct": {
+      "max": 0.11395932500621482,
+      "min": 0.04749933019723817
+    },
+    "dimensional_stability_td_pct": {
+      "max": 0.09880525660520678,
+      "min": 0.041903245790640364
+    },
+    "dry_thickness_1_um": {
+      "max": 27.90285982585479,
+      "min": 22.104723648604182
+    },
+    "dry_thickness_2_um": {
+      "max": 27.828213511398666,
+      "min": 22.176139563487872
+    },
+    "dry_thickness_3_um": {
+      "max": 27.835389281518907,
+      "min": 22.274048983294676
+    },
+    "dry_thickness_4_um": {
+      "max": 27.75543851706317,
+      "min": 22.26620837673651
+    },
+    "dry_thickness_5_um": {
+      "max": 27.736658281469126,
+      "min": 22.33039300603968
+    },
+    "dry_thickness_mean_um": {
+      "max": 27.71534643012789,
+      "min": 22.354569032940436
+    },
+    "exhaust_airflow_actual_m3_h": {
+      "max": 2217.377179197859,
+      "min": 1618.9537842067052
+    },
+    "exhaust_airflow_setpoint_m3_h": {
+      "max": 2100.0,
+      "min": 2100.0
+    },
+    "heat_label_available": {
+      "max": 1.0,
+      "min": 1.0
+    },
+    "heat_resistance_c": {
+      "max": 247.6753059191716,
+      "min": 232.33577887177137
+    },
+    "lamination_pressure_actual_mpa": {
+      "max": 2.6542351097439147,
+      "min": 2.1074949670365957
+    },
+    "lamination_pressure_setpoint_mpa": {
+      "max": 2.55,
+      "min": 2.55
+    },
+    "lamination_temp_actual_c": {
+      "max": 182.5825034588996,
+      "min": 179.5002049196354
+    },
+    "lamination_temp_setpoint_c": {
+      "max": 181.0,
+      "min": 181.0
+    },
+    "lamination_time_actual_min": {
+      "max": 18.401402728796224,
+      "min": 17.54218066703121
+    },
+    "lamination_time_setpoint_min": {
+      "max": 18.0,
+      "min": 18.0
+    },
+    "line_speed_actual_m_min": {
+      "max": 5.07475625257664,
+      "min": 4.528848328076559
+    },
+    "line_speed_setpoint_m_min": {
+      "max": 4.8,
+      "min": 4.8
+    },
+    "material_md_end_m": {
+      "max": 100.0,
+      "min": 1.0
+    },
+    "material_md_start_m": {
+      "max": 99.0,
+      "min": 0.0
+    },
+    "md_label_available": {
+      "max": 1.0,
+      "min": 1.0
+    },
+    "peel_label_available": {
+      "max": 1.0,
+      "min": 1.0
+    },
+    "peel_strength_n_mm": {
+      "max": 1.4431386039087406,
+      "min": 1.1009590808308243
+    },
+    "segment_index": {
+      "max": 99.0,
+      "min": 0.0
+    },
+    "td_label_available": {
+      "max": 1.0,
+      "min": 1.0
+    }
+  },
+  "appearance_included": false,
+  "files": {
+    "canonical_v3.csv": "6daa8f281480e8fce2f74ccfb0a1f884d2e6d6ac1a43cfa9216308c5d14a36a0",
+    "drift_ground_truth.csv": "643d1aaedf7bb978060f036fc244a1fc06b49abc7f6ccddd59d0646e959be026",
+    "stable_reference.csv": "5fe173039057179e6b6e91b5e7b1e58a9510ec93c4d2732a75189c73543536d3"
+  },
+  "forbidden_demo_seeds": [
+    9001,
+    9002,
+    9003,
+    9004,
+    9005,
+    9006,
+    9007
+  ],
+  "generator_version": "3.0.0",
+  "product_id": "FCCL-DEMO-001",
+  "range_contract": {
+    "product": {
+      "dry_thickness_um": {
+        "lsl": 23.0,
+        "target": 25.0,
+        "unit": "um",
+        "usl": 27.0
+      },
+      "product_id": "FCCL-DEMO-001",
+      "spec_version": "DEMO-SPEC-1.0",
+      "synthetic_only": true
+    },
+    "recipe": {
+      "parameters": {
+        "coating_gap_um": {
+          "default": 28.0,
+          "recipe_max": 29.5,
+          "recipe_min": 26.5,
+          "station": "coating",
+          "ui_max": 31.0,
+          "ui_min": 25.0,
+          "unit": "um"
+        },
+        "coating_temp_c": {
+          "advanced": true,
+          "default": 82.0,
+          "recipe_max": 86.0,
+          "recipe_min": 78.0,
+          "station": "coating",
+          "ui_max": 86.0,
+          "ui_min": 78.0,
+          "unit": "degC"
+        },
+        "coating_viscosity_mpa_s": {
+          "advanced": true,
+          "default": 1180.0,
+          "recipe_max": 1280.0,
+          "recipe_min": 1080.0,
+          "station": "coating",
+          "ui_max": 1280.0,
+          "ui_min": 1080.0,
+          "unit": "mPa*s"
+        },
+        "curing_temp_c": {
+          "default": 171.0,
+          "recipe_max": 174.0,
+          "recipe_min": 168.0,
+          "station": "curing",
+          "ui_max": 177.0,
+          "ui_min": 165.0,
+          "unit": "degC"
+        },
+        "curing_time_min": {
+          "default": 12.5,
+          "recipe_max": 13.2,
+          "recipe_min": 11.8,
+          "station": "curing",
+          "ui_max": 14.0,
+          "ui_min": 11.0,
+          "unit": "min"
+        },
+        "exhaust_airflow_m3_h": {
+          "default": 2100.0,
+          "recipe_max": 2300.0,
+          "recipe_min": 1900.0,
+          "station": "curing",
+          "ui_max": 2500.0,
+          "ui_min": 1700.0,
+          "unit": "m3/h"
+        },
+        "lamination_pressure_mpa": {
+          "default": 2.55,
+          "recipe_max": 2.75,
+          "recipe_min": 2.35,
+          "station": "lamination",
+          "ui_max": 2.9,
+          "ui_min": 2.2,
+          "unit": "MPa"
+        },
+        "lamination_temp_c": {
+          "default": 181.0,
+          "recipe_max": 184.0,
+          "recipe_min": 178.0,
+          "station": "lamination",
+          "ui_max": 187.0,
+          "ui_min": 175.0,
+          "unit": "degC"
+        },
+        "lamination_time_min": {
+          "advanced": true,
+          "default": 18.0,
+          "recipe_max": 20.0,
+          "recipe_min": 16.0,
+          "station": "lamination",
+          "ui_max": 20.0,
+          "ui_min": 16.0,
+          "unit": "min"
+        },
+        "line_speed_m_min": {
+          "default": 4.8,
+          "recipe_max": 5.2,
+          "recipe_min": 4.4,
+          "station": "coating",
+          "ui_max": 5.6,
+          "ui_min": 4.0,
+          "unit": "m/min"
+        }
+      },
+      "recipe_id": "SIM-RECIPE-3.0"
+    },
+    "schema_version": "testline-v3.0"
+  },
+  "recipe_id": "SIM-RECIPE-3.0",
+  "reference_seed": 271828,
+  "rolls": 200,
+  "runtime_data_included": false,
+  "schema_version": "testline-v3.0",
+  "seed": 314159,
+  "segments": 20000,
+  "split_rolls": {
+    "test": 40,
+    "train": 120,
+    "validation": 40
+  },
+  "targets": [
+    "peel_strength_n_mm",
+    "dimensional_stability_md_pct",
+    "dimensional_stability_td_pct",
+    "heat_resistance_c"
+  ],
+  "v2_included": false
+}

@@ -12,3 +12,6 @@ __pycache__/
 raw data/backups/
 .venv/
 .venv-ml/
+
+# Local synthetic test-line runs; never training data or source artifacts
+runtime_data/
