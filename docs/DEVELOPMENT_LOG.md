@@ -599,3 +599,18 @@
 - 待辦：使用者執行／檢視正式控制台並明確確認 4.9。
 - Git Hash：尚未提交。
 - 證據：`docs/evidence/formal-control-room/`、pytest 與 Streamlit health output。
+
+## DEV-20261103-016 — 驗收前版本提交與 GitHub 發佈
+
+- 時間：2026-11-03 12:56:39 +08:00 (Asia/Taipei)
+- 階段／分類：Maintenance；C-INTEGRATION
+- Change／task／需求：`build-testline-simulation-control-room` 1.1–4.8；4.9 仍待使用者人工驗收。
+- 目標：保存並發佈目前 38／39 項完成的驗收前版本，不提前宣稱 Apply 完成。
+- 已完成：核對 `main` 與 `origin/main` 無分歧、檢查未追蹤檔案大小與常見憑證跡象，建立主要版本提交並準備推送至指定 GitHub repository。
+- 檔案操作：納管 Synthetic v3、四目標模型、正式控制台、測試、OpenSpec task 狀態與驗證證據；`runtime_data/`、虛擬環境及快取維持忽略。
+- 測試：本次未重跑；沿用 DEV-20261103-015 已記錄的全套 `439 passed` 與 Streamlit health 證據。Git staged diff 檢查僅發現並修正 `fccl_testline/__init__.py` 檔尾空白。
+- 資料來源：Synthetic v3／本機 Run；模型來源：v3 RF bundle；真實製程驗證：未執行。
+- 限制：OpenSpec task 4.9 尚未完成；此提交為驗收前快照，不代表人工驗收或 Archive 完成。
+- 待辦：使用者人工驗收後再完成 4.9；未獲授權前不 Archive。
+- Git Hash：主要版本提交 `d64f842`；本筆紀錄提交 Hash 於提交完成後可由 Git history 取得。
+- 證據：`git status`、`git fetch origin`、`git rev-list --left-right --count HEAD...origin/main`、secret pattern scan、Git commit／push 輸出。
