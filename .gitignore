@@ -10,3 +10,5 @@ __pycache__/
 
 # Historical duplicate snapshots kept only on this workstation
 raw data/backups/
+.venv/
+.venv-ml/
