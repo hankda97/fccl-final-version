@@ -1,0 +1,38 @@
+{
+  "active_model_version": "model-a94855f897dfbfae",
+  "dataset_version": "67a0a2286db89c2d",
+  "profile": "synthetic-ground-truth-v2",
+  "registry_schema": "fccl-model-registry-1.0",
+  "rollback": {
+    "automatic_mock_fallback": false,
+    "strategy": "select_prior_verified_registry_or_explicit_mock"
+  },
+  "source": "Synthetic model artifacts",
+  "targets": {
+    "appearance_ng": {
+      "manifest": "model-a94855f897dfbfae/appearance_ng/manifest.json",
+      "manifest_sha256": "73067e296f1e294749c532777d509ddb9b7331fc11b3253b6cd9e3232cf3efb0",
+      "status": "available"
+    },
+    "dimensional_stability_md_pct": {
+      "manifest": "model-a94855f897dfbfae/dimensional_stability_md_pct/manifest.json",
+      "manifest_sha256": "aa2206d66afe56eded274dc0d5b230a55a1407aaef847be4e9092edd57cd463a",
+      "status": "available"
+    },
+    "dimensional_stability_td_pct": {
+      "manifest": "model-a94855f897dfbfae/dimensional_stability_td_pct/manifest.json",
+      "manifest_sha256": "b682c0311e9ccb91fd75ec3f66188172dc61d1e0d4a06b5221a03ccc4b1c63da",
+      "status": "available"
+    },
+    "heat_resistance_c": {
+      "manifest": "model-a94855f897dfbfae/heat_resistance_c/manifest.json",
+      "manifest_sha256": "3a496e84bfd01916a8654ca1e7654aa77509f7a93bc123c3e9fccb2b54c52b30",
+      "status": "available"
+    },
+    "peel_strength_n_mm": {
+      "manifest": "model-a94855f897dfbfae/peel_strength_n_mm/manifest.json",
+      "manifest_sha256": "3f3eb04322e6c97844e2f88ae454dd79b740dd12934592c670d45e926991ca52",
+      "status": "available"
+    }
+  }
+}

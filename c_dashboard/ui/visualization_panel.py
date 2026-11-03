@@ -10,12 +10,21 @@ from c_dashboard.visualization.controller import heatmap_for, reconcile_features
 from c_dashboard.adapters.explanations import UnavailableExplanationProvider
 from c_dashboard.visualization.sources import label_eligibility
 from c_dashboard.visualization.heatmap import eligible_rows, numeric_values
+from c_dashboard.visualization.heatmap_summary import summarize_heatmap
 
 
-def render_visualization_panel(workspace, rows, adapter, provider=None):
+def render_visualization_panel(workspace, rows, adapter, provider=None, readiness=None):
     state = workspace.visualization
     st.subheader("Heatmap")
     st.caption("目前 CSV／明確投影的觀測 Pearson 相關；相關性不代表因果，Mock／合成分析不代表真實產線結論。")
+    heatmap_readiness = readiness.get("heatmap") if readiness else None
+    if heatmap_readiness is not None:
+        if heatmap_readiness.ready:
+            st.success("Heatmap 已就緒：" + heatmap_readiness.reason)
+        else:
+            st.info("Heatmap 尚未就緒：" + heatmap_readiness.reason + " 下一步：" + heatmap_readiness.next_step)
+            _render_shap_controls(workspace, rows, adapter, provider or UnavailableExplanationProvider(), readiness)
+            return
     if reconcile_features(state, rows):
         st.info("新資料缺少部分先前特徵，已移除無效的 Heatmap 選項。")
     token = f"{workspace.data.source_id or 'empty'}_{state.generation}"
@@ -45,6 +54,23 @@ def render_visualization_panel(workspace, rows, adapter, provider=None):
             st.error(slot.reason)
         with st.expander("Heatmap 有效配對與不可計算原因"):
             st.dataframe(heatmap_records(result), hide_index=True, width="stretch")
+        summary_rows = []
+        for item in summarize_heatmap(result):
+            positive = item.strongest_positive
+            negative = item.strongest_negative
+            summary_rows.append({
+                "品質目標": label(item.target),
+                "最強正相關": "—" if positive is None else f"{label(positive.feature)} r={positive.coefficient:+.3f}",
+                "正相關 n": None if positive is None else positive.n,
+                "最強負相關": "—" if negative is None else f"{label(negative.feature)} r={negative.coefficient:+.3f}",
+                "負相關 n": None if negative is None else negative.n,
+                "品質方向": item.direction,
+                "解讀限制": item.interpretation,
+                "metadata 版本": item.metadata_version,
+            })
+        st.markdown("#### Heatmap 文字摘要")
+        st.dataframe(summary_rows, hide_index=True, width="stretch")
+        st.caption("正／負相關描述觀測資料的線性方向，不代表因果；尺寸 MD／TD 為雙側規格，不能把相關方向直接解讀為改善。")
         valid = eligible_rows(rows)
         status_rows = []
         for target in TARGET_UNITS:
@@ -57,13 +83,25 @@ def render_visualization_panel(workspace, rows, adapter, provider=None):
         st.caption("標籤 availability、模型預測能力及 SHAP 解釋能力分開；有標籤不等於模型已就緒，缺標籤也不直接阻止有效模型解釋。")
     else:
         (st.error if slot.status == "error" else st.info)(slot.reason or "Heatmap 尚無可用資料。")
-    _render_shap_controls(workspace, rows, adapter, provider or UnavailableExplanationProvider())
+    _render_shap_controls(workspace, rows, adapter, provider or UnavailableExplanationProvider(), readiness)
 
 
-def _render_shap_controls(workspace, rows, adapter, provider):
+def _render_shap_controls(workspace, rows, adapter, provider, readiness=None):
     state = workspace.visualization
     st.subheader("SHAP Summary Plot")
+    st.caption("用途：彙整目前樣本中各特徵對所選模型輸出的整體影響大小與方向；不是製程因果證明。")
     st.subheader("SHAP Dependence Plot")
+    st.caption("用途：查看單一特徵值與其 SHAP 貢獻的關係及可能交互型態；不代表單獨調參必然改善品質。")
+    summary_readiness = readiness.get("summary") if readiness else None
+    dependence_readiness = readiness.get("dependence") if readiness else None
+    for name, item in (("Summary", summary_readiness), ("Dependence", dependence_readiness)):
+        if item is None:
+            continue
+        message = f"SHAP {name} {'已就緒' if item.ready else '尚未就緒'}：{item.reason}"
+        (st.success if item.ready else st.info)(message)
+        if not item.ready:
+            st.caption("下一步：" + item.next_step)
+    shap_ready = all(item is None or item.ready for item in (summary_readiness, dependence_readiness))
     state.shap_kind = st.radio("SHAP 圖型", SHAP_KINDS, index=SHAP_KINDS.index(state.shap_kind),
                                key=widget_key(workspace, "ui_shap_kind"))
     state.shap_target = st.selectbox("SHAP 品質目標", tuple(TARGET_UNITS),
@@ -83,13 +121,15 @@ def _render_shap_controls(workspace, rows, adapter, provider):
         format_func=lambda name: label(name) if name in FEATURE_UNITS else f"{name} [{units.get(name, '單位待提供')}]",
         key=widget_key(workspace, f"ui_shap_feature_{key_for(choices, state.generation)[:12]}"))
     retry = st.button("重新取得 SHAP 解釋", key=widget_key(workspace, "ui_shap_retry"),
-        disabled=workspace.data.dataset is None or not adapter.describe().supports_shap)
+        disabled=not shap_ready or workspace.data.dataset is None or not adapter.describe().supports_shap)
     st.caption(f"模型來源 {adapter.describe().source} · 版本 {adapter.describe().version} · supports_shap={adapter.describe().supports_shap}")
     if info:
         st.caption(f"解釋來源 {info.source} · 版本 {info.explanation_version or '尚未交付'} · schema {info.schema_version}")
         if info.manifest:
             m = info.manifest
             st.caption(f"Manifest {m.manifest_id} · model type {m.model_type} · schema {m.schema_version} · features {m.feature_version} · labels {m.label_version} · specs {m.spec_version} · 訓練資料 {m.dataset_version}")
+    if not shap_ready:
+        return
     with st.spinner("SHAP 圖表計算中…"):
         slot = explanation_for(workspace, rows, adapter, provider, retry=retry)
     if slot.status != "ready":
@@ -101,7 +141,8 @@ def _render_shap_controls(workspace, rows, adapter, provider):
     if request.info.source_kind == "render-test":
         st.warning(TEST_NOTICE)
     st.caption(f"{request.kind} · 目標 {label(request.target)} · 輸出 {request.output_scale} [{request.output_unit}] · 背景 {request.info.background_source}")
-    st.caption(f"資料來源 {request.source.source_id} · 批號 {request.source.batch or '全部'} · 範圍 {request.source.time_start or '起點'} ～ {request.source.time_end or '終點'} · 截止 {request.source.cutoff} · 使用 {len(request.sample_ids)} 列，排除 {request.excluded_rows} 列 · 未抽樣")
+    sampling = "穩定取前段上限樣本" if request.excluded_rows else "使用全部合格列"
+    st.caption(f"資料來源 {request.source.source_id} · 批號 {request.source.batch or '全部'} · 範圍 {request.source.time_start or '起點'} ～ {request.source.time_end or '終點'} · 截止 {request.source.cutoff} · 使用 {len(request.sample_ids)} 列，排除 {request.excluded_rows} 列 · {sampling}")
     st.caption(f"模型 {request.info.model_version} · 前處理 {request.info.preprocessing_version} · 解釋 {request.info.explanation_version} · 請求 {request.request_key[:16]}")
     try:
         if rendered.spec is not None:

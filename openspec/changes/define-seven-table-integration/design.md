@@ -10,7 +10,7 @@
 - synthetic 模式以最終 lamination canonical segment 作錨點。
 - 對齊鍵為 `root_roll_id` 與材料 MD 區間。
 - 區間採 `[start, end)`；最後區段可含卷尾。
-- 預設 coverage threshold 為 0.99，實際值寫入 integration manifest。
+- v2 預設 coverage threshold 為 0.98，與 `metadata.json` 及 `SKILL.md` 一致；實際值寫入 integration manifest。其他資料版本若調整門檻，必須由該版本 metadata 與 manifest 明確宣告，不沿用隱含預設。
 
 ## D3：欄位聚合
 

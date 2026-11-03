@@ -1,7 +1,7 @@
 import pytest
 
 from c_dashboard.state import WORKSPACE_KEY
-from c_dashboard.ui.spc_alarm import event_message
+from c_dashboard.spc.incidents import group_spc_incidents
 from c3_support import PEEL
 from test_c2_ui import load_mock, new_app
 
@@ -64,7 +64,8 @@ def test_mock_prediction_alarm_and_spc_alarm_are_both_visible_and_separate():
     assert not app.exception
     errors = [item.value for item in app.error]
     assert any("AI Alarm" in message for message in errors)
-    assert any(event_message(event) in errors for event in spc_events)
+    assert sum(item.event_count for item in group_spc_incidents(workspace.spc.result)) == len(spc_events)
+    assert any("incident_id" in item.value.columns for item in app.dataframe)
     assert len({event.event_id for event in spc_events}) == len(spc_events)
     assert any("固定 What-if 情境" in message for message in errors)
 
@@ -79,5 +80,7 @@ def test_unavailable_formal_and_mock_adapters_keep_csv_and_spc_visible(monkeypat
     assert any("未提供預測" in item.value or "沒有可用預測" in item.value
                for item in app.caption)
     assert any("sample_id" in item.value.columns for item in app.dataframe)
-    assert all(any(event_message(event) == item.value for item in app.error)
-               for event in workspace.spc.result.events)
+    assert sum(item.event_count for item in group_spc_incidents(workspace.spc.result)) == len(
+        workspace.spc.result.events
+    )
+    assert len(app.error) < 10

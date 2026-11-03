@@ -77,8 +77,10 @@ def choose_recommendation(snapshot: SegmentSnapshot, baseline_features: Mapping[
     # Stable tie-break by configured order after effect; no random ranking.
     effect, parameter, delta, after = max(eligible, key=lambda item: item[0])
     del effect
+    formal = "Synthetic 正式模型 artifact" in adapter.describe().source
     return Recommendation(
-        "suggested", "依單一示範目標的版本化測試策略選出；不是正式多目標政策。",
+        "suggested", ("依 Synthetic 模型的固定候選策略選出；只代表關聯式情境推論，不是因果改善或正式多目標政策。"
+                      if formal else "依單一示範目標的版本化測試策略選出；不是正式多目標政策。"),
         parameter=parameter, delta=delta, unit=PARAMETER_CONTROLS[parameter].unit,
         focus_target=focus_target, before_value=before, after_value=after,
         adapter_version=adapter.describe().version,

@@ -6,6 +6,34 @@
 
 ## Requirements
 
+### Requirement: Q-09 目前區段五目標模型摘要
+
+系統 SHALL 對目前可見區段依選定 Adapter 顯示抗剝離度、尺寸安定性 MD／TD、耐熱度與外觀 NG 的模型結果；每項須包含預測值或類別／風險、單位、可用狀態，並共同顯示樣本識別、模型來源及版本。部分目標失敗不得阻擋其他有效目標。
+
+#### Scenario: 正式五目標結果完整
+- **WHEN** 正式 Adapter 對目前區段成功產生四項迴歸及外觀分類結果
+- **THEN** 摘要顯示四項預測值與單位、外觀 NG 類別及標籤 1 的校準風險，並標示正式模型來源、版本與 Synthetic 限制
+
+#### Scenario: 只有部分正式目標可用
+- **WHEN** 一項或多項正式 artifact、特徵或推論結果不可用
+- **THEN** 有效目標照常顯示，失敗目標顯示具體原因，且不得由 Mock、SPC、實測真值或先前結果補值
+
+#### Scenario: Mock 五目標結果
+- **WHEN** 使用者主動選擇 C 公式 Mock 且目前區段輸入有效
+- **THEN** 摘要顯示五項公式結果並清楚標示 Mock、公式版本及外觀風險未校準，不宣稱為正式模型結果
+
+### Requirement: Q-10 模型來源切換的原子一致性
+
+系統 MUST 讓摘要、預測 Alarm、What-if 與解釋能力使用同一個已選 Adapter 來源；來源切換或正式模型失效時，所有相依結果須一併失效或重算，且只有使用者明確選擇 Mock 才能產生 Mock 結果。
+
+#### Scenario: 正式模型切換至 Mock
+- **WHEN** 使用者由正式模型主動切換至 C 公式 Mock
+- **THEN** 正式摘要、Alarm、What-if 與 SHAP 狀態一併失效，重新產生的結果全部標示 Mock，真正 SHAP 不再可用
+
+#### Scenario: 正式模型載入或推論失敗
+- **WHEN** 使用者仍選擇正式模型但其 registry、artifact、相容性或推論驗證失敗
+- **THEN** 正式模型相依結果顯示不可用與原因，SPC／資料檢視保持獨立可用，系統不得自動改用 Mock
+
 ### Requirement: Q-01 可重現且完整的 Mock 預測
 
 系統 SHALL 提供與正式模型分離且標明公式／設定版本的確定性 Mock Adapter，對齊輸入識別及單位，輸出抗剝離度、尺寸 MD／TD、耐熱度、外觀 NG 預測與示範風險；相同輸入及版本 MUST 得到相同輸出，不得以測試真值或品質目標作為預測特徵，也不得在 C 重做 B 的模型訓練。
@@ -70,3 +98,68 @@
 #### Scenario: 模型失效
 - **WHEN** Adapter 不可用、必要輸出不受支援或部分特徵無法評估
 - **THEN** 顯示模型來源、版本／能力及受影響目標的原因，不以缺預測表示正常，並保留 CSV 檢查與有效 SPC 功能
+
+### Requirement: Q-06 正式品質模型 Adapter
+
+系統 SHALL 透過版本化正式 Model Adapter 對齊輸入索引及特徵順序，輸出四項連續品質預測、外觀 NG 類別與標籤 1 的校準風險；Adapter MUST 驗證模型 manifest 與資料來源相容性，並與 C 公式 Mock 保持獨立來源及狀態。
+
+#### Scenario: 正式五目標推論
+
+- **WHEN** 選定的 canonical projection 與五個 Champion artifact 均通過 manifest、hash、欄位、單位及版本檢查
+- **THEN** 目前監控與固定 What-if 依原樣本順序取得五目標結果、模型版本、來源、適用範圍及逐目標狀態
+
+#### Scenario: 部分目標模型不可用
+
+- **WHEN** 某目標 artifact 缺失、不相容或必要特徵無效
+- **THEN** 只將受影響目標標示不可用並說明原因，不以零、Mock、其他目標或舊結果冒充正式預測
+
+### Requirement: Q-07 正式 What-if 與模型限制
+
+正式模型 What-if SHALL 只改動已解鎖且位於訓練支援範圍的 allowlist 參數，固定不可控特徵及原始區段識別；候選結果 MUST 標示為模型情境推論，不得宣稱因果改善或直接控制設備，也不得新增「當下預測良率」。
+
+#### Scenario: 支援範圍內候選
+
+- **WHEN** 使用者調整允許參數且候選仍位於模型 manifest 的訓練支援範圍
+- **THEN** 系統顯示目前與候選的五目標預測、差值、規格狀態、外觀 NG 風險、模型版本與非因果限制
+
+#### Scenario: 候選超出支援範圍
+
+- **WHEN** 任一候選參數超出允許或訓練支援範圍，或相依衍生特徵無法一致重算
+- **THEN** 系統拒絕正式候選建議並顯示具體範圍或相依原因，不外推改善幅度
+
+### Requirement: Q-08 正式模型降級與來源切換
+
+正式模型載入或推論失敗時，系統 SHALL 保留有效資料、SPC 與介面狀態，並明確提供不可用原因；只有使用者明確選擇 C 公式 Mock 時才可顯示 Mock 結果，MUST NOT 靜默由正式模型切換成 Mock。
+
+#### Scenario: 正式 artifact 載入失敗
+
+- **WHEN** bundle 無法載入、manifest hash 不符或套件版本不相容
+- **THEN** 正式預測、正式 What-if 與相依 SHAP 標示不可用，其他不依賴模型的功能仍可使用
+
+#### Scenario: 使用者切換至公式 Mock
+
+- **WHEN** 使用者在正式模型不可用後主動選擇 C 公式 Mock
+- **THEN** 系統以 Mock 來源與版本重新計算示範結果，且不得保留正式模型、校準機率或真正 SHAP 的標示
+### Requirement: Q-11 What-if 就緒條件與可恢復空狀態
+
+系統 SHALL 分別驗證資料已載入、目前篩選非空、區段識別有效、必要製程特徵可用及所選 Adapter 能力；未就緒時 MUST 指出失敗層級、保留有效工作區狀態並提供可執行下一步，不得只顯示「尚無建議」或暗色控制項。
+
+#### Scenario: Canonical 只選取未載入
+- **WHEN** 使用者已選 Canonical 來源但工作區尚無成功載入的 dataset
+- **THEN** What-if 顯示資料尚未載入並指示執行「載入 Canonical projection」，不顯示成資料本身缺少區段
+
+#### Scenario: 篩選造成空切片
+- **WHEN** dataset 已載入但批次／時間篩選沒有任何有效區段
+- **THEN** What-if 顯示目前篩選為空、已載入資料來源及清除／調整篩選的下一步，不清除原 dataset 或使用篩選外資料
+
+#### Scenario: 區段或特徵不完整
+- **WHEN** 目前切片有資料但缺少有效批次／材料區段識別、sample ID、線速或 Adapter 必要特徵
+- **THEN** 系統列出缺少的識別或特徵，僅停用相依控制與目標，不把所有缺陷統稱為沒有資料
+
+#### Scenario: Mock 與正式來源一致性
+- **WHEN** 使用者選擇 C 公式 Mock 或 Synthetic 正式 artifact
+- **THEN** What-if 標題、比較、Alarm、建議與能力提示均使用同一 Adapter；正式模型不可用時不得以 Mock 結果補值，Mock 模式須明示不提供真正 SHAP
+
+#### Scenario: 就緒後參數比較
+- **WHEN** 有有效區段、線速與相容 Adapter，且使用者調整允許參數
+- **THEN** 系統顯示調整前後五目標預測、差值、來源、版本、情境風險與建議或具體無建議原因，不修改實測資料與 SPC

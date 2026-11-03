@@ -1,0 +1,1378 @@
+{
+  "appearance_ng": {
+    "comparison": {
+      "challenger": "hist_gradient_boosting",
+      "challenger_primary_better": false,
+      "current_champion": "random_forest",
+      "primary_metric": "pr_auc",
+      "promote": false,
+      "reason": "Initial RF remains Champion; promotion requires all pre-registered quality, drift, latency and compatibility gates, not one metric."
+    },
+    "models": {
+      "hist_gradient_boosting": {
+        "test": {
+          "available": true,
+          "brier_score": 0.08169724627873359,
+          "class_ratio": {
+            "0": 0.89775,
+            "1": 0.10225
+          },
+          "confusion_matrix": [
+            [
+              3574,
+              17
+            ],
+            [
+              391,
+              18
+            ]
+          ],
+          "f1": 0.08108108108108109,
+          "pr_auc": 0.2874966674764369,
+          "precision": 0.5142857142857142,
+          "recall": 0.044009779951100246,
+          "row_count": 4000,
+          "threshold": 0.5
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "brier_score": 0.08169724627873359,
+            "class_ratio": {
+              "0": 0.89775,
+              "1": 0.10225
+            },
+            "confusion_matrix": [
+              [
+                3574,
+                17
+              ],
+              [
+                391,
+                18
+              ]
+            ],
+            "f1": 0.08108108108108109,
+            "pr_auc": 0.2874966674764369,
+            "precision": 0.5142857142857142,
+            "recall": 0.044009779951100246,
+            "row_count": 4000,
+            "threshold": 0.5
+          }
+        },
+        "validation": {
+          "available": true,
+          "brier_score": 0.05842971303014412,
+          "class_ratio": {
+            "0": 0.9325,
+            "1": 0.0675
+          },
+          "confusion_matrix": [
+            [
+              3720,
+              10
+            ],
+            [
+              265,
+              5
+            ]
+          ],
+          "f1": 0.03508771929824561,
+          "pr_auc": 0.2033101163768431,
+          "precision": 0.3333333333333333,
+          "recall": 0.018518518518518517,
+          "row_count": 4000,
+          "threshold": 0.5
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "brier_score": 0.05842971303014412,
+            "class_ratio": {
+              "0": 0.9325,
+              "1": 0.0675
+            },
+            "confusion_matrix": [
+              [
+                3720,
+                10
+              ],
+              [
+                265,
+                5
+              ]
+            ],
+            "f1": 0.03508771929824561,
+            "pr_auc": 0.2033101163768431,
+            "precision": 0.3333333333333333,
+            "recall": 0.018518518518518517,
+            "row_count": 4000,
+            "threshold": 0.5
+          }
+        }
+      },
+      "logistic": {
+        "test": {
+          "available": true,
+          "brier_score": 0.07776840908014143,
+          "class_ratio": {
+            "0": 0.89775,
+            "1": 0.10225
+          },
+          "confusion_matrix": [
+            [
+              3586,
+              5
+            ],
+            [
+              398,
+              11
+            ]
+          ],
+          "f1": 0.05176470588235294,
+          "pr_auc": 0.35165477203706164,
+          "precision": 0.6875,
+          "recall": 0.02689486552567237,
+          "row_count": 4000,
+          "threshold": 0.5
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "brier_score": 0.07776840908014143,
+            "class_ratio": {
+              "0": 0.89775,
+              "1": 0.10225
+            },
+            "confusion_matrix": [
+              [
+                3586,
+                5
+              ],
+              [
+                398,
+                11
+              ]
+            ],
+            "f1": 0.05176470588235294,
+            "pr_auc": 0.35165477203706164,
+            "precision": 0.6875,
+            "recall": 0.02689486552567237,
+            "row_count": 4000,
+            "threshold": 0.5
+          }
+        },
+        "validation": {
+          "available": true,
+          "brier_score": 0.05502335863637694,
+          "class_ratio": {
+            "0": 0.9325,
+            "1": 0.0675
+          },
+          "confusion_matrix": [
+            [
+              3722,
+              8
+            ],
+            [
+              266,
+              4
+            ]
+          ],
+          "f1": 0.028368794326241134,
+          "pr_auc": 0.2738717950662567,
+          "precision": 0.3333333333333333,
+          "recall": 0.014814814814814815,
+          "row_count": 4000,
+          "threshold": 0.5
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "brier_score": 0.05502335863637694,
+            "class_ratio": {
+              "0": 0.9325,
+              "1": 0.0675
+            },
+            "confusion_matrix": [
+              [
+                3722,
+                8
+              ],
+              [
+                266,
+                4
+              ]
+            ],
+            "f1": 0.028368794326241134,
+            "pr_auc": 0.2738717950662567,
+            "precision": 0.3333333333333333,
+            "recall": 0.014814814814814815,
+            "row_count": 4000,
+            "threshold": 0.5
+          }
+        }
+      },
+      "prevalence": {
+        "test": {
+          "available": true,
+          "brier_score": 0.09434518750000001,
+          "class_ratio": {
+            "0": 0.89775,
+            "1": 0.10225
+          },
+          "confusion_matrix": [
+            [
+              3591,
+              0
+            ],
+            [
+              409,
+              0
+            ]
+          ],
+          "f1": 0.0,
+          "pr_auc": 0.10225,
+          "precision": 0.0,
+          "recall": 0.0,
+          "row_count": 4000,
+          "threshold": 0.5
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "brier_score": 0.09434518750000001,
+            "class_ratio": {
+              "0": 0.89775,
+              "1": 0.10225
+            },
+            "confusion_matrix": [
+              [
+                3591,
+                0
+              ],
+              [
+                409,
+                0
+              ]
+            ],
+            "f1": 0.0,
+            "pr_auc": 0.10225,
+            "precision": 0.0,
+            "recall": 0.0,
+            "row_count": 4000,
+            "threshold": 0.5
+          }
+        },
+        "validation": {
+          "available": true,
+          "brier_score": 0.0631918125,
+          "class_ratio": {
+            "0": 0.9325,
+            "1": 0.0675
+          },
+          "confusion_matrix": [
+            [
+              3730,
+              0
+            ],
+            [
+              270,
+              0
+            ]
+          ],
+          "f1": 0.0,
+          "pr_auc": 0.0675,
+          "precision": 0.0,
+          "recall": 0.0,
+          "row_count": 4000,
+          "threshold": 0.5
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "brier_score": 0.0631918125,
+            "class_ratio": {
+              "0": 0.9325,
+              "1": 0.0675
+            },
+            "confusion_matrix": [
+              [
+                3730,
+                0
+              ],
+              [
+                270,
+                0
+              ]
+            ],
+            "f1": 0.0,
+            "pr_auc": 0.0675,
+            "precision": 0.0,
+            "recall": 0.0,
+            "row_count": 4000,
+            "threshold": 0.5
+          }
+        }
+      },
+      "random_forest": {
+        "test": {
+          "available": true,
+          "brier_score": 0.08620233994880858,
+          "class_ratio": {
+            "0": 0.89775,
+            "1": 0.10225
+          },
+          "confusion_matrix": [
+            [
+              2930,
+              661
+            ],
+            [
+              192,
+              217
+            ]
+          ],
+          "f1": 0.3372183372183372,
+          "pr_auc": 0.2645144500253269,
+          "precision": 0.24715261958997722,
+          "recall": 0.530562347188264,
+          "row_count": 4000,
+          "threshold": 0.25
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "brier_score": 0.08620233994880858,
+            "class_ratio": {
+              "0": 0.89775,
+              "1": 0.10225
+            },
+            "confusion_matrix": [
+              [
+                2930,
+                661
+              ],
+              [
+                192,
+                217
+              ]
+            ],
+            "f1": 0.3372183372183372,
+            "pr_auc": 0.2645144500253269,
+            "precision": 0.24715261958997722,
+            "recall": 0.530562347188264,
+            "row_count": 4000,
+            "threshold": 0.25
+          }
+        },
+        "validation": {
+          "available": true,
+          "brier_score": 0.06254793378238349,
+          "class_ratio": {
+            "0": 0.9325,
+            "1": 0.0675
+          },
+          "confusion_matrix": [
+            [
+              3218,
+              512
+            ],
+            [
+              132,
+              138
+            ]
+          ],
+          "f1": 0.3,
+          "pr_auc": 0.21572343875508196,
+          "precision": 0.2123076923076923,
+          "recall": 0.5111111111111111,
+          "row_count": 4000,
+          "threshold": 0.25
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "brier_score": 0.06254793378238349,
+            "class_ratio": {
+              "0": 0.9325,
+              "1": 0.0675
+            },
+            "confusion_matrix": [
+              [
+                3218,
+                512
+              ],
+              [
+                132,
+                138
+              ]
+            ],
+            "f1": 0.3,
+            "pr_auc": 0.21572343875508196,
+            "precision": 0.2123076923076923,
+            "recall": 0.5111111111111111,
+            "row_count": 4000,
+            "threshold": 0.25
+          }
+        }
+      }
+    },
+    "relative_to_baseline": {
+      "test": {
+        "hist_gradient_boosting": {
+          "absolute_improvement": -0.06415810456062476,
+          "metric": "pr_auc"
+        },
+        "random_forest": {
+          "absolute_improvement": -0.08714032201173472,
+          "metric": "pr_auc"
+        }
+      },
+      "validation": {
+        "hist_gradient_boosting": {
+          "absolute_improvement": -0.0705616786894136,
+          "metric": "pr_auc"
+        },
+        "random_forest": {
+          "absolute_improvement": -0.05814835631117474,
+          "metric": "pr_auc"
+        }
+      }
+    },
+    "row_counts": {
+      "test": 4000,
+      "train": 12000,
+      "validation": 4000
+    },
+    "selection": {
+      "random_forest": {
+        "selected": "regularized",
+        "selected_params": {
+          "max_depth": null,
+          "min_samples_leaf": 3
+        },
+        "validation_candidates": {
+          "depth_limited": {
+            "metrics": {
+              "available": true,
+              "brier_score": 0.08736899565753607,
+              "class_ratio": {
+                "0": 0.9325,
+                "1": 0.0675
+              },
+              "confusion_matrix": [
+                [
+                  3348,
+                  382
+                ],
+                [
+                  151,
+                  119
+                ]
+              ],
+              "f1": 0.3086900129701686,
+              "pr_auc": 0.2091991762479703,
+              "precision": 0.2375249500998004,
+              "recall": 0.44074074074074077,
+              "row_count": 4000,
+              "threshold": 0.5
+            },
+            "params": {
+              "max_depth": 14,
+              "min_samples_leaf": 1
+            }
+          },
+          "regularized": {
+            "metrics": {
+              "available": true,
+              "brier_score": 0.06254793378238349,
+              "class_ratio": {
+                "0": 0.9325,
+                "1": 0.0675
+              },
+              "confusion_matrix": [
+                [
+                  3685,
+                  45
+                ],
+                [
+                  254,
+                  16
+                ]
+              ],
+              "f1": 0.09667673716012085,
+              "pr_auc": 0.21572343875508196,
+              "precision": 0.26229508196721313,
+              "recall": 0.05925925925925926,
+              "row_count": 4000,
+              "threshold": 0.5
+            },
+            "params": {
+              "max_depth": null,
+              "min_samples_leaf": 3
+            }
+          }
+        }
+      }
+    },
+    "target": "appearance_ng",
+    "task_type": "classification"
+  },
+  "dimensional_stability_md_pct": {
+    "comparison": {
+      "challenger": "hist_gradient_boosting",
+      "challenger_primary_better": false,
+      "current_champion": "random_forest",
+      "primary_metric": "mae",
+      "promote": false,
+      "reason": "Initial RF remains Champion; promotion requires all pre-registered quality, drift, latency and compatibility gates, not one metric."
+    },
+    "models": {
+      "hist_gradient_boosting": {
+        "test": {
+          "available": true,
+          "mae": 0.06230049815030077,
+          "r2": -0.103595089429106,
+          "rmse": 0.0701339396580107,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.06230049815030077,
+            "r2": -0.103595089429106,
+            "rmse": 0.0701339396580107,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 0.06021995205339944,
+          "r2": -0.0990844149133927,
+          "rmse": 0.0675690279044164,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.06021995205339944,
+            "r2": -0.0990844149133927,
+            "rmse": 0.0675690279044164,
+            "row_count": 1000
+          }
+        }
+      },
+      "linear": {
+        "test": {
+          "available": true,
+          "mae": 0.06293128315599894,
+          "r2": -0.010754444686230658,
+          "rmse": 0.06711910945140487,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.06293128315599894,
+            "r2": -0.010754444686230658,
+            "rmse": 0.06711910945140487,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 0.05985691972439918,
+          "r2": 0.002916741680751511,
+          "rmse": 0.06435730629715693,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.05985691972439918,
+            "r2": 0.002916741680751511,
+            "rmse": 0.06435730629715693,
+            "row_count": 1000
+          }
+        }
+      },
+      "mean": {
+        "test": {
+          "available": true,
+          "mae": 0.062785261556,
+          "r2": -3.872351626532655e-05,
+          "rmse": 0.06676237290503544,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.062785261556,
+            "r2": -3.872351626532655e-05,
+            "rmse": 0.06676237290503544,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 0.06008452151933333,
+          "r2": -4.37097391636776e-06,
+          "rmse": 0.06445150979089424,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.06008452151933333,
+            "r2": -4.37097391636776e-06,
+            "rmse": 0.06445150979089424,
+            "row_count": 1000
+          }
+        }
+      },
+      "random_forest": {
+        "test": {
+          "available": true,
+          "mae": 0.06263078808864418,
+          "r2": -0.02451620154819789,
+          "rmse": 0.0675744891192276,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.06263078808864418,
+            "r2": -0.02451620154819789,
+            "rmse": 0.0675744891192276,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 0.05988937942864906,
+          "r2": -0.017923020881041696,
+          "rmse": 0.06502638548300843,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.05988937942864907,
+            "r2": -0.017923020881041696,
+            "rmse": 0.06502638548300843,
+            "row_count": 1000
+          }
+        }
+      }
+    },
+    "relative_to_baseline": {
+      "test": {
+        "hist_gradient_boosting": {
+          "absolute_improvement": 0.0006307850056981729,
+          "metric": "mae"
+        },
+        "random_forest": {
+          "absolute_improvement": 0.0003004950673547585,
+          "metric": "mae"
+        }
+      },
+      "validation": {
+        "hist_gradient_boosting": {
+          "absolute_improvement": -0.00036303232900025684,
+          "metric": "mae"
+        },
+        "random_forest": {
+          "absolute_improvement": -3.2459704249879207e-05,
+          "metric": "mae"
+        }
+      }
+    },
+    "row_counts": {
+      "test": 1000,
+      "train": 3000,
+      "validation": 1000
+    },
+    "selection": {
+      "random_forest": {
+        "selected": "depth_limited",
+        "selected_params": {
+          "max_depth": 14,
+          "min_samples_leaf": 1
+        },
+        "validation_candidates": {
+          "depth_limited": {
+            "metrics": {
+              "available": true,
+              "mae": 0.05988937942864907,
+              "r2": -0.017923020881041696,
+              "rmse": 0.06502638548300843,
+              "row_count": 1000
+            },
+            "params": {
+              "max_depth": 14,
+              "min_samples_leaf": 1
+            }
+          },
+          "regularized": {
+            "metrics": {
+              "available": true,
+              "mae": 0.05996350203131749,
+              "r2": -0.02468213412055098,
+              "rmse": 0.06524191921726676,
+              "row_count": 1000
+            },
+            "params": {
+              "max_depth": null,
+              "min_samples_leaf": 3
+            }
+          }
+        }
+      }
+    },
+    "target": "dimensional_stability_md_pct",
+    "task_type": "regression"
+  },
+  "dimensional_stability_td_pct": {
+    "comparison": {
+      "challenger": "hist_gradient_boosting",
+      "challenger_primary_better": false,
+      "current_champion": "random_forest",
+      "primary_metric": "mae",
+      "promote": false,
+      "reason": "Initial RF remains Champion; promotion requires all pre-registered quality, drift, latency and compatibility gates, not one metric."
+    },
+    "models": {
+      "hist_gradient_boosting": {
+        "test": {
+          "available": true,
+          "mae": 0.06246794902961625,
+          "r2": -0.12325287974853905,
+          "rmse": 0.07098310446136169,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.06246794902961625,
+            "r2": -0.12325287974853905,
+            "rmse": 0.07098310446136169,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 0.05999952815914033,
+          "r2": -0.12093533716362481,
+          "rmse": 0.0676638741873877,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.05999952815914033,
+            "r2": -0.12093533716362481,
+            "rmse": 0.0676638741873877,
+            "row_count": 1000
+          }
+        }
+      },
+      "linear": {
+        "test": {
+          "available": true,
+          "mae": 0.06193333046629853,
+          "r2": -0.0001085391830257798,
+          "rmse": 0.06697917389426476,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.06193333046629853,
+            "r2": -0.0001085391830257798,
+            "rmse": 0.06697917389426476,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 0.059181423317935654,
+          "r2": 0.002489850010431338,
+          "rmse": 0.06383005840701127,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.059181423317935654,
+            "r2": 0.002489850010431338,
+            "rmse": 0.06383005840701127,
+            "row_count": 1000
+          }
+        }
+      },
+      "mean": {
+        "test": {
+          "available": true,
+          "mae": 0.06225414450666667,
+          "r2": -0.0020817532838177666,
+          "rmse": 0.06704521628837892,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.06225414450666667,
+            "r2": -0.0020817532838177666,
+            "rmse": 0.06704521628837892,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 0.059477100693333326,
+          "r2": -4.159589791252749e-05,
+          "rmse": 0.06391099991701703,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.059477100693333326,
+            "r2": -4.159589791252749e-05,
+            "rmse": 0.06391099991701703,
+            "row_count": 1000
+          }
+        }
+      },
+      "random_forest": {
+        "test": {
+          "available": true,
+          "mae": 0.062382150736996836,
+          "r2": -0.049312357650564964,
+          "rmse": 0.06860702900433294,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.062382150736996836,
+            "r2": -0.049312357650564964,
+            "rmse": 0.06860702900433294,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 0.059183745285120964,
+          "r2": -0.020455979153551906,
+          "rmse": 0.06456002909473993,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.059183745285120964,
+            "r2": -0.020455979153551684,
+            "rmse": 0.06456002909473992,
+            "row_count": 1000
+          }
+        }
+      }
+    },
+    "relative_to_baseline": {
+      "test": {
+        "hist_gradient_boosting": {
+          "absolute_improvement": -0.0005346185633177195,
+          "metric": "mae"
+        },
+        "random_forest": {
+          "absolute_improvement": -0.0004488202706983066,
+          "metric": "mae"
+        }
+      },
+      "validation": {
+        "hist_gradient_boosting": {
+          "absolute_improvement": -0.0008181048412046754,
+          "metric": "mae"
+        },
+        "random_forest": {
+          "absolute_improvement": -2.3219671853105806e-06,
+          "metric": "mae"
+        }
+      }
+    },
+    "row_counts": {
+      "test": 1000,
+      "train": 3000,
+      "validation": 1000
+    },
+    "selection": {
+      "random_forest": {
+        "selected": "depth_limited",
+        "selected_params": {
+          "max_depth": 14,
+          "min_samples_leaf": 1
+        },
+        "validation_candidates": {
+          "depth_limited": {
+            "metrics": {
+              "available": true,
+              "mae": 0.059183745285120964,
+              "r2": -0.020455979153551684,
+              "rmse": 0.06456002909473992,
+              "row_count": 1000
+            },
+            "params": {
+              "max_depth": 14,
+              "min_samples_leaf": 1
+            }
+          },
+          "regularized": {
+            "metrics": {
+              "available": true,
+              "mae": 0.05940917118886524,
+              "r2": -0.035459533662875575,
+              "rmse": 0.06503290371133684,
+              "row_count": 1000
+            },
+            "params": {
+              "max_depth": null,
+              "min_samples_leaf": 3
+            }
+          }
+        }
+      }
+    },
+    "target": "dimensional_stability_td_pct",
+    "task_type": "regression"
+  },
+  "heat_resistance_c": {
+    "comparison": {
+      "challenger": "hist_gradient_boosting",
+      "challenger_primary_better": false,
+      "current_champion": "random_forest",
+      "primary_metric": "mae",
+      "promote": false,
+      "reason": "Initial RF remains Champion; promotion requires all pre-registered quality, drift, latency and compatibility gates, not one metric."
+    },
+    "models": {
+      "hist_gradient_boosting": {
+        "test": {
+          "available": true,
+          "mae": 10.043799684397287,
+          "r2": 0.3669171237777965,
+          "rmse": 12.87460175877189,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 10.043799684397287,
+            "r2": 0.3669171237777965,
+            "rmse": 12.87460175877189,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 10.021856279757175,
+          "r2": 0.38230525950649685,
+          "rmse": 12.592307613858669,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 10.021856279757175,
+            "r2": 0.38230525950649685,
+            "rmse": 12.592307613858669,
+            "row_count": 1000
+          }
+        }
+      },
+      "linear": {
+        "test": {
+          "available": true,
+          "mae": 9.726610518819925,
+          "r2": 0.43020392396171125,
+          "rmse": 12.214149962157746,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 9.726610518819925,
+            "r2": 0.43020392396171125,
+            "rmse": 12.214149962157746,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 9.720747063241538,
+          "r2": 0.414176240829777,
+          "rmse": 12.263144997835088,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 9.720747063241538,
+            "r2": 0.414176240829777,
+            "rmse": 12.263144997835088,
+            "row_count": 1000
+          }
+        }
+      },
+      "mean": {
+        "test": {
+          "available": true,
+          "mae": 13.992730680218006,
+          "r2": -0.13398846408715626,
+          "rmse": 17.23089512300745,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 13.992730680218006,
+            "r2": -0.13398846408715626,
+            "rmse": 17.23089512300745,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 13.174095860108002,
+          "r2": -0.039630590067996296,
+          "rmse": 16.33645788572113,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 13.174095860108002,
+            "r2": -0.039630590067996296,
+            "rmse": 16.33645788572113,
+            "row_count": 1000
+          }
+        }
+      },
+      "random_forest": {
+        "test": {
+          "available": true,
+          "mae": 9.921806439288869,
+          "r2": 0.3956962318990127,
+          "rmse": 12.5785671317776,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 9.92180643928887,
+            "r2": 0.3956962318990126,
+            "rmse": 12.578567131777602,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 9.786786745741127,
+          "r2": 0.40515431489240483,
+          "rmse": 12.357212939331506,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 9.786786745741127,
+            "r2": 0.40515431489240494,
+            "rmse": 12.357212939331504,
+            "row_count": 1000
+          }
+        }
+      }
+    },
+    "relative_to_baseline": {
+      "test": {
+        "hist_gradient_boosting": {
+          "absolute_improvement": -0.31718916557736243,
+          "metric": "mae"
+        },
+        "random_forest": {
+          "absolute_improvement": -0.19519592046894374,
+          "metric": "mae"
+        }
+      },
+      "validation": {
+        "hist_gradient_boosting": {
+          "absolute_improvement": -0.3011092165156377,
+          "metric": "mae"
+        },
+        "random_forest": {
+          "absolute_improvement": -0.06603968249958925,
+          "metric": "mae"
+        }
+      }
+    },
+    "row_counts": {
+      "test": 1000,
+      "train": 3000,
+      "validation": 1000
+    },
+    "selection": {
+      "random_forest": {
+        "selected": "regularized",
+        "selected_params": {
+          "max_depth": null,
+          "min_samples_leaf": 3
+        },
+        "validation_candidates": {
+          "depth_limited": {
+            "metrics": {
+              "available": true,
+              "mae": 9.813616372368942,
+              "r2": 0.39957685165928625,
+              "rmse": 12.415010362356345,
+              "row_count": 1000
+            },
+            "params": {
+              "max_depth": 14,
+              "min_samples_leaf": 1
+            }
+          },
+          "regularized": {
+            "metrics": {
+              "available": true,
+              "mae": 9.786786745741127,
+              "r2": 0.40515431489240483,
+              "rmse": 12.357212939331506,
+              "row_count": 1000
+            },
+            "params": {
+              "max_depth": null,
+              "min_samples_leaf": 3
+            }
+          }
+        }
+      }
+    },
+    "target": "heat_resistance_c",
+    "task_type": "regression"
+  },
+  "peel_strength_n_mm": {
+    "comparison": {
+      "challenger": "hist_gradient_boosting",
+      "challenger_primary_better": false,
+      "current_champion": "random_forest",
+      "primary_metric": "mae",
+      "promote": false,
+      "reason": "Initial RF remains Champion; promotion requires all pre-registered quality, drift, latency and compatibility gates, not one metric."
+    },
+    "models": {
+      "hist_gradient_boosting": {
+        "test": {
+          "available": true,
+          "mae": 0.10650713991769908,
+          "r2": 0.4168250721233181,
+          "rmse": 0.13242466132111727,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.10650713991769908,
+            "r2": 0.4168250721233181,
+            "rmse": 0.13242466132111727,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 0.10477180378537738,
+          "r2": 0.3781776432859878,
+          "rmse": 0.13248609580161916,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.10477180378537738,
+            "r2": 0.3781776432859878,
+            "rmse": 0.13248609580161916,
+            "row_count": 1000
+          }
+        }
+      },
+      "linear": {
+        "test": {
+          "available": true,
+          "mae": 0.1024097415506014,
+          "r2": 0.46703144081885895,
+          "rmse": 0.12659607579421434,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.1024097415506014,
+            "r2": 0.46703144081885895,
+            "rmse": 0.12659607579421434,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 0.09805452327652334,
+          "r2": 0.4526507129662757,
+          "rmse": 0.124299509343869,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.09805452327652334,
+            "r2": 0.4526507129662757,
+            "rmse": 0.124299509343869,
+            "row_count": 1000
+          }
+        }
+      },
+      "mean": {
+        "test": {
+          "available": true,
+          "mae": 0.14971314294933333,
+          "r2": -0.13082651012317736,
+          "rmse": 0.18440276949236112,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.14971314294933333,
+            "r2": -0.13082651012317736,
+            "rmse": 0.18440276949236112,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 0.137617396536,
+          "r2": -0.03812975358716808,
+          "rmse": 0.17118391525665233,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.137617396536,
+            "r2": -0.03812975358716808,
+            "rmse": 0.17118391525665233,
+            "row_count": 1000
+          }
+        }
+      },
+      "random_forest": {
+        "test": {
+          "available": true,
+          "mae": 0.10536981793400246,
+          "r2": 0.4381569612586035,
+          "rmse": 0.12998012517865676,
+          "row_count": 1000
+        },
+        "test_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.10536981793400246,
+            "r2": 0.4381569612586035,
+            "rmse": 0.12998012517865676,
+            "row_count": 1000
+          }
+        },
+        "validation": {
+          "available": true,
+          "mae": 0.10100676994703146,
+          "r2": 0.42079021532236127,
+          "rmse": 0.1278660004203865,
+          "row_count": 1000
+        },
+        "validation_by_phase": {
+          "production": {
+            "available": true,
+            "mae": 0.10100676994703145,
+            "r2": 0.42079021532236127,
+            "rmse": 0.1278660004203865,
+            "row_count": 1000
+          }
+        }
+      }
+    },
+    "relative_to_baseline": {
+      "test": {
+        "hist_gradient_boosting": {
+          "absolute_improvement": -0.004097398367097688,
+          "metric": "mae"
+        },
+        "random_forest": {
+          "absolute_improvement": -0.002960076383401067,
+          "metric": "mae"
+        }
+      },
+      "validation": {
+        "hist_gradient_boosting": {
+          "absolute_improvement": -0.006717280508854048,
+          "metric": "mae"
+        },
+        "random_forest": {
+          "absolute_improvement": -0.002952246670508127,
+          "metric": "mae"
+        }
+      }
+    },
+    "row_counts": {
+      "test": 1000,
+      "train": 3000,
+      "validation": 1000
+    },
+    "selection": {
+      "random_forest": {
+        "selected": "regularized",
+        "selected_params": {
+          "max_depth": null,
+          "min_samples_leaf": 3
+        },
+        "validation_candidates": {
+          "depth_limited": {
+            "metrics": {
+              "available": true,
+              "mae": 0.1015783975747602,
+              "r2": 0.41465289331198907,
+              "rmse": 0.12854165107412274,
+              "row_count": 1000
+            },
+            "params": {
+              "max_depth": 14,
+              "min_samples_leaf": 1
+            }
+          },
+          "regularized": {
+            "metrics": {
+              "available": true,
+              "mae": 0.10100676994703145,
+              "r2": 0.4207902153223614,
+              "rmse": 0.1278660004203865,
+              "row_count": 1000
+            },
+            "params": {
+              "max_depth": null,
+              "min_samples_leaf": 3
+            }
+          }
+        }
+      }
+    },
+    "target": "peel_strength_n_mm",
+    "task_type": "regression"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "browser": "156.0.8078.76",
+  "headless": true,
+  "engine": "Chrome via Playwright",
+  "checks": [
+    "single step",
+    "restart",
+    "automatic timer",
+    "pause retains progress for 1100ms",
+    "4x playback",
+    "automatic stop at end",
+    "15 unique source rows"
+  ],
+  "final_progress": "已釋出 15／15 列 · 事件群 9／9",
+  "timestamp": "2026-11-03 01:32:38 +0800",
+  "source": "C7 synthetic delayed fixture, not real plant data"
+}

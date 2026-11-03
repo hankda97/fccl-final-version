@@ -33,6 +33,8 @@ def test_heatmap_live_measured_labels_counts_selection_and_empty_filters():
     assert spec["layer"][0]["encoding"]["color"]["condition"]["scale"]["domain"] == [-1, 1]
     assert any(cell.coefficient is None for cell in result.cells)
     assert any(cell.coefficient is not None for cell in result.cells)
+    summaries = [item.value for item in app.dataframe if "最強正相關" in item.value.columns]
+    assert summaries and {"最強負相關", "品質方向", "metadata 版本"} <= set(summaries[0].columns)
     app.multiselect(key=heatmap_key(app, "ui_heatmap_targets_")).set_value(["peel_strength_n_mm"]).run()
     assert not app.exception
     assert {c.target for c in app.session_state[WORKSPACE_KEY].visualization.heatmap.result.cells} == {"peel_strength_n_mm"}
@@ -47,9 +49,24 @@ def test_mock_has_shap_controls_no_fake_shap_and_heatmap_keeps_working():
     assert tuple(app.radio(key="ui_shap_kind").options) == SHAP_KINDS
     app.radio(key="ui_shap_kind").set_value(SHAP_KINDS[1]).run()
     assert not app.exception
-    assert any("待 B" in info.value for info in app.info)
+    assert any("未宣告 SHAP 能力" in info.value for info in app.info)
     assert any("Heatmap" in spec["title"] for spec in chart_specs(app))
     assert not any("SHAP" in spec["title"] for spec in chart_specs(app))
+
+
+def test_shap_readiness_blocks_missing_manifest_before_provider_request(monkeypatch):
+    class MissingManifestProvider(RenderTestProvider):
+        def describe(self):
+            return replace(super().describe(), manifest=None, message="manifest 缺失")
+    provider = MissingManifestProvider()
+    app = render_app(monkeypatch, provider)
+    assert not app.exception
+    assert app.button(key="ui_shap_retry").disabled
+    assert any("manifest" in item.value for item in app.info)
+    assert app.session_state[WORKSPACE_KEY].visualization.explanation.status == "not_loaded"
+    captions = [item.value for item in app.caption]
+    assert any("彙整目前樣本" in value for value in captions)
+    assert any("單一特徵值" in value for value in captions)
 
 
 def test_partial_quality_keeps_other_cells_and_source_filter_metadata():
@@ -105,7 +122,7 @@ def test_provider_failure_retry_and_partial_target_do_not_reset_other_features(m
     assert not any("SHAP" in s["title"] for s in chart_specs(app))
     assert any("Heatmap" in s["title"] for s in chart_specs(app))
     assert w.spc.result == spc and w.what_if.selected == selection and w.model.current_prediction == current
-    assert any("SPC Alarm" in e.value for e in app.error)
+    assert any("SPC Alarm 摘要" in item.value for item in app.caption)
     assert any("AI Alarm" in e.value for e in app.error)
     provider.failed = False
     app.button(key="ui_shap_retry").click().run()

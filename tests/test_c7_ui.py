@@ -93,11 +93,11 @@ def test_spc_and_ai_alarm_share_cutoff_and_clear_on_restart():
     for _ in range(7):app.button(key='ui_step_placeholder').click().run()
     assert w.spc.result.events and w.model.current_prediction.record
     assert len({e.event_id for e in w.spc.result.events})==len(w.spc.result.events)
-    assert any('SPC Alarm' in e.value for e in app.error)
+    assert any('SPC Alarm 摘要' in item.value for item in app.caption)
     before=w.spc.result.events;app.run();assert w.spc.result.events==before
     app.button(key='ui_restart_placeholder').click().run()
     assert not w.spc.result.events and w.model.current_prediction is None
-    assert not any('SPC Alarm' in e.value for e in app.error)
+    assert not any('原始規則事件' in item.value for item in app.caption)
 
 
 def test_future_value_perturbation_all_ui_values_and_issue_previews():

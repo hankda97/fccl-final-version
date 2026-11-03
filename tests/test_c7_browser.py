@@ -36,6 +36,7 @@ def test_real_browser_play_pause_step_restart_speed_and_end(tmp_path):
                 page.get_by_text('上傳 CSV',exact=True).click()
                 page.locator('input[type=file]').set_input_files(ROOT/'tests/fixtures/c_replay/delayed.csv')
                 page.get_by_role('button',name='載入上傳 CSV',exact=True).click()
+                expect(page.get_by_text('顯示已按載入確認的資料；選擇其他來源或檔案但未載入，不會覆蓋目前資料。', exact=True)).to_be_visible(timeout=20000)
                 page.get_by_text('歷史時間映射（C 來源轉接設定）',exact=True).click()
                 page.get_by_label('時間 profile JSON（空白恢復來源預設）').fill((ROOT/'tests/fixtures/c_replay/profile.json').read_text(encoding='utf-8'))
                 page.get_by_role('button',name='套用時間設定',exact=True).click()

@@ -6,6 +6,38 @@
 
 ## Requirements
 
+### Requirement: WS-05 模型預測與實測 SPC 分區摘要
+
+系統 SHALL 將目前區段的五項模型結果與四項連續品質的實測 SPC 分成具獨立標題、來源與狀態的摘要區；模型區不得以 SPC 子組均值代替預測，SPC 區不得以模型預測代替實測，外觀模型風險不得混入 X-bar 摘要。
+
+#### Scenario: 正式模型與 SPC 同時可用
+- **WHEN** canonical projection、正式五目標模型與實測 SPC 均可用
+- **THEN** 模型區顯示四項連續預測及外觀 NG 類別／風險，SPC 區另顯示四項最新有效實測子組均值、管制狀態與基準來源
+
+#### Scenario: 模型可用但 SPC 不可判定
+- **WHEN** 正式模型可推論但 SPC 缺少有效取樣證據或基準
+- **THEN** 模型區仍顯示五項正式模型結果，SPC 區逐目標顯示不可判定及原因，不以預測值補成 SPC 數值
+
+#### Scenario: SPC 可用但模型不可用
+- **WHEN** 實測 SPC 可用但選定 Adapter 無法推論
+- **THEN** SPC 區仍顯示實測結果，模型區逐目標顯示不可用原因，不以 SPC 值、Mock 或舊預測冒充模型輸出
+
+### Requirement: WS-06 摘要來源文字與當前能力一致
+
+系統 MUST 依當前 Adapter、資料、SPC profile 與基準的實際狀態產生摘要及 Alarm 說明；正式模型模式不得顯示 Mock 或「正式模型尚未接入」，Mock 模式不得標示為正式模型，且不可用模式不得暗示已有模型結果。
+
+#### Scenario: 選用正式模型
+- **WHEN** 使用者選擇 Synthetic 正式模型 artifact
+- **THEN** 模型摘要與預測 Alarm 顯示正式模型來源、版本、合成資料限制及逐目標能力，不出現 Mock 或「尚未接入」過時文字
+
+#### Scenario: 主動選用 C 公式 Mock
+- **WHEN** 使用者明確選擇 C 公式 Mock
+- **THEN** 模型摘要與預測 Alarm 標示公式 Mock、版本、示範及非校準限制，不沿用正式模型或真正 SHAP 標示
+
+#### Scenario: 來源或能力在重跑後改變
+- **WHEN** 資料、Adapter、模型 profile 或 SPC profile 切換使來源或能力改變
+- **THEN** 所有摘要、caption、Alarm 與不可用說明於同次重跑一致更新，不保留前一來源的文字或結果
+
 ### Requirement: WS-01 單一主畫面與原定功能配置
 
 系統 SHALL 提供側欄 CSV／Mock 載入、產品與環境資訊，以及上方監控摘要、Alarm 區與 SPC、What-if、AI 圖表、資料檢查四個 Tabs。SPC 與實測 Alarm、固定區段 What-if／Mock 比較及預測風險 MUST 保留。AI 圖表 SHALL 提供實測 Heatmap 與 SHAP Summary／Dependence 的選擇及能力提示；SHAP 測試呈現、正式模型解釋與歷史回放須清楚區分，不顯示偽造結果。
@@ -113,3 +145,26 @@ AI 圖表 SHALL 依版本化來源 profile 區分 C Mock、區段抽檢與獨立
 #### Scenario: 解釋不可用或圖表資料無效
 - **WHEN** 公式 Mock 沒有真正 SHAP 能力、解釋資料錯誤或某 Heatmap 格子不可計算
 - **THEN** 相依圖區逐目標顯示待整合／錯誤／不可計算及來源／manifest／availability 原因；正式投影缺失、來源不相容、卷級值、外觀旗標衝突或未決重測不當成有效區段標籤，規格缺失不稱合格；不清除或偽造其他圖區、CSV 預覽、SPC 事件、目前監控預測或固定 What-if 結果
+### Requirement: WS-07 可操作的資料與分析就緒導引
+
+系統 SHALL 明確區分資料來源已選取、資料已成功載入、模型已就緒及 What-if／Heatmap／SHAP 各自可用狀態；不可用功能 MUST 顯示阻塞原因與可執行下一步。主要功能分頁 MUST 位於固定且可尋得的位置，不得被歷史 Alarm 明細推離主要操作區。
+
+#### Scenario: 只選來源尚未載入
+- **WHEN** 使用者選取 Canonical Synthetic projection 但尚未執行或完成載入
+- **THEN** 畫面顯示「已選取、尚未載入」，What-if、Heatmap 與 SHAP 分別提示按下 Canonical 載入動作，不以暗色控制項或「尚未載入 CSV」模糊帶過
+
+#### Scenario: 資料已載入但仍選 Mock
+- **WHEN** Canonical 資料已成功載入且模型來源仍為 C 公式 Mock
+- **THEN** 就緒摘要顯示資料與 Heatmap 可用、Mock What-if 可用及真正 SHAP 不可用，並提示使用者若要正式 Synthetic SHAP 須主動選擇 Synthetic 正式 artifact
+
+#### Scenario: Canonical 與正式模型均就緒
+- **WHEN** Canonical 資料、Synthetic 正式 artifact 及相容 manifest 均通過驗證
+- **THEN** 就緒摘要顯示 What-if、Heatmap 與 SHAP 可用，三個功能入口保持可見且來源／版本一致
+
+#### Scenario: 大量歷史 Alarm 存在
+- **WHEN** 目前範圍包含大量 SPC 原始事件或事件群
+- **THEN** Overview 僅顯示有界摘要，SPC／What-if／AI 圖表／資料檢查分頁仍位於主要工作區可直接操作，不需捲過全部歷史事件
+
+#### Scenario: 停用元件與計算狀態
+- **WHEN** 功能因缺資料、缺模型、無能力或正在計算而不可操作
+- **THEN** 其區域以正常可讀對比顯示狀態、原因與下一步，停用外觀不得被誤認為已完成但沒有結果

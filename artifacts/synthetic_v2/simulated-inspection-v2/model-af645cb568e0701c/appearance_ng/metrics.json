@@ -1,0 +1,449 @@
+{
+  "comparison": {
+    "challenger": "hist_gradient_boosting",
+    "challenger_primary_better": false,
+    "current_champion": "random_forest",
+    "primary_metric": "pr_auc",
+    "promote": false,
+    "reason": "Initial RF remains Champion; promotion requires all pre-registered quality, drift, latency and compatibility gates, not one metric."
+  },
+  "models": {
+    "hist_gradient_boosting": {
+      "test": {
+        "available": true,
+        "brier_score": 0.08169724627873359,
+        "class_ratio": {
+          "0": 0.89775,
+          "1": 0.10225
+        },
+        "confusion_matrix": [
+          [
+            3574,
+            17
+          ],
+          [
+            391,
+            18
+          ]
+        ],
+        "f1": 0.08108108108108109,
+        "pr_auc": 0.2874966674764369,
+        "precision": 0.5142857142857142,
+        "recall": 0.044009779951100246,
+        "row_count": 4000,
+        "threshold": 0.5
+      },
+      "test_by_phase": {
+        "production": {
+          "available": true,
+          "brier_score": 0.08169724627873359,
+          "class_ratio": {
+            "0": 0.89775,
+            "1": 0.10225
+          },
+          "confusion_matrix": [
+            [
+              3574,
+              17
+            ],
+            [
+              391,
+              18
+            ]
+          ],
+          "f1": 0.08108108108108109,
+          "pr_auc": 0.2874966674764369,
+          "precision": 0.5142857142857142,
+          "recall": 0.044009779951100246,
+          "row_count": 4000,
+          "threshold": 0.5
+        }
+      },
+      "validation": {
+        "available": true,
+        "brier_score": 0.05842971303014412,
+        "class_ratio": {
+          "0": 0.9325,
+          "1": 0.0675
+        },
+        "confusion_matrix": [
+          [
+            3720,
+            10
+          ],
+          [
+            265,
+            5
+          ]
+        ],
+        "f1": 0.03508771929824561,
+        "pr_auc": 0.2033101163768431,
+        "precision": 0.3333333333333333,
+        "recall": 0.018518518518518517,
+        "row_count": 4000,
+        "threshold": 0.5
+      },
+      "validation_by_phase": {
+        "production": {
+          "available": true,
+          "brier_score": 0.05842971303014412,
+          "class_ratio": {
+            "0": 0.9325,
+            "1": 0.0675
+          },
+          "confusion_matrix": [
+            [
+              3720,
+              10
+            ],
+            [
+              265,
+              5
+            ]
+          ],
+          "f1": 0.03508771929824561,
+          "pr_auc": 0.2033101163768431,
+          "precision": 0.3333333333333333,
+          "recall": 0.018518518518518517,
+          "row_count": 4000,
+          "threshold": 0.5
+        }
+      }
+    },
+    "logistic": {
+      "test": {
+        "available": true,
+        "brier_score": 0.07776840908014143,
+        "class_ratio": {
+          "0": 0.89775,
+          "1": 0.10225
+        },
+        "confusion_matrix": [
+          [
+            3586,
+            5
+          ],
+          [
+            398,
+            11
+          ]
+        ],
+        "f1": 0.05176470588235294,
+        "pr_auc": 0.35165477203706164,
+        "precision": 0.6875,
+        "recall": 0.02689486552567237,
+        "row_count": 4000,
+        "threshold": 0.5
+      },
+      "test_by_phase": {
+        "production": {
+          "available": true,
+          "brier_score": 0.07776840908014143,
+          "class_ratio": {
+            "0": 0.89775,
+            "1": 0.10225
+          },
+          "confusion_matrix": [
+            [
+              3586,
+              5
+            ],
+            [
+              398,
+              11
+            ]
+          ],
+          "f1": 0.05176470588235294,
+          "pr_auc": 0.35165477203706164,
+          "precision": 0.6875,
+          "recall": 0.02689486552567237,
+          "row_count": 4000,
+          "threshold": 0.5
+        }
+      },
+      "validation": {
+        "available": true,
+        "brier_score": 0.05502335863637694,
+        "class_ratio": {
+          "0": 0.9325,
+          "1": 0.0675
+        },
+        "confusion_matrix": [
+          [
+            3722,
+            8
+          ],
+          [
+            266,
+            4
+          ]
+        ],
+        "f1": 0.028368794326241134,
+        "pr_auc": 0.2738717950662567,
+        "precision": 0.3333333333333333,
+        "recall": 0.014814814814814815,
+        "row_count": 4000,
+        "threshold": 0.5
+      },
+      "validation_by_phase": {
+        "production": {
+          "available": true,
+          "brier_score": 0.05502335863637694,
+          "class_ratio": {
+            "0": 0.9325,
+            "1": 0.0675
+          },
+          "confusion_matrix": [
+            [
+              3722,
+              8
+            ],
+            [
+              266,
+              4
+            ]
+          ],
+          "f1": 0.028368794326241134,
+          "pr_auc": 0.2738717950662567,
+          "precision": 0.3333333333333333,
+          "recall": 0.014814814814814815,
+          "row_count": 4000,
+          "threshold": 0.5
+        }
+      }
+    },
+    "prevalence": {
+      "test": {
+        "available": true,
+        "brier_score": 0.09434518750000001,
+        "class_ratio": {
+          "0": 0.89775,
+          "1": 0.10225
+        },
+        "confusion_matrix": [
+          [
+            3591,
+            0
+          ],
+          [
+            409,
+            0
+          ]
+        ],
+        "f1": 0.0,
+        "pr_auc": 0.10225,
+        "precision": 0.0,
+        "recall": 0.0,
+        "row_count": 4000,
+        "threshold": 0.5
+      },
+      "test_by_phase": {
+        "production": {
+          "available": true,
+          "brier_score": 0.09434518750000001,
+          "class_ratio": {
+            "0": 0.89775,
+            "1": 0.10225
+          },
+          "confusion_matrix": [
+            [
+              3591,
+              0
+            ],
+            [
+              409,
+              0
+            ]
+          ],
+          "f1": 0.0,
+          "pr_auc": 0.10225,
+          "precision": 0.0,
+          "recall": 0.0,
+          "row_count": 4000,
+          "threshold": 0.5
+        }
+      },
+      "validation": {
+        "available": true,
+        "brier_score": 0.0631918125,
+        "class_ratio": {
+          "0": 0.9325,
+          "1": 0.0675
+        },
+        "confusion_matrix": [
+          [
+            3730,
+            0
+          ],
+          [
+            270,
+            0
+          ]
+        ],
+        "f1": 0.0,
+        "pr_auc": 0.0675,
+        "precision": 0.0,
+        "recall": 0.0,
+        "row_count": 4000,
+        "threshold": 0.5
+      },
+      "validation_by_phase": {
+        "production": {
+          "available": true,
+          "brier_score": 0.0631918125,
+          "class_ratio": {
+            "0": 0.9325,
+            "1": 0.0675
+          },
+          "confusion_matrix": [
+            [
+              3730,
+              0
+            ],
+            [
+              270,
+              0
+            ]
+          ],
+          "f1": 0.0,
+          "pr_auc": 0.0675,
+          "precision": 0.0,
+          "recall": 0.0,
+          "row_count": 4000,
+          "threshold": 0.5
+        }
+      }
+    },
+    "random_forest": {
+      "test": {
+        "available": true,
+        "brier_score": 0.11228811301309191,
+        "class_ratio": {
+          "0": 0.89775,
+          "1": 0.10225
+        },
+        "confusion_matrix": [
+          [
+            3113,
+            478
+          ],
+          [
+            231,
+            178
+          ]
+        ],
+        "f1": 0.3342723004694836,
+        "pr_auc": 0.259158878674223,
+        "precision": 0.27134146341463417,
+        "recall": 0.4352078239608802,
+        "row_count": 4000,
+        "threshold": 0.49999999999999994
+      },
+      "test_by_phase": {
+        "production": {
+          "available": true,
+          "brier_score": 0.11228811301309191,
+          "class_ratio": {
+            "0": 0.89775,
+            "1": 0.10225
+          },
+          "confusion_matrix": [
+            [
+              3113,
+              478
+            ],
+            [
+              231,
+              178
+            ]
+          ],
+          "f1": 0.3342723004694836,
+          "pr_auc": 0.259158878674223,
+          "precision": 0.27134146341463417,
+          "recall": 0.4352078239608802,
+          "row_count": 4000,
+          "threshold": 0.49999999999999994
+        }
+      },
+      "validation": {
+        "available": true,
+        "brier_score": 0.08736899565753607,
+        "class_ratio": {
+          "0": 0.9325,
+          "1": 0.0675
+        },
+        "confusion_matrix": [
+          [
+            3348,
+            382
+          ],
+          [
+            151,
+            119
+          ]
+        ],
+        "f1": 0.3086900129701686,
+        "pr_auc": 0.2091991762479703,
+        "precision": 0.2375249500998004,
+        "recall": 0.44074074074074077,
+        "row_count": 4000,
+        "threshold": 0.49999999999999994
+      },
+      "validation_by_phase": {
+        "production": {
+          "available": true,
+          "brier_score": 0.08736899565753607,
+          "class_ratio": {
+            "0": 0.9325,
+            "1": 0.0675
+          },
+          "confusion_matrix": [
+            [
+              3348,
+              382
+            ],
+            [
+              151,
+              119
+            ]
+          ],
+          "f1": 0.3086900129701686,
+          "pr_auc": 0.2091991762479703,
+          "precision": 0.2375249500998004,
+          "recall": 0.44074074074074077,
+          "row_count": 4000,
+          "threshold": 0.49999999999999994
+        }
+      }
+    }
+  },
+  "relative_to_baseline": {
+    "test": {
+      "hist_gradient_boosting": {
+        "absolute_improvement": -0.06415810456062476,
+        "metric": "pr_auc"
+      },
+      "random_forest": {
+        "absolute_improvement": -0.09249589336283864,
+        "metric": "pr_auc"
+      }
+    },
+    "validation": {
+      "hist_gradient_boosting": {
+        "absolute_improvement": -0.0705616786894136,
+        "metric": "pr_auc"
+      },
+      "random_forest": {
+        "absolute_improvement": -0.0646726188182864,
+        "metric": "pr_auc"
+      }
+    }
+  },
+  "row_counts": {
+    "test": 4000,
+    "train": 12000,
+    "validation": 4000
+  },
+  "target": "appearance_ng",
+  "task_type": "classification"
+}

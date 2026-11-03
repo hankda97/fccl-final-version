@@ -135,9 +135,8 @@ def write_fixtures(directory: Path, seed=42, subgroup_size=5, history_groups=25)
         "recommendation_policy": "待 C5 測試；不代表正式多目標策略",
     }
     for name, value in (("metadata", metadata), ("settings", settings)):
-        (directory / f"{name}.json").write_text(
-            json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-        )
+        with (directory / f"{name}.json").open("w", encoding="utf-8", newline="") as file:
+            file.write(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
 if __name__ == "__main__":

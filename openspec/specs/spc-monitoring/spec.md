@@ -6,6 +6,58 @@
 
 ## Requirements
 
+### Requirement: SPC-05 Canonical Synthetic 取樣證據
+
+canonical synthetic profile MUST 以版本化且可驗證 hash 的 metadata 明確聲明產品、配方、自然樣本、合理子組、樣本順序、條件容許範圍、時間與資料 cohort。系統不得只按目前列順序或固定每五列推測子組；此證據只代表合成示範取樣設計，不得標示為工廠實際取樣。
+
+#### Scenario: Canonical profile 證據完整
+- **WHEN** canonical manifest、資料內容與 SPC metadata 的 hash、版本、欄位及單位均相符，且每個子組的樣本識別唯一、同卷、MD 相鄰、時間有序並符合聲明條件
+- **THEN** 系統使用 metadata 聲明的 subgroup 與 specimen 身分建立合成示範子組，並顯示 profile、取樣設計與 Synthetic 限制
+
+#### Scenario: 只有 canonical 欄位而無 SPC metadata
+- **WHEN** canonical projection 缺少 SPC metadata、自然樣本或合理子組證據
+- **THEN** 資料與正式模型功能仍可使用，SPC 顯示「缺少可驗證的取樣證據」並保留 `MISSING_SAMPLING_EVIDENCE`，不得以列序自動湊組
+
+#### Scenario: Metadata 與資料不一致
+- **WHEN** metadata hash、版本、樣本識別、單位、時間順序或條件與 canonical 內容不一致
+- **THEN** 系統拒絕套用該 SPC profile，顯示具體中文原因及原始 reason code，不沿用快取或其他資料來源的 profile
+
+### Requirement: SPC-06 Canonical Synthetic 獨立穩定基準
+
+canonical SPC 基準 SHALL 僅使用 profile 明確指定且位於監控起點之前的 `train + stable` 合成歷史 cohort；監控 cohort MUST 與歷史自然樣本不重疊，且不得包含 train 歷史列。每個目標仍須通過既有組數、變異、穩定性與適用性檢查，否則不得提供有效界限。
+
+#### Scenario: 合成歷史基準通過檢查
+- **WHEN** `train + stable` 歷史 cohort 在監控起點之前、樣本不重疊、子組完整且逐目標通過既有穩定性檢查
+- **THEN** 系統建立固定 CL／UCL／LCL，顯示「合成資料示範基準」、歷史時間窗、組數、profile／baseline 版本及監控 cohort，不宣稱為正式產線界限
+
+#### Scenario: 監控只使用保留 cohort
+- **WHEN** canonical SPC 進入監控分析
+- **THEN** 系統只分析 profile 聲明的 validation／test 或其他明確保留監控 cohort，不將建立基準的 train 樣本重複當成監控點
+
+#### Scenario: 歷史不穩定或不足
+- **WHEN** 任一目標的歷史子組不足、零變異、違反穩定性規則、晚於監控起點或與監控樣本重疊
+- **THEN** 該目標顯示「無可用的穩定歷史基準」與具體原因，不刪除異常組、不從監控資料補點，也不影響其他通過檢查的目標
+
+#### Scenario: Drift truth 與模型特徵隔離
+- **WHEN** Synthetic phase／baseline eligibility 用於建立或驗證 SPC 歷史 cohort
+- **THEN** 該欄位只作 SPC profile 與驗證 metadata，不進入正式模型特徵、What-if 可調參數或目前區段預測輸入
+
+### Requirement: SPC-07 可讀狀態與可追溯 reason code
+
+系統 SHALL 將已知 SPC 狀態及 reason code 轉成清楚的繁體中文使用者訊息，至少涵蓋 `MISSING_SAMPLING_EVIDENCE` 與 `BASELINE_UNAVAILABLE`；原始 code、目標、來源及版本 MUST 保留供除錯與稽核，未知 code 不得被隱藏或誤譯為正常。
+
+#### Scenario: 缺少取樣證據與基準
+- **WHEN** 目標同時包含 `MISSING_SAMPLING_EVIDENCE` 與 `BASELINE_UNAVAILABLE`
+- **THEN** 畫面顯示「缺少可驗證的取樣證據」及「無可用的穩定歷史基準」等繁體中文狀態，並可查看兩個原始 code
+
+#### Scenario: 已知與未知 reason code 混合
+- **WHEN** 同一目標同時出現已知 code 與尚未建立翻譯的 code
+- **THEN** 已知 code 顯示標準中文，未知 code 以安全的「未識別原因」加原始 code 呈現，不省略該異常或將目標標示正常
+
+#### Scenario: 基準與 SPC 均有效
+- **WHEN** 取樣證據、歷史基準及目前子組均通過檢查
+- **THEN** 畫面顯示可判定狀態、最新子組及基準來源，不再顯示與該目標不相符的缺證據或缺基準訊息
+
 ### Requirement: SPC-01 明確合理子組與品質目標
 
 系統 MUST 依已聲明的同次獨立試片、子組身分、固定大小及相容條件逐目標驗證，僅對完整有效子組計算抗剝離、尺寸 MD／TD、耐熱四個連續目標的均值與範圍。禁止以連續列數湊組、刪除壞列湊有效組或對外觀 0／1 標籤套 X-bar；無證據來源須標示不適用，不要求 A 採 C 欄位。
@@ -102,3 +154,42 @@
 - **GIVEN** 子組的各目標在不同時刻完成可得，且基準固定
 - **WHEN** 回放逐步釋出、重跑及切換目標
 - **THEN** 僅完整有效的目標子組可判定，缺組不被串接；相同來源／回放範圍／目標／規則／觸發組具有穩定事件身分，SPC Tab 與紅色 Alarm 同源、不重複，What-if 不影響結果
+### Requirement: SPC-08 Alarm 事件群與分層呈現
+
+系統 MUST 保留每筆 `SpcEvent` 的事件 ID、規則、觸發子組、數值與界限供稽核，並另建立不改變原始判定的事件群呈現。同批次／目標在合理子組連續異常期間的事件 SHALL 彙整；正常有效子組、無效邊界、換批或條件邊界 MUST 結束事件群。
+
+#### Scenario: 連續超界與重疊規則
+- **WHEN** 同一批次與目標的連續合理子組反覆超界，且部分子組同時觸發趨勢或中心線同側規則
+- **THEN** 畫面以一個事件群顯示開始／最近時間、影響子組數、規則集合、最嚴重偏差及原始事件數，所有原始事件 ID 仍可展開查閱
+
+#### Scenario: 正常點或邊界結束事件群
+- **WHEN** 異常序列後出現未觸發任何規則的有效子組，或遇到無效／缺組、換批、條件及時間連續性邊界
+- **THEN** 目前事件群結束，後續異常建立新事件群，不跨邊界合併
+
+#### Scenario: Overview 目前狀態
+- **WHEN** 範圍內同時包含歷史事件群與最新子組狀態
+- **THEN** Overview 只顯示目前狀態、影響目標、目前／歷史事件群數及每目標最近事件；只有最新子組仍觸發的事件群使用高嚴重度紅色，不逐筆列出歷史事件
+
+#### Scenario: 完整歷史明細
+- **WHEN** 使用者進入 SPC Tab 查閱 Alarm 歷史
+- **THEN** 系統提供目標、批次、規則、目前／已結束狀態的篩選，預設只顯示最近有界數量的事件群，並以分頁或展開方式查看完整事件及技術欄位
+
+#### Scenario: 跨區域去重呈現
+- **WHEN** 同一 SPC 原始事件或事件群同時可供 Overview 與 SPC Tab 使用
+- **THEN** Overview 僅呈現摘要，完整紅色明細只在 SPC Tab 出現一次；切換 Tab 或重跑不得新增、複製或改變事件身分
+
+#### Scenario: 無事件與不可判定
+- **WHEN** 目前範圍沒有事件，或最新目標因資料／基準問題不可判定但保有歷史事件
+- **THEN** 系統分別顯示「未偵測已啟用規則」或「目前不可判定」及歷史事件群數，不將無事件、不確定或已結束事件誤寫為產品合格
+
+### Requirement: SPC-09 Alarm 摘要的可讀性與技術細節分離
+
+Alarm 摘要 SHALL 優先顯示目標、規則中文、批次、狀態、時間及偏離程度；source hash、完整 event ID、CL／UCL／LCL 與原始序列 MUST 保留於可展開技術明細，不得以超長單行文字淹沒主要操作。
+
+#### Scenario: 一般摘要顯示
+- **WHEN** 使用者查看 Overview 或事件群列表
+- **THEN** 每筆摘要以有限長度顯示可判斷資訊，不直接展開完整 hash、ID 與所有界限
+
+#### Scenario: 稽核技術資料
+- **WHEN** 使用者展開某事件群或匯出明細
+- **THEN** 可取得群內全部原始事件的 source ID、event ID、觸發子組、規則、未四捨五入判定值、CL／UCL／LCL 與時間，內容與 SPC 計算結果一致

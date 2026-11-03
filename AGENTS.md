@@ -1,12 +1,12 @@
 # FCCL 品質預測與 SPC：協作規範
 
-狀態：使用者已授權本機實作的 v0.2 工作草案；跨組契約仍待團隊確認。
+狀態：使用者已授權 `implement-quality-model-pipeline` 的本機 Apply；跨組契約與真實產線採用仍待團隊確認。
 
 ## 1. 目標與本階段範圍
 
 整合塗佈、熟化、壓合與環境資料，以可比較的 Champion／Challenger 模型預測抗剝離度、尺寸安定性 MD/TD、耐熱度及外觀 NG，使用 Streamlit 呈現 SPC、SHAP 與調參建議。初版以 Random Forest 為 Champion，並保留週期性離線重訓與同產品改善前後驗證流程。
 
-本階段已授權更新規範、建立相應 OpenSpec Change，以及重新生成獨立的 v2 合成七表資料與驗證紀錄；尚未授權模型訓練、Streamlit 功能實作、正式產線接入、Git Commit 或 Push。以下角色是工作責任分工，不代表需要同時啟動多個 AI 代理。
+本階段已授權依 `implement-quality-model-pipeline` 建立 canonical model dataset、訓練 Synthetic 五目標模型、產生可信 artifacts，並將正式 Synthetic Adapter／SHAP 接入 Streamlit；仍未授權正式產線接入、PLC／MES／機台寫入、Git Commit 或 Push。以下角色是工作責任分工，不代表需要同時啟動多個 AI 代理。
 
 ## 2. OpenSpec 工作流程
 
@@ -64,7 +64,7 @@ openspec/
 
 ### 6.1 適用範圍與執行責任
 
-- 本節補充原第 1、2 節初次規範交付的範圍：使用者已授權建立 `docs/DEVELOPMENT_LOG.md`、`docs/DECISION_LOG.md`，並於 2026-11-02 授權本機更新契約與重新生成 v2 合成資料。跨組正式採用仍須依提案狀態確認；本次授權不等於批准後續模型或 UI 實作。
+- 本節補充原第 1、2 節初次規範交付的範圍：使用者已授權建立 `docs/DEVELOPMENT_LOG.md`、`docs/DECISION_LOG.md`，並於 2026-11-02 先授權更新契約與重新生成 v2 合成資料，後續再以 `$openspec-apply-change implement-quality-model-pipeline` 明確授權本機模型 pipeline 與 Streamlit 整合。跨組正式採用及真實產線接入仍須另行確認。
 - Codex 讀取本規範後，須在有實質變更、重要確認結論、測試／修復結果或階段狀態改變時，於該次工作結束前主動同步日誌。純閱讀、無新結論或無變更的操作不重複新增事件。
 - 此為由 Codex 遵循指令執行的紀錄機制，沒有背景程序、CLI hook 或 Git hook；不保證捕捉其他工具或人工修改，也不代表新增 Verify 技能。
 - 紀錄不取代 OpenSpec 的 proposal、specs、design、tasks；重要架構或契約改動先檢查對應規格是否需要同步，依當次授權處理，未授權的同步列為待辦。不得為記錄而自動啟動下一階段。

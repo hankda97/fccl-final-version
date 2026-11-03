@@ -1,0 +1,8 @@
+# Compatibility overlay for running Streamlit with the authoritative ML lock.
+-r requirements-ml.txt
+streamlit==1.66.1
+matplotlib==3.11.2
+# PyArrow 19+ wheels require NumPy 2 in this environment; the ML artifact
+# contract is intentionally pinned to the NumPy 1.26 ABI.
+pyarrow==18.1.0
+

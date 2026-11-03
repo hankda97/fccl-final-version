@@ -1,0 +1,93 @@
+{
+  "profile": "simulated-inspection-v2",
+  "grain": "one completed lamination MD half-open interval per row",
+  "features": [
+    {
+      "name": "ambient_temp_c",
+      "unit": "°C",
+      "role": "model_feature"
+    },
+    {
+      "name": "ambient_rh_pct",
+      "unit": "%RH",
+      "role": "model_feature"
+    },
+    {
+      "name": "line_speed_m_min",
+      "unit": "m/min",
+      "role": "model_feature"
+    },
+    {
+      "name": "coating_temp_c",
+      "unit": "°C",
+      "role": "model_feature"
+    },
+    {
+      "name": "coating_gap_um",
+      "unit": "μm",
+      "role": "model_feature"
+    },
+    {
+      "name": "coating_viscosity_mpa_s",
+      "unit": "mPa·s",
+      "role": "model_feature"
+    },
+    {
+      "name": "curing_temp_c",
+      "unit": "°C",
+      "role": "model_feature"
+    },
+    {
+      "name": "curing_time_min",
+      "unit": "min",
+      "role": "model_feature"
+    },
+    {
+      "name": "lamination_temp_c",
+      "unit": "°C",
+      "role": "model_feature"
+    },
+    {
+      "name": "lamination_pressure_mpa",
+      "unit": "MPa",
+      "role": "model_feature"
+    },
+    {
+      "name": "lamination_time_s",
+      "unit": "s",
+      "role": "model_feature"
+    }
+  ],
+  "targets": [
+    {
+      "name": "peel_strength_n_mm",
+      "unit": "N/mm",
+      "role": "target_only"
+    },
+    {
+      "name": "dimensional_stability_md_pct",
+      "unit": "%",
+      "role": "target_only"
+    },
+    {
+      "name": "dimensional_stability_td_pct",
+      "unit": "%",
+      "role": "target_only"
+    },
+    {
+      "name": "heat_resistance_c",
+      "unit": "°C",
+      "role": "target_only"
+    },
+    {
+      "name": "appearance_ng",
+      "unit": "class/probability",
+      "role": "target_only"
+    }
+  ],
+  "identifiers": [
+    "aligned_sample_id",
+    "root_roll_id"
+  ],
+  "split": "dataset_split; immutable complete-roll time split"
+}

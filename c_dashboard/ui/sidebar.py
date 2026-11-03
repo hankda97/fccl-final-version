@@ -2,9 +2,11 @@
 
 import pandas as pd
 import streamlit as st
+from pathlib import Path
 from c_dashboard.workspace_modes.state import widget_key
 
 from c_dashboard.data.fixtures import MOCK_CHOICES, load_mock_fixture
+from c_dashboard.data.canonical import load_canonical_projection
 from c_dashboard.data.session import attempt_upload, commit_dataset, selected_rows, set_filters
 from c_dashboard.state import WorkspaceState
 
@@ -42,8 +44,12 @@ def _render_context(workspace: WorkspaceState) -> None:
     st.text("資料版本：" + (workspace.data.source_version or "—"))
     st.text("目前批號：" + (workspace.data.selected_batch or "全部／尚未選取"))
     if dataset:
-        st.caption("C 專用 Mock · 非真實產線資料" if dataset.source_kind == "mock"
-                   else "上傳來源 · 正式契約及產線來源未驗證")
+        if dataset.source_kind == "mock":
+            st.caption("C 專用 Mock · 非真實產線資料")
+        elif dataset.source_kind == "canonical-projection":
+            st.caption("版本化 Synthetic canonical projection · 非真實產線資料")
+        else:
+            st.caption("上傳來源 · 正式契約及產線來源未驗證")
     st.divider()
     st.subheader("產品規格")
     view = selected_rows(workspace)
@@ -84,12 +90,24 @@ def _render_context(workspace: WorkspaceState) -> None:
 def render_sidebar(workspace: WorkspaceState) -> None:
     with st.sidebar:
         st.header("資料與製程資訊")
-        st.caption("C2 CSV 載入｜C3 SPC｜C4／C5 What-if 與公式 Mock 示範")
-        choice = st.radio("資料載入來源", ["尚未載入", "C 專用 Mock", "上傳 CSV"], key=widget_key(workspace, "ui_source_choice"))
+        st.caption("C2 CSV／canonical 載入｜C3 SPC｜C4／C5 What-if｜Synthetic 正式模型或公式 Mock")
+        choice = st.radio("資料載入來源", ["尚未載入", "C 專用 Mock", "Canonical Synthetic projection", "上傳 CSV"], key=widget_key(workspace, "ui_source_choice"))
+        st.caption(f"目前選定來源：{choice}")
+        st.caption("目前已載入資料集：" + (workspace.data.source_name or "尚未載入；選定來源不等於完成載入"))
         scenario = st.selectbox("Mock 測試情境", list(MOCK_CHOICES), key=widget_key(workspace, "ui_mock_scenario"),
                                 disabled=choice != "C 專用 Mock")
         if st.button("載入 Mock 資料", key=widget_key(workspace, "ui_load_mock"), disabled=choice != "C 專用 Mock"):
             commit_dataset(workspace, load_mock_fixture(MOCK_CHOICES[scenario]))
+        canonical_profile = st.selectbox(
+            "Canonical 標籤 profile", ["synthetic-ground-truth-v2", "simulated-inspection-v2"],
+            key=widget_key(workspace, "ui_canonical_profile"), disabled=choice != "Canonical Synthetic projection",
+        )
+        if st.button("載入 Canonical projection", key=widget_key(workspace, "ui_load_canonical"), disabled=choice != "Canonical Synthetic projection"):
+            try:
+                root = Path(__file__).resolve().parents[2]
+                commit_dataset(workspace, load_canonical_projection(root / "generated_data" / "model_dataset_v2" / canonical_profile))
+            except (OSError, ValueError, KeyError) as exc:
+                st.error(f"Canonical projection 載入失敗：{exc}")
         uploaded = st.file_uploader("CSV 上傳", type=["csv"], key=widget_key(workspace, "ui_csv_upload"),
                                     help="選擇上傳來源後按載入；失敗時保留上一份有效資料。")
         with st.expander("欄位／單位映射（上傳資料）"):

@@ -22,9 +22,11 @@ def render_data_inspection(workspace: WorkspaceState) -> None:
             with st.expander("失敗匯入的原始列預覽"):
                 st.dataframe(attempt.raw_frame.head(200))
     if dataset is None:
-        st.info("尚未匯入 CSV。請於側欄載入 C 專用 Mock 或上傳 CSV。")
+        st.info("尚未匯入資料。請於側欄載入 C 專用 Mock、canonical projection 或上傳 CSV。")
         return
-    source_label = "C 專用 Mock（非真實產線）" if dataset.source_kind == "mock" else "上傳資料（來源待確認，非已驗證產線資料）"
+    source_label = ("C 專用 Mock（非真實產線）" if dataset.source_kind == "mock" else
+                    "Synthetic canonical projection（非真實產線）" if dataset.source_kind == "canonical-projection" else
+                    "上傳資料（來源待確認，非已驗證產線資料）")
     st.success(f"已載入 {dataset.source_name} · {len(dataset.frame)} 列 · 映射版本 {dataset.profile.version}")
     st.caption(source_label)
     view = selected_rows(workspace)

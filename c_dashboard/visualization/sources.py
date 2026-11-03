@@ -54,6 +54,32 @@ def infer_profile(rows, source_kind):
 def profile_for_workspace(workspace, rows):
     dataset = workspace.data.dataset
     kind = dataset.source_kind if dataset else "not-loaded"
+    manifest = dataset.metadata.get("canonical_manifest") if dataset is not None else None
+    if isinstance(manifest, dict):
+        profile_kind = "synthetic-ground-truth" if manifest.get("profile", "").startswith("synthetic") else "segment-inspection"
+        return SourceProfile(
+            kind=profile_kind,
+            version=manifest.get("manifest_schema", "fccl-canonical-dataset-1.0"),
+            dataset_version=manifest.get("dataset_version", ""),
+            schema_version=manifest.get("schema_version", ""),
+            alignment_version=manifest.get("alignment_version", ""),
+            label_version=manifest.get("profile", ""),
+            spec_version=manifest.get("spec_version", ""),
+            label_source="synthetic_ground_truth" if profile_kind == "synthetic-ground-truth" else "simulated_inspection",
+        )
+    manifest = dataset.metadata.get("canonical_manifest") if dataset is not None else None
+    if isinstance(manifest, dict):
+        profile_kind = "synthetic-ground-truth" if manifest.get("profile", "").startswith("synthetic") else "segment-inspection"
+        return SourceProfile(
+            kind=profile_kind,
+            version=manifest.get("manifest_schema", "fccl-canonical-dataset-1.0"),
+            dataset_version=manifest.get("dataset_version", ""),
+            schema_version=manifest.get("schema_version", ""),
+            alignment_version=manifest.get("alignment_version", ""),
+            label_version=manifest.get("profile", ""),
+            spec_version=manifest.get("spec_version", ""),
+            label_source="synthetic_ground_truth" if profile_kind == "synthetic-ground-truth" else "simulated_inspection",
+        )
     # The old loader retains these only in raw_frame. Never read raw values as
     # an already validated projection or let them silently bypass label flags.
     if dataset is not None and has_projection_metadata(dataset.raw_frame):

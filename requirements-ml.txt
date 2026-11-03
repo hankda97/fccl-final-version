@@ -1,0 +1,29 @@
+# Fully pinned ML runtime/test lock for Python 3.11/3.12.
+# Regenerate only in an isolated environment and re-run the complete ML suite.
+attrs==24.2.0
+cloudpickle==3.0.0
+colorama==0.4.6
+iniconfig==2.0.0
+joblib==1.4.2
+jsonschema==4.23.0
+jsonschema-specifications==2024.10.1
+llvmlite==0.43.0
+numba==0.60.0
+numpy==1.26.4
+packaging==24.1
+pandas==2.2.1
+pluggy==1.5.0
+pytest==8.3.3
+python-dateutil==2.9.0.post0
+pytz==2024.2
+referencing==0.35.1
+rpds-py==0.20.0
+scikit-learn==1.5.2
+scipy==1.13.1
+shap==0.46.0
+six==1.16.0
+slicer==0.0.8
+threadpoolctl==3.5.0
+tqdm==4.66.5
+tzdata==2024.2
+

@@ -40,7 +40,7 @@ def test_mock_load_preview_context_and_filters():
     # C3 adds tables ahead of Data Inspection; keep checking the actual raw preview.
     preview = next(item.value for item in app.dataframe if "sample_id" in item.value.columns)
     assert len(preview) == 150
-    assert app.metric[0].value == f"{workspace.spc.result.targets[0].latest.mean:.6g}"
+    assert app.metric[5].value == f"{workspace.spc.result.targets[0].latest.mean:.6g}"
     assert app.metric[4].value != "—"  # Explicitly labeled Mock risk, separate from measured SPC.
     token = workspace.data.source_id[:12]
     app.selectbox(key=f"ui_batch_{token}").set_value("M-B02").run()

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fccl-model-artifact-1.0",
+  "type": "object",
+  "required": [
+    "artifact_schema", "manifest_id", "model_version", "pipeline_code_sha256", "profile", "target",
+    "task_type", "feature_names", "feature_units", "target_unit",
+    "schema_version", "feature_version", "preprocessing_version",
+    "label_version", "spec_version", "dataset_version", "packages",
+    "bundle_path", "bundle_sha256", "background_path", "background_sha256",
+    "metrics_path", "metrics_sha256", "limitations"
+  ],
+  "properties": {
+    "artifact_schema": {"const": "fccl-model-artifact-1.0"},
+    "profile": {"enum": ["synthetic-ground-truth-v2", "simulated-inspection-v2"]},
+    "target": {
+      "enum": [
+        "peel_strength_n_mm", "dimensional_stability_md_pct",
+        "dimensional_stability_td_pct", "heat_resistance_c", "appearance_ng"
+      ]
+    },
+    "task_type": {"enum": ["regression", "classification"]},
+    "feature_names": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "bundle_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "background_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "metrics_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+  },
+  "additionalProperties": true
+}
+

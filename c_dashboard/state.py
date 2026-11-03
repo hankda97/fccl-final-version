@@ -78,6 +78,8 @@ class WhatIfState:
 
 @dataclass
 class ModelState:
+    selected_source: str = "C 公式 Mock"
+    selected_profile: str = "synthetic-ground-truth-v2"
     source_id: str | None = None
     version: str | None = None
     baseline_version: str | None = None
@@ -111,4 +113,7 @@ def ensure_workspace(session: MutableMapping) -> WorkspaceState:
         session[WORKSPACE_KEY] = WorkspaceState()
     if not hasattr(session[WORKSPACE_KEY], "visualization"):
         session[WORKSPACE_KEY].visualization = VisualizationState()
+    if not hasattr(session[WORKSPACE_KEY].model, "selected_source"):
+        session[WORKSPACE_KEY].model.selected_source = "C 公式 Mock"
+        session[WORKSPACE_KEY].model.selected_profile = "synthetic-ground-truth-v2"
     return session[WORKSPACE_KEY]

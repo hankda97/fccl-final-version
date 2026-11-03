@@ -1,0 +1,214 @@
+{
+  "comparison": {
+    "challenger": "hist_gradient_boosting",
+    "challenger_primary_better": true,
+    "current_champion": "random_forest",
+    "primary_metric": "mae",
+    "promote": false,
+    "reason": "Initial RF remains Champion; promotion requires all pre-registered quality, drift, latency and compatibility gates, not one metric."
+  },
+  "models": {
+    "hist_gradient_boosting": {
+      "test": {
+        "available": true,
+        "mae": 0.06223838236663107,
+        "r2": -0.003650273530267034,
+        "rmse": 0.06683282805412907,
+        "row_count": 4000
+      },
+      "test_by_phase": {
+        "production": {
+          "available": true,
+          "mae": 0.06223838236663107,
+          "r2": -0.003650273530267034,
+          "rmse": 0.06683282805412907,
+          "row_count": 4000
+        }
+      },
+      "validation": {
+        "available": true,
+        "mae": 0.06013950821623125,
+        "r2": 0.0014247591821627825,
+        "rmse": 0.06456082152037597,
+        "row_count": 4000
+      },
+      "validation_by_phase": {
+        "production": {
+          "available": true,
+          "mae": 0.06013950821623125,
+          "r2": 0.0014247591821627825,
+          "rmse": 0.06456082152037597,
+          "row_count": 4000
+        }
+      }
+    },
+    "linear": {
+      "test": {
+        "available": true,
+        "mae": 0.062105331605260786,
+        "r2": 0.005535430071221703,
+        "rmse": 0.06652628816965404,
+        "row_count": 4000
+      },
+      "test_by_phase": {
+        "production": {
+          "available": true,
+          "mae": 0.062105331605260786,
+          "r2": 0.005535430071221703,
+          "rmse": 0.06652628816965404,
+          "row_count": 4000
+        }
+      },
+      "validation": {
+        "available": true,
+        "mae": 0.06008393902535022,
+        "r2": 0.006840393069609263,
+        "rmse": 0.06438551519325915,
+        "row_count": 4000
+      },
+      "validation_by_phase": {
+        "production": {
+          "available": true,
+          "mae": 0.06008393902535022,
+          "r2": 0.006840393069609263,
+          "rmse": 0.06438551519325915,
+          "row_count": 4000
+        }
+      }
+    },
+    "mean": {
+      "test": {
+        "available": true,
+        "mae": 0.06249156368441666,
+        "r2": -0.0019130128511328781,
+        "rmse": 0.0667749611187716,
+        "row_count": 4000
+      },
+      "test_by_phase": {
+        "production": {
+          "available": true,
+          "mae": 0.06249156368441666,
+          "r2": -0.0019130128511328781,
+          "rmse": 0.0667749611187716,
+          "row_count": 4000
+        }
+      },
+      "validation": {
+        "available": true,
+        "mae": 0.060438275015125,
+        "r2": -8.485165214500157e-05,
+        "rmse": 0.06460960347724659,
+        "row_count": 4000
+      },
+      "validation_by_phase": {
+        "production": {
+          "available": true,
+          "mae": 0.060438275015125,
+          "r2": -8.485165214500157e-05,
+          "rmse": 0.06460960347724659,
+          "row_count": 4000
+        }
+      }
+    },
+    "random_forest": {
+      "test": {
+        "available": true,
+        "mae": 0.06205870990881678,
+        "r2": -0.004958157613923708,
+        "rmse": 0.06687635971872614,
+        "row_count": 4000
+      },
+      "test_by_phase": {
+        "production": {
+          "available": true,
+          "mae": 0.06205870990881678,
+          "r2": -0.004958157613923708,
+          "rmse": 0.06687635971872614,
+          "row_count": 4000
+        }
+      },
+      "validation": {
+        "available": true,
+        "mae": 0.060178181951669914,
+        "r2": -0.00616306184590254,
+        "rmse": 0.06480564477425971,
+        "row_count": 4000
+      },
+      "validation_by_phase": {
+        "production": {
+          "available": true,
+          "mae": 0.060178181951669914,
+          "r2": -0.00616306184590254,
+          "rmse": 0.06480564477425971,
+          "row_count": 4000
+        }
+      }
+    }
+  },
+  "relative_to_baseline": {
+    "test": {
+      "hist_gradient_boosting": {
+        "absolute_improvement": -0.00013305076137028193,
+        "metric": "mae"
+      },
+      "random_forest": {
+        "absolute_improvement": 4.6621696444003324e-05,
+        "metric": "mae"
+      }
+    },
+    "validation": {
+      "hist_gradient_boosting": {
+        "absolute_improvement": -5.556919088103157e-05,
+        "metric": "mae"
+      },
+      "random_forest": {
+        "absolute_improvement": -9.424292631969589e-05,
+        "metric": "mae"
+      }
+    }
+  },
+  "row_counts": {
+    "test": 4000,
+    "train": 12000,
+    "validation": 4000
+  },
+  "selection": {
+    "random_forest": {
+      "selected": "depth_limited",
+      "selected_params": {
+        "max_depth": 14,
+        "min_samples_leaf": 1
+      },
+      "validation_candidates": {
+        "depth_limited": {
+          "metrics": {
+            "available": true,
+            "mae": 0.060178181951669914,
+            "r2": -0.006163061845902762,
+            "rmse": 0.06480564477425971,
+            "row_count": 4000
+          },
+          "params": {
+            "max_depth": 14,
+            "min_samples_leaf": 1
+          }
+        },
+        "regularized": {
+          "metrics": {
+            "available": true,
+            "mae": 0.060371004728144315,
+            "r2": -0.024210979100673047,
+            "rmse": 0.0653842828501405,
+            "row_count": 4000
+          },
+          "params": {
+            "max_depth": null,
+            "min_samples_leaf": 3
+          }
+        }
+      }
+    }
+  },
+  "target": "dimensional_stability_md_pct",
+  "task_type": "regression"
+}

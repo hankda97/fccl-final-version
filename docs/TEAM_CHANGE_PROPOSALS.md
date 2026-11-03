@@ -207,3 +207,69 @@ C1＋C2 僅交付基礎 UI／資料載入；本案可獨立審查歸檔，不代
 - 關聯紀錄：ADR-003；本次開發事件將記於 `DEVELOPMENT_LOG.md`。
 - 狀態歷程：2026-11-02 02:10:59 +08:00——首次登錄；本機契約已授權，跨組契約待確認。
 
+## TCP-003／004／005／006 模型管線實作補充｜2026-11-02 21:46:01 +08:00
+
+本節沿用既有提案，不新增同題提案，也不把本機 Synthetic 驗證推定為跨組正式批准。使用者已明確執行 `$openspec-apply-change implement-quality-model-pipeline`，因此下列本機範圍已完成 Apply／Verify：
+
+- TCP-003／004：已建立兩種不可混用的 canonical profile、逐目標 availability／重測／規格關聯與正式 Streamlit Adapter；七表來源仍保留，不由 C 重新 JOIN。
+- TCP-005：已以 200 卷 v2 建立完整卷時間切分的 canonical dataset，Synthetic 五目標各 20,000 列，inspection profile 保留逐目標稀疏分母。
+- TCP-006：已訓練基準、Random Forest Champion 與 HistGradientBoosting Challenger，建立 registry／manifest／metrics／hash／回退契約及 Tree SHAP；XGBoost／LightGBM、LSTM／GRU、Autoencoder 未被提前納入，後續仍須依原提案門檻另開 Change。
+
+本次實作狀態只表示本機 Synthetic 管線及 C 整合測試完成；正式規格、真實資料泛化、因果調參與 A／B／C 跨組採用仍待團隊確認。實際變更與驗證見 DEV-20261102-009，技術決策見 ADR-005，OpenSpec 見 `implement-quality-model-pipeline`。
+
+## TCP-003／004／006 Canonical SPC 與模型摘要規劃補充｜2026-11-02 23:22:40 +08:00
+
+本節沿用既有提案，不新增同題提案，也不改變其跨組確認狀態。使用者已要求建立 `fix-formal-model-dashboard-and-canonical-spc` OpenSpec Propose，規劃將五項正式／Mock 模型預測與四項實測 SPC 分區顯示，並以動態來源文字取代正式模式中的 Mock／「尚未接入」過時說明。
+
+- TCP-003：提議在 canonical artifact 加入 hash 驗證的 `spc_samples.csv`，明確記錄 Synthetic n=5 合理子組與 history／monitor cohort；不刪除七表、不要求 C 重新 JOIN，也不把此格式視為真實工廠取樣契約。
+- TCP-004：模型摘要依選定 Adapter 顯示五目標；SPC 區只顯示實測四目標，兩者不可互相補值。正式、Mock、不可用與 Synthetic 限制須一致顯示，不新增預測良率或因果宣稱。
+- TCP-006：本 Change 不重訓或更換 Champion；只修正正式 Adapter 結果的 UI 呈現、來源生命週期及既有 What-if／SHAP 回歸驗證。
+- SPC baseline 提議固定使用最早 25 個 `train + stable` Synthetic eligible 子組，validation／test 才作監控，逐目標仍須通過穩定性與樣本不重疊檢查。此方案為 ADR-006 Proposed，尚未 Apply 或驗證，不能宣稱為工廠管制界限。
+- 關聯：`openspec/changes/fix-formal-model-dashboard-and-canonical-spc/`、DEV-20261102-011、ADR-006。後續須由使用者審查後另行 Apply；本次 Propose 不授權 Git Commit／Push 或跨組正式採用。
+
+## TCP-003／004／006 Canonical SPC 與模型摘要 Apply 補充｜2026-11-03 00:10:52 +08:00
+
+本節沿用既有提案，不新增同題提案，也不把本機驗證推定為跨組正式批准。使用者已明確執行 `$openspec-apply-change fix-formal-model-dashboard-and-canonical-spc`，因此以下本機 Synthetic 範圍已完成 Apply／Verify：
+
+- TCP-003：canonical Synthetic profile 已加入 hash 驗證、版本化 `spc_samples.csv`；最早 25 個 `train + stable` 合格子組與 validation／test monitoring 已隔離，inspection profile 不借用 evidence。
+- TCP-004：Streamlit 摘要已分成五項模型預測與四項實測 SPC；繁體中文狀態保留 raw code，正式、Mock、不可用來源不互相補值或靜默降級。
+- TCP-006：未重訓或更換 Champion；既有正式 Adapter、What-if 與 Tree SHAP 已完成回歸驗證，仍不提供預測良率。
+- 驗證：定向 67 passed、正式／Mock／不可用端到端 24 passed、完整回歸 359 passed；OpenSpec strict validation 通過。真實產線驗證未執行，Synthetic n=5 與 25 組 baseline 不屬工廠標準。
+- 關聯：DEV-20261103-001、ADR-007、`openspec/changes/fix-formal-model-dashboard-and-canonical-spc/`。尚未 Sync／Archive、Commit 或 Push；後續由使用者另行決定。
+
+## TCP-003／004／006 Alarm 與分析可用性規劃補充｜2026-11-03 00:51:27 +08:00
+
+本節沿用既有提案，不新增同題提案，也不把規劃視為已實作或跨組批准。使用者要求建立 `improve-dashboard-alarm-and-analysis-usability` OpenSpec Propose：
+
+- TCP-003：保留 Canonical Synthetic 全部 SPC 原始事件與來源追溯，不藉修改資料、baseline 或規則降低 Alarm；另規劃可稽核事件群與有界歷史明細。
+- TCP-004：What-if、Heatmap 與 SHAP 將明確區分來源已選、資料已載入、Mock／正式模型及各自能力；Heatmap 增加 r／n 的正負相關摘要，但不宣稱因果或直接提供參數調整量。
+- TCP-006：不重訓或更換 Champion；真正 SHAP 仍只允許相容的 Synthetic 正式 artifact，公式 Mock 不偽造 SHAP。
+- 關聯：DEV-20261103-002、ADR-008（Proposed）、`openspec/changes/improve-dashboard-alarm-and-analysis-usability/`。目前僅 4／4 planning artifacts 與 strict validation 完成，尚未 Apply、Sync／Archive、Commit 或 Push。
+
+## TCP-003／004／006 Alarm 與分析可用性 Apply 補充｜2026-11-03 01:41:00 +08:00
+
+本節沿用既有提案，不新增同題提案，也不把本機 Synthetic／Mock 驗證推定為跨組正式批准。使用者已明確執行 `$openspec-apply-change improve-dashboard-alarm-and-analysis-usability`：
+
+- TCP-003：完整 SPC 原始事件、baseline 與規則未變；新增可稽核事件群投影、有界 Overview 及 SPC 篩選／技術明細。Canonical 2,913 筆事件投影為 309 群且守恆，並非刪除 Alarm。
+- TCP-004：已加入來源選定／資料載入及 What-if／Heatmap／SHAP 就緒狀態；Heatmap 顯示 r、n 與品質方向限制，不提供因果調參量。
+- TCP-006：未重訓或更換 Champion；真正 SHAP 僅由相容 Synthetic 正式 artifact、Provider 與 manifest 執行，公式 Mock 維持不可用且不偽造結果。
+- 驗證：完整回歸 370 passed，OpenSpec strict validation 通過；真實產線驗證未執行。關聯 DEV-20261103-003、ADR-008（Accepted，本機範圍）與本 Change。尚未 Sync／Archive、Commit 或 Push。
+
+## TCP-007｜單一測試線控制台、Synthetic v3 與四目標模型
+
+- 提案 ID：TCP-007
+- 日期：2026-11-03 (Asia/Taipei)
+- 提案來源：使用者於 Explore 逐項確認版面、製程訊號、資料、模型、SPC、What-if／Heatmap、Run 與 Gate 交付方向，並指示建立 `build-testline-simulation-control-room`。
+- 原始 Prompt 的對應需求：以模擬測試線數據改善機台參數與 SPC，呈現產品規格、三製程調參、逐筆監控、四項品質預測、Heatmap 與 What-if；暫停 SHAP UI。
+- 建議修改或新增的內容：將使用者可見 A／B／C 改為單一 Mode B 控制台；先交付 Gate 0 靜態原型，再建立單產品／配方契約、Synthetic v3、四目標 RF／HGB、5 秒模擬器、厚度 X-bar／R、其他訊號 I-MR／EWMA、隔離 Run store 及正式四頁控制台。
+- 提出原因與技術依據：既有模式 A 為歷史快照分析，資訊量與 Alarm 明細不適合連續調參；v2 模型缺少乾膠厚度與排風量等正式特徵。先驗收原型可避免後端完成後重做版面，材料區段與固定 baseline 可避免時間洩漏及錯誤 SPC。
+- 對 A、B、C 的影響：A——舊服務保留為內部重用與回退，但一般導航隱藏；B——新增 v3 資料、四模型、模擬器、製程 SPC、Run 與正式控制台；C——一般入口隱藏，不納入本 Change。
+- 對 GitHub 整合及簡報呈現的影響：需版本化 proposal／specs／design／tasks、產品配方、v3 manifest、模型 bundle、Run schema 與驗證證據；`runtime_data/` 不納管。簡報須明示 Synthetic／Mock、非真實設備與非因果限制。
+- 不修改時可能存在的問題：三模式與快照分析持續造成操作混淆；模型缺少關鍵控制特徵；製程訊號被錯當品質 X-bar；大量 Alarm、重算與 timer backlog 使控制台難以操作。
+- 建議優先級：高；是目前成品驗收與後續模型／SPC 工作的主路徑。
+- 決策狀態：本機規劃已由使用者確認；跨組採用與真實製程仍待團隊討論。
+- 團隊討論結果：尚無 A／B／C 全體正式決議；本次只批准建立 OpenSpec planning artifacts，不等於批准 Apply、Commit 或 Push。
+- 相關 OpenSpec Change：[`build-testline-simulation-control-room`](../openspec/changes/build-testline-simulation-control-room/proposal.md)。
+- 關聯紀錄：DEV-20261103-005、ADR-009、TCP-003～006。
+- 狀態歷程：2026-11-03 06:39:34 +08:00——完成 Propose 與 strict validation；Gate 0～4 均未 Apply。
+

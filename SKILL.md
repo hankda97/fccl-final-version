@@ -5,7 +5,7 @@ description: 建置本專案的 FCCL 七表模擬資料、品質預測、模型�
 
 # FCCL 技術實作規範
 
-狀態：使用者已授權本機實作的 v0.2 工作草案；跨組正式契約仍待團隊確認。先閱讀 AGENTS.md 與相關 OpenSpec Change。
+狀態：使用者已授權 `implement-quality-model-pipeline` 的本機 Apply；成果限 Synthetic 驗證，跨組正式契約與真實產線採用仍待確認。先閱讀 AGENTS.md 與相關 OpenSpec Change。
 
 ## 1. 工具鏈與檔案
 

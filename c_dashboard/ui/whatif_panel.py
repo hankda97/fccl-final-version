@@ -10,9 +10,17 @@ from c_dashboard.quality.types import Recommendation, WhatIfComparison
 from c_dashboard.state import SegmentSnapshot, WorkspaceState
 
 
-def render_whatif_panel(workspace: WorkspaceState, options: list[SegmentSnapshot], adapter) -> None:
+def render_whatif_panel(workspace: WorkspaceState, options: list[SegmentSnapshot], adapter, readiness=None) -> None:
     st.subheader("What-if 參數比較")
-    st.caption("Mock 預測與建議僅供介面及邏輯示範，不代表真實 FCCL 製程因果效果或已驗證改善。")
+    st.caption(f"{adapter.describe().source} 的預測與建議僅供決策輔助；不代表真實 FCCL 製程因果效果、已驗證改善或機台控制。")
+    if readiness is not None:
+        if readiness.ready:
+            st.success("What-if 已就緒：" + readiness.reason)
+        else:
+            st.warning("What-if 尚未就緒：" + readiness.reason)
+            st.info("下一步：" + readiness.next_step)
+            _render_recommendation(None)
+            return
     if workspace.what_if.requires_reselect:
         st.warning("原 What-if 比較基準已失效；需主動選取目前可見區段。舊參數、預測與建議不再顯示。")
     if not options:
@@ -126,7 +134,7 @@ def _render_comparison(comparison: WhatIfComparison | None) -> None:
     if comparison is None:
         st.info("選取有效區段後顯示預測比較。")
         return
-    st.caption(f"Adapter：{comparison.adapter_source} · 版本：{comparison.adapter_version or '—'} · 示範資料")
+    st.caption(f"Adapter：{comparison.adapter_source} · 版本：{comparison.adapter_version or '—'} · Synthetic／Mock 決策輔助")
     if comparison.unavailable_reason:
         st.warning("目前無法比較預測：" + comparison.unavailable_reason)
     if comparison.before is None or comparison.after is None:
@@ -141,10 +149,13 @@ def _render_comparison(comparison: WhatIfComparison | None) -> None:
             continue
         delta = float(after) - float(before)
         rows.append({"品質目標": TARGET_LABELS[target], "調整前": f"{before} {unit}",
-                     "調整後": f"{after} {unit}", "差值": f"{delta:+g} {unit}", "狀態": "示範預測"})
+                     "調整後": f"{after} {unit}", "差值": f"{delta:+g} {unit}", "狀態": "模型情境預測"})
     st.dataframe(rows, hide_index=True, width="stretch")
     if comparison.after.appearance_ng_risk is not None:
-        st.caption(f"外觀 NG 示範風險分數：{comparison.before.appearance_ng_risk:.3f} → {comparison.after.appearance_ng_risk:.3f}（未校準機率）")
+        formal = "Synthetic 正式模型 artifact" in comparison.adapter_source
+        label = "外觀 NG 模型機率" if formal else "外觀 NG 示範風險分數"
+        suffix = "Synthetic 模型；非真實產線校準" if formal else "未校準機率"
+        st.caption(f"{label}：{comparison.before.appearance_ng_risk:.3f} → {comparison.after.appearance_ng_risk:.3f}（{suffix}）")
 
 
 def _render_recommendation(recommendation: Recommendation | None) -> None:

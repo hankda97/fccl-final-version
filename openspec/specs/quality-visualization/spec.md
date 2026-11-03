@@ -91,3 +91,83 @@
 - **GIVEN** 圖表請求屬於重啟前或較舊游標
 - **WHEN** 新範圍／截止已生效而舊結果抵達
 - **THEN** 不冒充目前圖表，顯示過期／重新計算狀態；相同來源範圍與截止可重現，不使用完整 CSV 或情境候選補值
+
+### Requirement: VIS-05 正式樹模型 SHAP 解釋
+
+系統 SHALL 由已載入的正式 Champion 與其 manifest 提供真正的 SHAP Summary／Dependence 解釋；解釋 MUST 使用與推論相同的前處理、特徵順序與模型版本，背景資料只可來自對應 train split，並以固定 seed 及有界樣本量建立。
+
+#### Scenario: 迴歸目標解釋
+
+- **WHEN** 使用者選擇任一可用連續品質 Champion 及相容資料切片
+- **THEN** 系統回傳與樣本及特徵對齊的回歸輸出貢獻值、基準值、背景來源、模型／manifest／解釋版本與單位
+
+#### Scenario: 外觀 NG 解釋
+
+- **WHEN** 使用者選擇外觀 NG Champion
+- **THEN** 系統依 manifest 的 class labels 明確選擇標籤 1，並標示 SHAP 的 probability、raw margin 或 log-odds 尺度，不固定取陣列第二個輸出
+
+### Requirement: VIS-06 解釋相容性與失效
+
+正式解釋 SHALL 驗證 dataset source、schema、feature、preprocessing、label、spec、model、manifest、background 與 class mapping；任何相依版本、資料範圍、模型或選項改變時，舊 SHAP 結果 MUST 失效且不得以新標籤繼續顯示。
+
+#### Scenario: Manifest 不匹配
+
+- **WHEN** Explanation Provider 與目前選定模型的 manifest、特徵順序、輸出尺度或背景版本不一致
+- **THEN** 系統拒絕解釋並顯示不一致欄位，不影響有效預測、Heatmap、SPC 或資料檢查
+
+#### Scenario: 模型切換後舊結果抵達
+
+- **WHEN** 使用者切換 Champion／資料來源後收到舊模型的延遲 SHAP 回應
+- **THEN** 該回應保持過期或被丟棄，不得取代目前模型的圖表狀態
+
+### Requirement: VIS-07 SHAP 資源與失敗隔離
+
+系統 MUST 限制正式 SHAP 的資料列與背景樣本量，提供計算中、可用、不可用及錯誤狀態；計算錯誤或不支援目標只可影響相依圖區，且暫時圖形與運算資源 SHALL 在完成或失敗後釋放。
+
+#### Scenario: 解釋計算失敗
+
+- **WHEN** SHAP 計算超出限制、模型不支援或 Provider 回報可處理錯誤
+- **THEN** 相依圖區顯示具體原因及可重試狀態，不保留舊圖冒充完成結果，其他模型與儀表板功能保持可用
+### Requirement: VIS-08 Heatmap 相關方向摘要
+
+Heatmap 可用時，系統 SHALL 對每個選定品質目標摘要最強正相關與最強負相關的製程／環境特徵、Pearson r 及有效配對數；摘要 MUST 依品質目標規格方向避免把相關正負號直接宣稱為改善，並持續明示相關不代表因果。
+
+#### Scenario: 同時存在正負相關
+- **WHEN** 某品質目標有至少一個可計算的正相關及負相關特徵
+- **THEN** 系統顯示兩個方向中絕對值最高的特徵、r、n、單位與目前資料範圍，且數值與 Heatmap 格子一致
+
+#### Scenario: 只有單方向或不可計算
+- **WHEN** 只有正或負方向可計算，或所有格子因樣本不足、無變異或標籤不可用而無法計算
+- **THEN** 系統只顯示可支持的方向，並對缺少方向或整個目標顯示具體原因，不補零或挑選無效格子
+
+#### Scenario: 品質規格方向解讀
+- **WHEN** 摘要涉及越高越佳、越低越佳或需落在區間／接近中心的不同品質目標
+- **THEN** 系統分別標示相關方向與品質規格方向；MD／TD 等區間型目標不得僅依 r 正負號稱為有利或不利，外觀 NG 亦須明示 1 代表 NG
+
+#### Scenario: 篩選與選項更新
+- **WHEN** 使用者改變批次、時間、特徵或品質目標選項
+- **THEN** 相關摘要與 Heatmap 使用完全相同的有效配對、來源身分與版本重新計算，舊摘要不得留在新圖旁
+
+### Requirement: VIS-09 Heatmap 與 SHAP 可用性導引
+
+系統 MUST 對 Heatmap、SHAP Summary 與 SHAP Dependence 分別顯示未載入、可用、計算中、不可用或錯誤狀態，以及資料來源、模型來源、阻塞原因與下一步。選項控制可停用，但狀態說明 SHALL 保持正常可讀對比。
+
+#### Scenario: 尚未載入資料
+- **WHEN** 工作區沒有成功載入的 dataset
+- **THEN** Heatmap 與 SHAP 明示尚未載入資料並指示載入動作，不將已選來源誤寫成已載入，也不只顯示 `No options to select`
+
+#### Scenario: Canonical 已載入且選用 Mock
+- **WHEN** Canonical 資料可供 Heatmap 使用，但目前 Adapter 為 C 公式 Mock
+- **THEN** Heatmap 可獨立計算；SHAP 顯示 Mock 不具真正解釋能力，提示如需真正 SHAP 應選 Synthetic 正式 artifact，且不產生偽造圖形
+
+#### Scenario: 正式 SHAP 已就緒
+- **WHEN** Synthetic 正式 artifact、Explanation Provider、manifest 與目前 Canonical 切片相容
+- **THEN** Summary／Dependence 顯示可用狀態、模型與解釋版本並產生匹配圖形；控制項與圖形使用正常可讀對比
+
+#### Scenario: 正式模型或解釋不相容
+- **WHEN** artifact、manifest、來源 profile、必要特徵、目標或 Explanation Provider 驗證失敗
+- **THEN** SHAP 顯示具體不相容欄位或缺項及恢復方式，不保留舊圖、不自動切換 Mock，且 Heatmap、What-if、SPC 與資料檢查保持獨立
+
+#### Scenario: Summary 與 Dependence 的用途說明
+- **WHEN** 使用者查看 SHAP 分析入口
+- **THEN** Summary 說明其呈現整體特徵貢獻分布，Dependence 說明橫軸特徵值與縱軸 SHAP 貢獻；兩者均標示輸出尺度、單位及非因果限制

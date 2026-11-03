@@ -30,6 +30,20 @@ def test_empty_dashboard_preserves_all_feature_areas_without_fake_results():
     assert not app.get("plotly_chart")
     assert not app.get("imgs")
     assert any("真實產線" in item.value for item in app.caption)
+    all_text = "\n".join(str(item.value) for kind in (app.info, app.warning, app.caption) for item in kind)
+    assert "No options to select" not in all_text
+    assert any("Heatmap 尚未就緒" in item.value and "下一步" in item.value for item in app.info)
+
+
+def test_selecting_canonical_source_does_not_claim_dataset_is_loaded():
+    app = AppTest.from_file(str(APP_PATH), default_timeout=20).run()
+    app.radio(key="ui_source_choice").set_value("Canonical Synthetic projection").run()
+    workspace = app.session_state[WORKSPACE_KEY]
+    assert workspace.data.dataset is None
+    captions = [item.value for item in app.caption]
+    assert "目前選定來源：Canonical Synthetic projection" in captions
+    assert any("目前已載入資料集：尚未載入" in value for value in captions)
+    assert any("Data" in item.value for item in app.markdown)
 
 
 def test_rerun_and_tab_state_do_not_reset_csv_cursor_or_fixed_context():

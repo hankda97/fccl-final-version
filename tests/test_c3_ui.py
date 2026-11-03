@@ -6,7 +6,7 @@ import pytest
 from c_dashboard.state import WORKSPACE_KEY
 from c_dashboard.spc.config import digest
 from c_dashboard.spc.sources import load_c_profile
-from c_dashboard.ui.spc_alarm import event_message
+from c_dashboard.spc.incidents import group_spc_incidents
 from c3_support import HEAT, MD, PEEL
 from test_c2_ui import load_mock, new_app, upload, FIXTURES
 
@@ -34,8 +34,9 @@ def test_real_mock_spc_chart_events_and_two_alarm_areas_share_result(label):
             "同側偏移情境": ("M-G011", "ABOVE_CL_9"),
         }[label]
         assert any((e.subgroup, e.rule) == expected and e.target == PEEL for e in r.events)
-        for e in r.events:
-            assert sum(item.value==event_message(e) for item in app.error)==2
+        assert len(app.error) < 10
+        assert any("incident_id" in item.value.columns for item in app.dataframe)
+        assert sum(item.event_count for item in group_spc_incidents(r)) == len(r.events)
     assert app.metric[4].value!="—"  # Formula Mock risk is shown separately from SPC means.
     assert any("外觀不適用 X-bar" in item.value for item in app.caption)
     event_ids=tuple(e.event_id for e in r.events)
@@ -45,9 +46,9 @@ def test_real_mock_spc_chart_events_and_two_alarm_areas_share_result(label):
     current=app.session_state[WORKSPACE_KEY].spc.result
     assert current==r and tuple(e.event_id for e in current.events)==event_ids
     assert current.baseline.version==version
-    # Peel alarms remain visible even while looking at MD.
-    for e in current.events:
-        assert sum(item.value==event_message(e) for item in app.error)==2
+    # Peel incidents remain queryable even while looking at MD.
+    assert sum(item.event_count for item in group_spc_incidents(current)) == len(current.events)
+    assert len(app.error) < 10
 
 
 @pytest.mark.parametrize("label", ["部分品質欄位缺失","無品質量測","無子組識別","無效值與重複紀錄"])
@@ -59,7 +60,7 @@ def test_bad_or_partial_measurements_keep_csv_and_honest_target_state(label):
     if label=="部分品質欄位缺失":
         assert r.target(PEEL).latest.valid
         assert r.target(HEAT).status=="無法判定 SPC 狀態"
-        assert app.metric[3].value=="—"
+        assert app.metric[8].value=="—"
     elif label in ("無品質量測","無子組識別"):
         assert not r.events and all(t.status=="無法判定 SPC 狀態" for t in r.targets)
 
@@ -95,11 +96,12 @@ def test_latest_invalid_group_keeps_historical_alarm_and_model_unavailable_does_
     app.run()
     r=app.session_state[WORKSPACE_KEY].spc.result
     assert r.target(PEEL).status=="無法判定 SPC 狀態" and r.events
-    assert app.metric[0].value=="—"
+    assert app.metric[5].value=="—"
     assert any("歷史事件" in item.value for item in app.caption)
     assert any("無法判定 SPC 狀態" in item.value for item in app.warning)
     assert any("未接入" in item.value for item in app.caption)
-    assert all(sum(item.value==event_message(e) for item in app.error)==2 for e in r.events)
+    assert sum(item.event_count for item in group_spc_incidents(r)) == len(r.events)
+    assert len(app.error) < 10
 
 
 def test_unstable_history_is_shown_as_unavailable_but_raw_chart_and_preview_work(monkeypatch):

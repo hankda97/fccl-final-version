@@ -17,7 +17,7 @@ def test_default_and_unavailable_routes_never_call_A_services_or_leak_results():
     app=load_mock(new_app(),'上升趨勢情境')
     registry=app.session_state[REGISTRY_KEY];a=registry.workspaces['analysis']
     source=a.data.source_id;baseline=a.spc.baseline;events=a.spc.result.events
-    assert events and any('SPC Alarm' in x.value for x in app.error)
+    assert events and any('SPC Alarm 摘要' in x.value for x in app.caption)
     for mode in ('testline','production'):
         with patch('c_dashboard.ui.layout.render_sidebar',side_effect=AssertionError('hidden A loading')), \
              patch('c_dashboard.ui.layout.monitor_prediction',side_effect=AssertionError('hidden A prediction')):

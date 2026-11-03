@@ -19,6 +19,9 @@ class ExplanationUnavailable(ValueError):
     """A valid local limitation rather than a fabricated result."""
 
 
+MAX_EXPLANATION_SAMPLES = 200
+
+
 @dataclass(frozen=True)
 class ValidatedPayload:
     contributions: tuple[tuple[float, ...], ...]
@@ -83,6 +86,11 @@ def make_request(rows, source, model_info, info: ExplanationInfo, *, target, kin
     valid, numeric = valid.loc[mask], numeric.loc[mask]
     if valid.empty:
         raise ExplanationUnavailable("切片中沒有具完整且有限特徵的解釋樣本。")
+    # Keep formal explanations bounded and reproducible. The source is already
+    # time ordered by the loader, so a stable head sample also keeps traceability.
+    if len(valid) > MAX_EXPLANATION_SAMPLES:
+        valid = valid.iloc[:MAX_EXPLANATION_SAMPLES]
+        numeric = numeric.iloc[:MAX_EXPLANATION_SAMPLES]
     sample_ids = tuple(str(v) for v in valid.sample_id)
     values = tuple(tuple(float(v) for v in row) for row in numeric.to_numpy())
     context = (source, info, sample_ids, names, units, values, target, scale, output_unit, kind,
